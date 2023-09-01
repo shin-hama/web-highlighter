@@ -1,7 +1,6 @@
 import type { AppType } from "next/app";
-
-import { SessionProvider } from "auth/react";
 import type { Session } from "auth";
+import { SessionProvider } from "auth/react";
 
 import { api } from "~/utils/api";
 

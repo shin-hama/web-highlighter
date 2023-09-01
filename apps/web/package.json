@@ -5,7 +5,8 @@
   "scripts": {
     "build": "pnpm with-env next build",
     "dev": "pnpm with-env next dev",
-    "lint": "next lint",
+    "lint": "pnpm with-env next lint",
+    "format": "prettier --check \"**/*.{js,cjs,mjs,ts,tsx,md,json}\"",
     "start": "pnpm with-env next start",
     "with-env": "dotenv -e ../../.env --"
   },
@@ -36,6 +37,7 @@
     "eslint-config-custom": "workspace:*",
     "postcss": "^8.4.27",
     "prettier": "^3.0.0",
+    "prettier-config": "workspace:*",
     "prettier-plugin-tailwindcss": "^0.5.1",
     "tailwindcss": "^3.3.3",
     "tsconfig": "workspace:*",
@@ -43,5 +45,6 @@
   },
   "ct3aMetadata": {
     "initVersion": "7.19.0"
-  }
+  },
+  "prettier": "prettier-config"
 }

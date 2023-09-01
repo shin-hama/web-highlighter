@@ -27,8 +27,9 @@
     "eslint-plugin-react-hooks": "^4.6.0"
   },
   "devDependencies": {
-    "tsconfig": "workspace:*",
     "eslint": "^8.48.0",
+    "prettier-config": "workspace:*",
+    "tsconfig": "workspace:*",
     "typescript": "^5.2.2"
   },
   "eslintConfig": {

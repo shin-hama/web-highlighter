@@ -9,12 +9,11 @@
 
 import { initTRPC, TRPCError } from "@trpc/server";
 import type { CreateNextContextOptions } from "@trpc/server/adapters/next";
-import superjson from "superjson";
-import { ZodError } from "zod";
-
 import { getServerAuthSession } from "auth";
 import type { Session } from "auth";
 import { prisma } from "db";
+import superjson from "superjson";
+import { ZodError } from "zod";
 
 /**
  * 1. CONTEXT

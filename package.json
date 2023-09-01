@@ -2,16 +2,25 @@
   "private": true,
   "scripts": {
     "build": "turbo run build",
+    "clean": "git clean -xdf node_modules",
+    "clean:workspaces": "turbo clean",
+    "db:push": "pnpm -F db push",
+    "db:studio": "pnpm -F db dev",
     "dev": "turbo run dev",
-    "lint": "turbo run lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    "format": "turbo format --continue",
+    "format:fix": "turbo format --continue -- --write",
+    "lint": "turbo lint --continue",
+    "lint:fix": "turbo lint --continue -- --fix fix",
+    "typecheck": "turbo typecheck"
   },
   "devDependencies": {
     "eslint": "^8.48.0",
     "prettier": "^3.0.3",
+    "prettier-config": "workspace:*",
     "tsconfig": "workspace:*",
     "turbo": "latest"
   },
   "packageManager": "pnpm@8.6.10",
-  "name": "web-highlighter"
+  "name": "web-highlighter",
+  "prettier": "prettier-config"
 }

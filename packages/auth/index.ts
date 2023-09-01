@@ -1,3 +1,3 @@
-export type { Session } from 'next-auth'
+export type { Session } from "next-auth";
 
-export * from './server'
+export * from "./server";

@@ -1,0 +1,9 @@
+{
+  "extends": "tsconfig/base.json",
+  "compilerOptions": {
+    "module": "ESNext",
+    "tsBuildInfoFile": "node_modules/.cache/tsbuildinfo.json"
+  },
+  "include": ["."],
+  "exclude": ["node_modules"]
+}
