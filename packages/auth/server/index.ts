@@ -1,14 +1,11 @@
-import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import { type GetServerSidePropsContext } from "next";
-import {
-  getServerSession,
-  type DefaultSession,
-  type NextAuthOptions,
-} from "next-auth";
-import GoogleProvider from "next-auth/providers/google";
+import { PrismaAdapter } from '@next-auth/prisma-adapter'
+import type { GetServerSidePropsContext } from 'next'
+import NextAuth, { getServerSession } from 'next-auth'
+import type { DefaultSession, NextAuthOptions } from 'next-auth'
+import GoogleProvider from 'next-auth/providers/google'
 
-import { env } from "~/env.mjs";
-import { prisma } from "~/server/db";
+import { prisma } from 'db'
+import { env } from '../env.mjs'
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -16,13 +13,13 @@ import { prisma } from "~/server/db";
  *
  * @see https://next-auth.js.org/getting-started/typescript#module-augmentation
  */
-declare module "next-auth" {
+declare module 'next-auth' {
   interface Session extends DefaultSession {
-    user: DefaultSession["user"] & {
-      id: string;
+    user: DefaultSession['user'] & {
+      id: string
       // ...other properties
       // role: UserRole;
-    };
+    }
   }
 
   // interface User {
@@ -36,7 +33,7 @@ declare module "next-auth" {
  *
  * @see https://next-auth.js.org/configuration/options
  */
-export const authOptions: NextAuthOptions = {
+const authOptions: NextAuthOptions = {
   callbacks: {
     session: ({ session, user }) => ({
       ...session,
@@ -62,7 +59,7 @@ export const authOptions: NextAuthOptions = {
      * @see https://next-auth.js.org/providers/github
      */
   ],
-};
+}
 
 /**
  * Wrapper for `getServerSession` so that you don't need to import the `authOptions` in every file.
@@ -70,8 +67,10 @@ export const authOptions: NextAuthOptions = {
  * @see https://next-auth.js.org/configuration/nextjs
  */
 export const getServerAuthSession = (ctx: {
-  req: GetServerSidePropsContext["req"];
-  res: GetServerSidePropsContext["res"];
+  req: GetServerSidePropsContext['req']
+  res: GetServerSidePropsContext['res']
 }) => {
-  return getServerSession(ctx.req, ctx.res, authOptions);
-};
+  return getServerSession(ctx.req, ctx.res, authOptions)
+}
+
+export const auth = NextAuth(authOptions)

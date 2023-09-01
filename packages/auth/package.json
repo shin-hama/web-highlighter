@@ -1,0 +1,33 @@
+{
+  "name": "auth",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "clean": "rm -rf .turbo node_modules",
+    "lint": "eslint .",
+    "format": "prettier --check \"**/*.{mjs,ts,md,json}\"",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@next-auth/prisma-adapter": "^1.0.7",
+    "@t3-oss/env-nextjs": "^0.6.0",
+    "db": "workspace:*",
+    "next": "^13.4.13",
+    "next-auth": "^4.22.4",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "zod": "^3.21.4"
+  },
+  "devDependencies": {
+    "@types/eslint": "^8.44.2",
+    "@types/node": "^18.16.0",
+    "eslint": "^8.47.0",
+    "eslint-config-custom": "workspace:*",
+    "prettier": "^3.0.0",
+    "tsconfig": "workspace:*",
+    "typescript": "^5.1.6"
+  },
+  "ct3aMetadata": {
+    "initVersion": "7.19.0"
+  }
+}

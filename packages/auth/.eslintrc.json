@@ -1,0 +1,6 @@
+{
+  "extends": ["custom/base"],
+  "rules": {
+    "@typescript-eslint/no-unsafe-assignment": "off"
+  }
+}
