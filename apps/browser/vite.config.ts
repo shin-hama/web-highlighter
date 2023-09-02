@@ -7,6 +7,12 @@ const manifest = defineManifest({
   name: "Web Highlighter",
   version: "1.0.0",
   permissions: [],
+  content_scripts: [
+    {
+      matches: ["<all_urls>"],
+      js: ["src/content.tsx"],
+    },
+  ],
   action: {
     default_popup: "index.html",
   },
