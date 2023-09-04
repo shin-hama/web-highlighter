@@ -10,13 +10,13 @@ importers:
     devDependencies:
       '@whl/eslint-config':
         specifier: workspace:*
-        version: link:packages/eslint-config
+        version: link:tools/eslint-config
       '@whl/prettier-config':
         specifier: workspace:*
-        version: link:packages/prettier-config
+        version: link:tools/prettier-config
       '@whl/tsconfig':
         specifier: workspace:*
-        version: link:packages/tsconfig
+        version: link:tools/tsconfig
       eslint:
         specifier: ^8.48.0
         version: 8.48.0
@@ -102,10 +102,10 @@ importers:
         version: 18.2.7
       '@whl/eslint-config':
         specifier: workspace:*
-        version: link:../../packages/eslint-config
+        version: link:../../tools/eslint-config
       '@whl/tsconfig':
         specifier: workspace:*
-        version: link:../../packages/tsconfig
+        version: link:../../tools/tsconfig
       typescript:
         specifier: ^4.5.3
         version: 4.5.3
@@ -169,13 +169,13 @@ importers:
         version: 18.2.7
       '@whl/eslint-config':
         specifier: workspace:*
-        version: link:../../packages/eslint-config
+        version: link:../../tools/eslint-config
       '@whl/prettier-config':
         specifier: workspace:*
-        version: link:../../packages/prettier-config
+        version: link:../../tools/prettier-config
       '@whl/tsconfig':
         specifier: workspace:*
-        version: link:../../packages/tsconfig
+        version: link:../../tools/tsconfig
       autoprefixer:
         specifier: ^10.4.14
         version: 10.4.14(postcss@8.4.28)
@@ -236,13 +236,13 @@ importers:
         version: 18.16.0
       '@whl/eslint-config':
         specifier: workspace:*
-        version: link:../eslint-config
+        version: link:../../tools/eslint-config
       '@whl/prettier-config':
         specifier: workspace:*
-        version: link:../prettier-config
+        version: link:../../tools/prettier-config
       '@whl/tsconfig':
         specifier: workspace:*
-        version: link:../tsconfig
+        version: link:../../tools/tsconfig
       eslint:
         specifier: ^8.47.0
         version: 8.48.0
@@ -267,13 +267,13 @@ importers:
         version: 20.5.0
       '@whl/eslint-config':
         specifier: workspace:*
-        version: link:../eslint-config
+        version: link:../../tools/eslint-config
       '@whl/prettier-config':
         specifier: workspace:*
-        version: link:../prettier-config
+        version: link:../../tools/prettier-config
       '@whl/tsconfig':
         specifier: workspace:*
-        version: link:../tsconfig
+        version: link:../../tools/tsconfig
       eslint:
         specifier: ^8.47.0
         version: 8.48.0
@@ -307,13 +307,13 @@ importers:
         version: 18.16.0
       '@whl/eslint-config':
         specifier: workspace:*
-        version: link:../eslint-config
+        version: link:../../tools/eslint-config
       '@whl/prettier-config':
         specifier: workspace:*
-        version: link:../prettier-config
+        version: link:../../tools/prettier-config
       '@whl/tsconfig':
         specifier: workspace:*
-        version: link:../tsconfig
+        version: link:../../tools/tsconfig
       dotenv-cli:
         specifier: ^7.3.0
         version: 7.3.0
@@ -330,7 +330,71 @@ importers:
         specifier: ^5.1.6
         version: 5.1.6
 
-  packages/eslint-config:
+  packages/ui:
+    dependencies:
+      '@radix-ui/react-slot':
+        specifier: ^1.0.2
+        version: 1.0.2(@types/react@18.2.20)(react@18.2.0)
+      '@radix-ui/react-toggle':
+        specifier: ^1.0.3
+        version: 1.0.3(@types/react-dom@18.2.7)(@types/react@18.2.20)(react-dom@18.2.0)(react@18.2.0)
+      class-variance-authority:
+        specifier: ^0.7.0
+        version: 0.7.0
+      clsx:
+        specifier: ^2.0.0
+        version: 2.0.0
+      lucide-react:
+        specifier: ^0.274.0
+        version: 0.274.0(react@18.2.0)
+      tailwind-merge:
+        specifier: ^1.14.0
+        version: 1.14.0
+      tailwindcss-animate:
+        specifier: ^1.0.7
+        version: 1.0.7(tailwindcss@3.3.3)
+    devDependencies:
+      '@turbo/gen':
+        specifier: ^1.10.12
+        version: 1.10.12(@types/node@20.5.7)(typescript@4.5.3)
+      '@types/node':
+        specifier: ^20.5.2
+        version: 20.5.7
+      '@types/react':
+        specifier: ^18.2.20
+        version: 18.2.20
+      '@types/react-dom':
+        specifier: ^18.2.7
+        version: 18.2.7
+      '@whl/eslint-config':
+        specifier: workspace:*
+        version: link:../../tools/eslint-config
+      '@whl/prettier-config':
+        specifier: workspace:*
+        version: link:../../tools/prettier-config
+      '@whl/tsconfig':
+        specifier: workspace:*
+        version: link:../../tools/tsconfig
+      autoprefixer:
+        specifier: ^10.4.14
+        version: 10.4.14(postcss@8.4.28)
+      postcss:
+        specifier: ^8.4.27
+        version: 8.4.28
+      prettier:
+        specifier: ^3.0.3
+        version: 3.0.3
+      react:
+        specifier: ^18.2.0
+        version: 18.2.0
+      tailwindcss:
+        specifier: ^3.3.3
+        version: 3.3.3
+      typescript:
+        specifier: ^4.5.2
+        version: 4.5.3
+
+  tools/eslint-config:
     dependencies:
       '@next/eslint-plugin-next':
         specifier: ^13.4.19
@@ -379,7 +443,7 @@ importers:
         specifier: ^5.2.2
         version: 5.2.2
 
-  packages/prettier-config:
+  tools/prettier-config:
     dependencies:
       '@ianvs/prettier-plugin-sort-imports':
         specifier: ^4.1.0
@@ -401,71 +465,7 @@ importers:
         specifier: ^5.2.2
         version: 5.2.2
 
-  packages/tsconfig: {}
-
-  packages/ui:
-    dependencies:
-      '@radix-ui/react-slot':
-        specifier: ^1.0.2
-        version: 1.0.2(@types/react@18.2.20)(react@18.2.0)
-      '@radix-ui/react-toggle':
-        specifier: ^1.0.3
-        version: 1.0.3(@types/react-dom@18.2.7)(@types/react@18.2.20)(react-dom@18.2.0)(react@18.2.0)
-      class-variance-authority:
-        specifier: ^0.7.0
-        version: 0.7.0
-      clsx:
-        specifier: ^2.0.0
-        version: 2.0.0
-      lucide-react:
-        specifier: ^0.274.0
-        version: 0.274.0(react@18.2.0)
-      tailwind-merge:
-        specifier: ^1.14.0
-        version: 1.14.0
-      tailwindcss-animate:
-        specifier: ^1.0.7
-        version: 1.0.7(tailwindcss@3.3.3)
-    devDependencies:
-      '@turbo/gen':
-        specifier: ^1.10.12
-        version: 1.10.12(@types/node@20.5.7)(typescript@4.5.3)
-      '@types/node':
-        specifier: ^20.5.2
-        version: 20.5.7
-      '@types/react':
-        specifier: ^18.2.20
-        version: 18.2.20
-      '@types/react-dom':
-        specifier: ^18.2.7
-        version: 18.2.7
-      '@whl/eslint-config':
-        specifier: workspace:*
-        version: link:../eslint-config
-      '@whl/prettier-config':
-        specifier: workspace:*
-        version: link:../prettier-config
-      '@whl/tsconfig':
-        specifier: workspace:*
-        version: link:../tsconfig
-      autoprefixer:
-        specifier: ^10.4.14
-        version: 10.4.14(postcss@8.4.28)
-      postcss:
-        specifier: ^8.4.27
-        version: 8.4.28
-      prettier:
-        specifier: ^3.0.3
-        version: 3.0.3
-      react:
-        specifier: ^18.2.0
-        version: 18.2.0
-      tailwindcss:
-        specifier: ^3.3.3
-        version: 3.3.3
-      typescript:
-        specifier: ^4.5.2
-        version: 4.5.3
+  tools/tsconfig: {}
 
 packages:
 
