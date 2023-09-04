@@ -14,13 +14,14 @@
     "typecheck": "turbo typecheck"
   },
   "devDependencies": {
+    "@whl/eslint-config": "workspace:*",
+    "@whl/prettier-config": "workspace:*",
+    "@whl/tsconfig": "workspace:*",
     "eslint": "^8.48.0",
     "prettier": "^3.0.3",
-    "prettier-config": "workspace:*",
-    "tsconfig": "workspace:*",
     "turbo": "latest"
   },
   "packageManager": "pnpm@8.6.10",
   "name": "web-highlighter",
-  "prettier": "prettier-config"
+  "prettier": "@whl/prettier-config"
 }

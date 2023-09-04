@@ -1,7 +1,7 @@
 import cssText from "data-text:~style.css";
 import type { PlasmoCSConfig } from "plasmo";
 
-import ContextMenu from "~features/ContextMenu";
+import ContextMenu from "~/features/ContextMenu";
 
 export const config: PlasmoCSConfig = {
   matches: ["<all_urls>"],

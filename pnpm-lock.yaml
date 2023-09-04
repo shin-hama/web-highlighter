@@ -8,24 +8,30 @@ importers:
 
   .:
     devDependencies:
+      '@whl/eslint-config':
+        specifier: workspace:*
+        version: link:packages/eslint-config
+      '@whl/prettier-config':
+        specifier: workspace:*
+        version: link:packages/prettier-config
+      '@whl/tsconfig':
+        specifier: workspace:*
+        version: link:packages/tsconfig
       eslint:
         specifier: ^8.48.0
         version: 8.48.0
       prettier:
         specifier: ^3.0.3
         version: 3.0.3
-      prettier-config:
-        specifier: workspace:*
-        version: link:packages/prettier-config
-      tsconfig:
-        specifier: workspace:*
-        version: link:packages/tsconfig
       turbo:
         specifier: latest
         version: 1.10.12
 
   apps/browser:
     dependencies:
+      '@whl/ui':
+        specifier: workspace:*
+        version: link:../../packages/ui
       plasmo:
         specifier: 0.82.1
         version: 0.82.1(postcss@8.4.28)(react-dom@18.2.0)(react@18.2.0)
@@ -38,9 +44,6 @@ importers:
       react-use:
         specifier: ^17.4.0
         version: 17.4.0(react-dom@18.2.0)(react@18.2.0)
-      ui:
-        specifier: workspace:*
-        version: link:../../packages/ui
     devDependencies:
       '@types/chrome':
         specifier: 0.0.243
@@ -54,24 +57,18 @@ importers:
       '@types/react-dom':
         specifier: 18.2.7
         version: 18.2.7
+      '@whl/common-types':
+        specifier: workspace:*
+        version: link:../../packages/common-types
       autoprefixer:
         specifier: ^10.4.14
         version: 10.4.14(postcss@8.4.28)
-      common-types:
-        specifier: workspace:*
-        version: link:../../packages/common-types
       postcss:
         specifier: 8.4.28
         version: 8.4.28
-      prettier:
-        specifier: 3.0.2
-        version: 3.0.2
-      prettier-config:
-        specifier: workspace:*
-        version: link:../../packages/prettier-config
       prettier-plugin-tailwindcss:
         specifier: ^0.5.4
-        version: 0.5.4(prettier@3.0.2)
+        version: 0.5.4(@ianvs/prettier-plugin-sort-imports@4.1.0)(prettier@3.0.3)
       tailwindcss:
         specifier: 3.3.3
         version: 3.3.3
@@ -81,6 +78,9 @@ importers:
 
   apps/docs:
     dependencies:
+      '@whl/ui':
+        specifier: workspace:*
+        version: link:../../packages/ui
       next:
         specifier: ^13.4.19
         version: 13.4.19(react-dom@18.2.0)(react@18.2.0)
@@ -90,9 +90,6 @@ importers:
       react-dom:
         specifier: ^18.2.0
         version: 18.2.0(react@18.2.0)
-      ui:
-        specifier: workspace:*
-        version: link:../../packages/ui
     devDependencies:
       '@types/node':
         specifier: ^17.0.12
@@ -103,10 +100,10 @@ importers:
       '@types/react-dom':
         specifier: ^18.2.7
         version: 18.2.7
-      eslint-config-custom:
+      '@whl/eslint-config':
         specifier: workspace:*
-        version: link:../../packages/eslint-config-custom
-      tsconfig:
+        version: link:../../packages/eslint-config
+      '@whl/tsconfig':
         specifier: workspace:*
         version: link:../../packages/tsconfig
       typescript:
@@ -117,7 +114,7 @@ importers:
     dependencies:
       '@t3-oss/env-nextjs':
         specifier: ^0.6.0
-        version: 0.6.0(typescript@5.2.2)(zod@3.21.4)
+        version: 0.6.0(typescript@5.1.6)(zod@3.21.4)
       '@tanstack/react-query':
         specifier: ^4.29.25
         version: 4.29.25(react-dom@18.2.0)(react@18.2.0)
@@ -126,22 +123,25 @@ importers:
         version: 10.34.0(@trpc/server@10.34.0)
       '@trpc/next':
         specifier: ^10.34.0
-        version: 10.34.0(@tanstack/react-query@4.29.25)(@trpc/client@10.34.0)(@trpc/react-query@10.34.0)(@trpc/server@10.34.0)(next@13.4.19)(react-dom@18.2.0)(react@18.2.0)
+        version: 10.34.0(@tanstack/react-query@4.29.25)(@trpc/client@10.34.0)(@trpc/react-query@10.34.0)(@trpc/server@10.34.0)(next@13.4.13)(react-dom@18.2.0)(react@18.2.0)
       '@trpc/react-query':
         specifier: ^10.34.0
         version: 10.34.0(@tanstack/react-query@4.29.25)(@trpc/client@10.34.0)(@trpc/server@10.34.0)(react-dom@18.2.0)(react@18.2.0)
       '@trpc/server':
         specifier: ^10.34.0
         version: 10.34.0
-      auth:
+      '@whl/auth':
         specifier: workspace:*
         version: link:../../packages/auth
-      db:
+      '@whl/db':
         specifier: workspace:*
         version: link:../../packages/db
+      '@whl/ui':
+        specifier: workspace:*
+        version: link:../../packages/ui
       next:
         specifier: ^13.4.13
-        version: 13.4.19(react-dom@18.2.0)(react@18.2.0)
+        version: 13.4.13(react-dom@18.2.0)(react@18.2.0)
       react:
         specifier: 18.2.0
         version: 18.2.0
@@ -151,9 +151,6 @@ importers:
       superjson:
         specifier: ^1.13.1
         version: 1.13.1
-      ui:
-        specifier: workspace:*
-        version: link:../../packages/ui
       zod:
         specifier: ^3.21.4
         version: 3.21.4
@@ -170,39 +167,39 @@ importers:
       '@types/react-dom':
         specifier: ^18.2.7
         version: 18.2.7
+      '@whl/eslint-config':
+        specifier: workspace:*
+        version: link:../../packages/eslint-config
+      '@whl/prettier-config':
+        specifier: workspace:*
+        version: link:../../packages/prettier-config
+      '@whl/tsconfig':
+        specifier: workspace:*
+        version: link:../../packages/tsconfig
       autoprefixer:
         specifier: ^10.4.14
-        version: 10.4.14(postcss@8.4.27)
+        version: 10.4.14(postcss@8.4.28)
       dotenv-cli:
         specifier: ^7.3.0
         version: 7.3.0
       eslint:
         specifier: ^8.47.0
         version: 8.48.0
-      eslint-config-custom:
-        specifier: workspace:*
-        version: link:../../packages/eslint-config-custom
       postcss:
         specifier: ^8.4.27
-        version: 8.4.27
+        version: 8.4.28
       prettier:
         specifier: ^3.0.0
-        version: 3.0.3
-      prettier-config:
-        specifier: workspace:*
-        version: link:../../packages/prettier-config
+        version: 3.0.2
       prettier-plugin-tailwindcss:
         specifier: ^0.5.1
-        version: 0.5.4(@ianvs/prettier-plugin-sort-imports@4.1.0)(prettier@3.0.3)
+        version: 0.5.4(prettier@3.0.2)
       tailwindcss:
         specifier: ^3.3.3
         version: 3.3.3
-      tsconfig:
-        specifier: workspace:*
-        version: link:../../packages/tsconfig
       typescript:
         specifier: ^5.1.6
-        version: 5.2.2
+        version: 5.1.6
 
   packages/auth:
     dependencies:
@@ -211,16 +208,16 @@ importers:
         version: 1.0.7(@prisma/client@5.2.0)(next-auth@4.22.4)
       '@t3-oss/env-nextjs':
         specifier: ^0.6.0
-        version: 0.6.0(typescript@5.2.2)(zod@3.21.4)
-      db:
+        version: 0.6.0(typescript@5.1.6)(zod@3.21.4)
+      '@whl/db':
         specifier: workspace:*
         version: link:../db
       next:
         specifier: ^13.4.13
-        version: 13.4.19(react-dom@18.2.0)(react@18.2.0)
+        version: 13.4.13(react-dom@18.2.0)(react@18.2.0)
       next-auth:
         specifier: ^4.22.4
-        version: 4.22.4(next@13.4.19)(react-dom@18.2.0)(react@18.2.0)
+        version: 4.22.4(next@13.4.13)(react-dom@18.2.0)(react@18.2.0)
       react:
         specifier: 18.2.0
         version: 18.2.0
@@ -237,24 +234,24 @@ importers:
       '@types/node':
         specifier: ^18.16.0
         version: 18.16.0
+      '@whl/eslint-config':
+        specifier: workspace:*
+        version: link:../eslint-config
+      '@whl/prettier-config':
+        specifier: workspace:*
+        version: link:../prettier-config
+      '@whl/tsconfig':
+        specifier: workspace:*
+        version: link:../tsconfig
       eslint:
         specifier: ^8.47.0
         version: 8.48.0
-      eslint-config-custom:
-        specifier: workspace:*
-        version: link:../eslint-config-custom
       prettier:
         specifier: ^3.0.0
-        version: 3.0.3
-      prettier-config:
-        specifier: workspace:*
-        version: link:../prettier-config
-      tsconfig:
-        specifier: workspace:*
-        version: link:../tsconfig
+        version: 3.0.2
       typescript:
         specifier: ^5.1.6
-        version: 5.2.2
+        version: 5.1.6
 
   packages/common-types:
     dependencies:
@@ -268,21 +265,21 @@ importers:
       '@types/node':
         specifier: 20.5.0
         version: 20.5.0
+      '@whl/eslint-config':
+        specifier: workspace:*
+        version: link:../eslint-config
+      '@whl/prettier-config':
+        specifier: workspace:*
+        version: link:../prettier-config
+      '@whl/tsconfig':
+        specifier: workspace:*
+        version: link:../tsconfig
       eslint:
         specifier: ^8.47.0
         version: 8.48.0
-      eslint-config-custom:
-        specifier: workspace:*
-        version: link:../eslint-config-custom
       prettier:
         specifier: 3.0.2
         version: 3.0.2
-      prettier-config:
-        specifier: workspace:*
-        version: link:../prettier-config
-      tsconfig:
-        specifier: workspace:*
-        version: link:../tsconfig
       typescript:
         specifier: ^5.2.2
         version: 5.2.2
@@ -294,7 +291,7 @@ importers:
         version: 5.1.1(prisma@5.1.1)
       '@t3-oss/env-nextjs':
         specifier: ^0.6.0
-        version: 0.6.0(typescript@5.2.2)(zod@3.21.4)
+        version: 0.6.0(typescript@5.1.6)(zod@3.21.4)
       superjson:
         specifier: ^1.13.1
         version: 1.13.1
@@ -308,32 +305,32 @@ importers:
       '@types/node':
         specifier: ^18.16.0
         version: 18.16.0
+      '@whl/eslint-config':
+        specifier: workspace:*
+        version: link:../eslint-config
+      '@whl/prettier-config':
+        specifier: workspace:*
+        version: link:../prettier-config
+      '@whl/tsconfig':
+        specifier: workspace:*
+        version: link:../tsconfig
       dotenv-cli:
         specifier: ^7.3.0
         version: 7.3.0
       eslint:
         specifier: ^8.47.0
         version: 8.48.0
-      eslint-config-custom:
-        specifier: workspace:*
-        version: link:../eslint-config-custom
       prettier:
         specifier: ^3.0.0
-        version: 3.0.3
-      prettier-config:
-        specifier: workspace:*
-        version: link:../prettier-config
+        version: 3.0.2
       prisma:
         specifier: ^5.1.1
         version: 5.1.1
-      tsconfig:
-        specifier: workspace:*
-        version: link:../tsconfig
       typescript:
         specifier: ^5.1.6
-        version: 5.2.2
+        version: 5.1.6
 
-  packages/eslint-config-custom:
+  packages/eslint-config:
     dependencies:
       '@next/eslint-plugin-next':
         specifier: ^13.4.19
@@ -366,15 +363,18 @@ importers:
         specifier: ^4.6.0
         version: 4.6.0(eslint@8.48.0)
     devDependencies:
+      '@whl/prettier-config':
+        specifier: workspace:*
+        version: link:../prettier-config
+      '@whl/tsconfig':
+        specifier: workspace:*
+        version: link:../tsconfig
       eslint:
         specifier: ^8.48.0
         version: 8.48.0
-      prettier-config:
-        specifier: workspace:*
-        version: link:../prettier-config
-      tsconfig:
-        specifier: workspace:*
-        version: link:../tsconfig
+      prettier:
+        specifier: ^3.0.3
+        version: 3.0.3
       typescript:
         specifier: ^5.2.2
         version: 5.2.2
@@ -394,7 +394,7 @@ importers:
         specifier: ^0.5.4
         version: 0.5.4(@ianvs/prettier-plugin-sort-imports@4.1.0)(prettier@3.0.3)
     devDependencies:
-      tsconfig:
+      '@whl/tsconfig':
         specifier: workspace:*
         version: link:../tsconfig
       typescript:
@@ -439,24 +439,30 @@ importers:
       '@types/react-dom':
         specifier: ^18.2.7
         version: 18.2.7
+      '@whl/eslint-config':
+        specifier: workspace:*
+        version: link:../eslint-config
+      '@whl/prettier-config':
+        specifier: workspace:*
+        version: link:../prettier-config
+      '@whl/tsconfig':
+        specifier: workspace:*
+        version: link:../tsconfig
       autoprefixer:
         specifier: ^10.4.14
-        version: 10.4.14(postcss@8.4.27)
-      eslint-config-custom:
-        specifier: workspace:*
-        version: link:../eslint-config-custom
+        version: 10.4.14(postcss@8.4.28)
       postcss:
         specifier: ^8.4.27
-        version: 8.4.27
+        version: 8.4.28
+      prettier:
+        specifier: ^3.0.3
+        version: 3.0.3
       react:
         specifier: ^18.2.0
         version: 18.2.0
       tailwindcss:
         specifier: ^3.3.3
         version: 3.3.3
-      tsconfig:
-        specifier: workspace:*
-        version: link:../tsconfig
       typescript:
         specifier: ^4.5.2
         version: 4.5.3
@@ -1103,7 +1109,11 @@ packages:
       next-auth: ^4
     dependencies:
       '@prisma/client': 5.2.0
-      next-auth: 4.22.4(next@13.4.19)(react-dom@18.2.0)(react@18.2.0)
+      next-auth: 4.22.4(next@13.4.13)(react-dom@18.2.0)(react@18.2.0)
+    dev: false
+
+  /@next/env@13.4.13:
+    resolution: {integrity: sha512-fwz2QgVg08v7ZL7KmbQBLF2PubR/6zQdKBgmHEl3BCyWTEDsAQEijjw2gbFhI1tcKfLdOOJUXntz5vZ4S0Polg==}
     dev: false
 
   /@next/env@13.4.19:
@@ -1116,10 +1126,28 @@ packages:
       glob: 7.1.7
     dev: false
 
+  /@next/swc-darwin-arm64@13.4.13:
+    resolution: {integrity: sha512-ZptVhHjzUuivnXMNCJ6lER33HN7lC+rZ01z+PM10Ows21NHFYMvGhi5iXkGtBDk6VmtzsbqnAjnx4Oz5um0FjA==}
+    engines: {node: '>= 10'}
+    cpu: [arm64]
+    os: [darwin]
+    requiresBuild: true
+    dev: false
+    optional: true
+
   /@next/swc-darwin-arm64@13.4.19:
     resolution: {integrity: sha512-vv1qrjXeGbuF2mOkhkdxMDtv9np7W4mcBtaDnHU+yJG+bBwa6rYsYSCI/9Xm5+TuF5SbZbrWO6G1NfTh1TMjvQ==}
     engines: {node: '>= 10'}
     cpu: [arm64]
+    os: [darwin]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@next/swc-darwin-x64@13.4.13:
+    resolution: {integrity: sha512-t9nTiWCLApw8W4G1kqJyYP7y6/7lyal3PftmRturIxAIBlZss9wrtVN8nci50StDHmIlIDxfguYIEGVr9DbFTg==}
+    engines: {node: '>= 10'}
+    cpu: [x64]
     os: [darwin]
     requiresBuild: true
     dev: false
@@ -1134,8 +1162,26 @@ packages:
     dev: false
     optional: true
 
+  /@next/swc-linux-arm64-gnu@13.4.13:
+    resolution: {integrity: sha512-xEHUqC8eqR5DHe8SOmMnDU1K3ggrJ28uIKltrQAwqFSSSmzjnN/XMocZkcVhuncuxYrpbri0iMQstRyRVdQVWg==}
+    engines: {node: '>= 10'}
+    cpu: [arm64]
+    os: [linux]
+    requiresBuild: true
+    dev: false
+    optional: true
+
   /@next/swc-linux-arm64-gnu@13.4.19:
     resolution: {integrity: sha512-vdlnIlaAEh6H+G6HrKZB9c2zJKnpPVKnA6LBwjwT2BTjxI7e0Hx30+FoWCgi50e+YO49p6oPOtesP9mXDRiiUg==}
+    engines: {node: '>= 10'}
+    cpu: [arm64]
+    os: [linux]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@next/swc-linux-arm64-musl@13.4.13:
+    resolution: {integrity: sha512-sNf3MnLAm8rquSSAoeD9nVcdaDeRYOeey4stOWOyWIgbBDtP+C93amSgH/LPTDoUV7gNiU6f+ghepTjTjRgIUQ==}
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [linux]
@@ -1152,8 +1198,26 @@ packages:
     dev: false
     optional: true
 
+  /@next/swc-linux-x64-gnu@13.4.13:
+    resolution: {integrity: sha512-WhcRaJJSHyx9OWmKjjz+OWHumiPZWRqmM/09Bt7Up4UqUJFFhGExeztR4trtv3rflvULatu9IH/nTV8fUUgaMA==}
+    engines: {node: '>= 10'}
+    cpu: [x64]
+    os: [linux]
+    requiresBuild: true
+    dev: false
+    optional: true
+
   /@next/swc-linux-x64-gnu@13.4.19:
     resolution: {integrity: sha512-htwOEagMa/CXNykFFeAHHvMJeqZfNQEoQvHfsA4wgg5QqGNqD5soeCer4oGlCol6NGUxknrQO6VEustcv+Md+g==}
+    engines: {node: '>= 10'}
+    cpu: [x64]
+    os: [linux]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@next/swc-linux-x64-musl@13.4.13:
+    resolution: {integrity: sha512-+Y4LLhOWWZQIDKVwr2R17lq2KSN0F1c30QVgGIWfnjjHpH8nrIWHEndhqYU+iFuW8It78CiJjQKTw4f51HD7jA==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [linux]
@@ -1170,6 +1234,15 @@ packages:
     dev: false
     optional: true
 
+  /@next/swc-win32-arm64-msvc@13.4.13:
+    resolution: {integrity: sha512-rWurdOR20uxjfqd1X9vDAgv0Jb26KjyL8akF9CBeFqX8rVaBAnW/Wf6A2gYEwyYY4Bai3T7p1kro6DFrsvBAAw==}
+    engines: {node: '>= 10'}
+    cpu: [arm64]
+    os: [win32]
+    requiresBuild: true
+    dev: false
+    optional: true
+
   /@next/swc-win32-arm64-msvc@13.4.19:
     resolution: {integrity: sha512-bUfDevQK4NsIAHXs3/JNgnvEY+LRyneDN788W2NYiRIIzmILjba7LaQTfihuFawZDhRtkYCv3JDC3B4TwnmRJw==}
     engines: {node: '>= 10'}
@@ -1179,10 +1252,28 @@ packages:
     dev: false
     optional: true
 
+  /@next/swc-win32-ia32-msvc@13.4.13:
+    resolution: {integrity: sha512-E8bSPwRuY5ibJ3CzLQmJEt8qaWrPYuUTwnrwygPUEWoLzD5YRx9SD37oXRdU81TgGwDzCxpl7z5Nqlfk50xAog==}
+    engines: {node: '>= 10'}
+    cpu: [ia32]
+    os: [win32]
+    requiresBuild: true
+    dev: false
+    optional: true
+
   /@next/swc-win32-ia32-msvc@13.4.19:
     resolution: {integrity: sha512-Y5kikILFAr81LYIFaw6j/NrOtmiM4Sf3GtOc0pn50ez2GCkr+oejYuKGcwAwq3jiTKuzF6OF4iT2INPoxRycEA==}
     engines: {node: '>= 10'}
     cpu: [ia32]
+    os: [win32]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@next/swc-win32-x64-msvc@13.4.13:
+    resolution: {integrity: sha512-4KlyC6jWRubPnppgfYsNTPeWfGCxtWLh5vaOAW/kdzAk9widqho8Qb5S4K2vHmal1tsURi7Onk2MMCV1phvyqA==}
+    engines: {node: '>= 10'}
+    cpu: [x64]
     os: [win32]
     requiresBuild: true
     dev: false
@@ -3127,24 +3218,24 @@ packages:
       defer-to-connect: 2.0.1
     dev: false
 
-  /@t3-oss/env-core@0.6.0(typescript@5.2.2)(zod@3.21.4):
+  /@t3-oss/env-core@0.6.0(typescript@5.1.6)(zod@3.21.4):
     resolution: {integrity: sha512-3FkPAba069WRZVVab/sB1m3eSGn/rZeypx5k+sWEu1d+k0OQdRDnvFS+7MtxYgqVrwaRk3b7yVnX2dgSPVmWPQ==}
     peerDependencies:
       typescript: '>=4.7.2'
       zod: ^3.0.0
     dependencies:
-      typescript: 5.2.2
+      typescript: 5.1.6
       zod: 3.21.4
     dev: false
 
-  /@t3-oss/env-nextjs@0.6.0(typescript@5.2.2)(zod@3.21.4):
+  /@t3-oss/env-nextjs@0.6.0(typescript@5.1.6)(zod@3.21.4):
     resolution: {integrity: sha512-SpzcGNIbUYcQw4zPPFeRJqCC1560zL7QmB0puIqOnuCsmykPkqHPX+n9CNZLXVQerboHzfvb7Kd+jAdouk72Vw==}
     peerDependencies:
       typescript: '>=4.7.2'
       zod: ^3.0.0
     dependencies:
-      '@t3-oss/env-core': 0.6.0(typescript@5.2.2)(zod@3.21.4)
-      typescript: 5.2.2
+      '@t3-oss/env-core': 0.6.0(typescript@5.1.6)(zod@3.21.4)
+      typescript: 5.1.6
       zod: 3.21.4
     dev: false
 
@@ -3182,7 +3273,7 @@ packages:
       '@trpc/server': 10.34.0
     dev: false
 
-  /@trpc/next@10.34.0(@tanstack/react-query@4.29.25)(@trpc/client@10.34.0)(@trpc/react-query@10.34.0)(@trpc/server@10.34.0)(next@13.4.19)(react-dom@18.2.0)(react@18.2.0):
+  /@trpc/next@10.34.0(@tanstack/react-query@4.29.25)(@trpc/client@10.34.0)(@trpc/react-query@10.34.0)(@trpc/server@10.34.0)(next@13.4.13)(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-8jQPedVkCYCAG6PXDEumG5ILeD1aYVC6/aApk5Y96eeqnmAtX7TO9grVRfGGNaISuTtJ/oIDmRfSRqo1eOU4OA==}
     peerDependencies:
       '@tanstack/react-query': ^4.18.0
@@ -3197,7 +3288,7 @@ packages:
       '@trpc/client': 10.34.0(@trpc/server@10.34.0)
       '@trpc/react-query': 10.34.0(@tanstack/react-query@4.29.25)(@trpc/client@10.34.0)(@trpc/server@10.34.0)(react-dom@18.2.0)(react@18.2.0)
       '@trpc/server': 10.34.0
-      next: 13.4.19(react-dom@18.2.0)(react@18.2.0)
+      next: 13.4.13(react-dom@18.2.0)(react@18.2.0)
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
       react-ssr-prepass: 1.5.0(react@18.2.0)
@@ -3696,8 +3787,8 @@ packages:
       is-array-buffer: 3.0.2
     dev: false
 
-  /array-includes@3.1.6:
-    resolution: {integrity: sha512-sgTbLvL6cNnw24FnbaDyjmvddQ2ML8arZsgaJhoABMoplz/4QRhtrYS+alr1BUM1Bwp6dhx8vVCBSLG+StwOFw==}
+  /array-includes@3.1.7:
+    resolution: {integrity: sha512-dlcsNBIiWhPkHdOEEKnehA+RNUWDc4UqFtnIXU4uuYDPtA4LDkr7qip2p0VvFAEXNDr0yWZ9PJyIRiGjRLQzwQ==}
     engines: {node: '>= 0.4'}
     dependencies:
       call-bind: 1.0.2
@@ -3780,22 +3871,6 @@ packages:
     dependencies:
       has-symbols: 1.0.3
     dev: false
-
-  /autoprefixer@10.4.14(postcss@8.4.27):
-    resolution: {integrity: sha512-FQzyfOsTlwVzjHxKEqRIAdJx9niO6VCBCoEwax/VLSoQF29ggECcPuBqUMZ+u8jCZOPSy8b8/8KnuFbp0SaFZQ==}
-    engines: {node: ^10 || ^12 || >=14}
-    hasBin: true
-    peerDependencies:
-      postcss: ^8.1.0
-    dependencies:
-      browserslist: 4.21.10
-      caniuse-lite: 1.0.30001525
-      fraction.js: 4.3.6
-      normalize-range: 0.1.2
-      picocolors: 1.0.0
-      postcss: 8.4.27
-      postcss-value-parser: 4.2.0
-    dev: true
 
   /autoprefixer@10.4.14(postcss@8.4.28):
     resolution: {integrity: sha512-FQzyfOsTlwVzjHxKEqRIAdJx9niO6VCBCoEwax/VLSoQF29ggECcPuBqUMZ+u8jCZOPSy8b8/8KnuFbp0SaFZQ==}
@@ -4276,9 +4351,9 @@ packages:
       yaml: 1.10.2
     dev: false
 
-  /cosmiconfig@8.3.2(typescript@5.1.6):
-    resolution: {integrity: sha512-/PvU3MjSLVKJMRHsL6GW+wHQ9RaJuMW6fnn56sXNy+kP1L8nI/SHk9F9giIA+dnfzjKNJAulRjOR/fi9kzGuNA==}
-    engines: {node: '>=18'}
+  /cosmiconfig@8.3.3(typescript@5.1.6):
+    resolution: {integrity: sha512-/VY+0IvFoE47hwgKHu8feeBFIb1Z1mcJFiLrNwaJpLoLa9qwLVquMGMr2OUwQmhpJDtsSQSasg/TMv1imec9xA==}
+    engines: {node: '>=14'}
     peerDependencies:
       typescript: '>=4.9.5'
     peerDependenciesMeta:
@@ -4838,7 +4913,7 @@ packages:
         optional: true
     dependencies:
       '@typescript-eslint/parser': 6.5.0(eslint@8.48.0)(typescript@5.2.2)
-      array-includes: 3.1.6
+      array-includes: 3.1.7
       array.prototype.findlastindex: 1.2.3
       array.prototype.flat: 1.3.1
       array.prototype.flatmap: 1.3.1
@@ -4870,7 +4945,7 @@ packages:
     dependencies:
       '@babel/runtime': 7.22.11
       aria-query: 5.3.0
-      array-includes: 3.1.6
+      array-includes: 3.1.7
       array.prototype.flatmap: 1.3.1
       ast-types-flow: 0.0.7
       axe-core: 4.7.2
@@ -4902,7 +4977,7 @@ packages:
     peerDependencies:
       eslint: ^3 || ^4 || ^5 || ^6 || ^7 || ^8
     dependencies:
-      array-includes: 3.1.6
+      array-includes: 3.1.7
       array.prototype.flatmap: 1.3.1
       array.prototype.tosorted: 1.1.1
       doctrine: 2.1.0
@@ -5531,7 +5606,7 @@ packages:
       uncss:
         optional: true
     dependencies:
-      cosmiconfig: 8.3.2(typescript@5.1.6)
+      cosmiconfig: 8.3.3(typescript@5.1.6)
       postcss: 8.4.28
       posthtml: 0.16.6
       svgo: 2.8.0
@@ -6070,7 +6145,7 @@ packages:
     resolution: {integrity: sha512-ZZow9HBI5O6EPgSJLUb8n2NKgmVWTwCvHGwFuJlMjvLFqlGG6pjirPhtdsseaLZjSibD8eegzmYpUZwoIlj2cQ==}
     engines: {node: '>=4.0'}
     dependencies:
-      array-includes: 3.1.6
+      array-includes: 3.1.7
       array.prototype.flat: 1.3.1
       object.assign: 4.1.4
       object.values: 1.1.7
@@ -6623,7 +6698,7 @@ packages:
     engines: {node: '>= 0.4.0'}
     dev: true
 
-  /next-auth@4.22.4(next@13.4.19)(react-dom@18.2.0)(react@18.2.0):
+  /next-auth@4.22.4(next@13.4.13)(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-VMI6pq3z4BfvFeCZHBkYtRYa0qqGTYAi2yy3hWCB78KkN1YsSAsOLSssd4oGrQBj0z/0zg2VLzn9tSJ14AtmWw==}
     peerDependencies:
       next: ^12.2.5 || ^13
@@ -6638,7 +6713,7 @@ packages:
       '@panva/hkdf': 1.1.1
       cookie: 0.5.0
       jose: 4.14.5
-      next: 13.4.19(react-dom@18.2.0)(react@18.2.0)
+      next: 13.4.13(react-dom@18.2.0)(react@18.2.0)
       oauth: 0.9.15
       openid-client: 5.4.3
       preact: 10.17.1
@@ -6646,6 +6721,46 @@ packages:
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
       uuid: 8.3.2
+    dev: false
+
+  /next@13.4.13(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-A3YVbVDNeXLhWsZ8Nf6IkxmNlmTNz0yVg186NJ97tGZqPDdPzTrHotJ+A1cuJm2XfuWPrKOUZILl5iBQkIf8Jw==}
+    engines: {node: '>=16.8.0'}
+    hasBin: true
+    peerDependencies:
+      '@opentelemetry/api': ^1.1.0
+      react: ^18.2.0
+      react-dom: ^18.2.0
+      sass: ^1.3.0
+    peerDependenciesMeta:
+      '@opentelemetry/api':
+        optional: true
+      sass:
+        optional: true
+    dependencies:
+      '@next/env': 13.4.13
+      '@swc/helpers': 0.5.1
+      busboy: 1.6.0
+      caniuse-lite: 1.0.30001525
+      postcss: 8.4.14
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+      styled-jsx: 5.1.1(react@18.2.0)
+      watchpack: 2.4.0
+      zod: 3.21.4
+    optionalDependencies:
+      '@next/swc-darwin-arm64': 13.4.13
+      '@next/swc-darwin-x64': 13.4.13
+      '@next/swc-linux-arm64-gnu': 13.4.13
+      '@next/swc-linux-arm64-musl': 13.4.13
+      '@next/swc-linux-x64-gnu': 13.4.13
+      '@next/swc-linux-x64-musl': 13.4.13
+      '@next/swc-win32-arm64-msvc': 13.4.13
+      '@next/swc-win32-ia32-msvc': 13.4.13
+      '@next/swc-win32-x64-msvc': 13.4.13
+    transitivePeerDependencies:
+      - '@babel/core'
+      - babel-plugin-macros
     dev: false
 
   /next@13.4.19(react-dom@18.2.0)(react@18.2.0):
@@ -7260,15 +7375,6 @@ packages:
       picocolors: 1.0.0
       source-map-js: 1.0.2
     dev: false
-
-  /postcss@8.4.27:
-    resolution: {integrity: sha512-gY/ACJtJPSmUFPDCHtX78+01fHa64FaU4zaaWfuh1MhGJISufJAH4cun6k/8fwsHYeK4UQmENQK+tRLCFJE8JQ==}
-    engines: {node: ^10 || ^12 || >=14}
-    dependencies:
-      nanoid: 3.3.6
-      picocolors: 1.0.0
-      source-map-js: 1.0.2
-    dev: true
 
   /postcss@8.4.28:
     resolution: {integrity: sha512-Z7V5j0cq8oEKyejIKfpD8b4eBy9cwW2JWPk0+fB1HOAMsfHbnAXLLS+PfVWlzMSLQaWttKDt607I0XHmpE67Vw==}

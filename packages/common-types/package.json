@@ -1,5 +1,5 @@
 {
-  "name": "common-types",
+  "name": "@whl/common-types",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -16,11 +16,11 @@
     "@types/eslint": "^8.44.2",
     "@types/node": "20.5.0",
     "eslint": "^8.47.0",
-    "eslint-config-custom": "workspace:*",
+    "@whl/eslint-config": "workspace:*",
     "prettier": "3.0.2",
-    "prettier-config": "workspace:*",
-    "tsconfig": "workspace:*",
+    "@whl/prettier-config": "workspace:*",
+    "@whl/tsconfig": "workspace:*",
     "typescript": "^5.2.2"
   },
-  "prettier": "prettier-config"
+  "prettier": "@whl/prettier-config"
 }

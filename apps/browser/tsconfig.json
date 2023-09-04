@@ -1,11 +1,14 @@
 {
-  "extends": "plasmo/templates/tsconfig.base",
+  "extends": "@whl/tsconfig/react.json",
+  "files": ["node_modules/plasmo/templates/plasmo.d.ts"],
   "exclude": ["node_modules"],
   "include": [".plasmo/index.d.ts", "./**/*.ts", "./**/*.tsx"],
   "compilerOptions": {
+    "declaration": false,
+    "declarationMap": false,
     "paths": {
-      "~*": ["./src/*"],
-      "@ui/*": ["../../packages/ui/*"]
+      "~/*": ["./src/*"],
+      "@whl/ui/*": ["../../packages/ui/*"]
     },
     "baseUrl": "."
   }

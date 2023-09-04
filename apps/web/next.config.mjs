@@ -7,7 +7,7 @@ await import("./src/env.mjs");
 /** @type {import("next").NextConfig} */
 const config = {
   reactStrictMode: true,
-  transpilePackages: ["auth", "db", "ui"],
+  transpilePackages: ["@whl/auth", "@whl/db", "@whl/ui"],
 
   /**
    * If you are using `appDir` then you must comment the below `i18n` config out.

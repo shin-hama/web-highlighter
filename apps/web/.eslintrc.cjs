@@ -1,7 +1,7 @@
 /** @type {import("eslint").Linter.Config} */
 const config = {
   root: true,
-  extends: ["custom/next", "custom/base"],
+  extends: ["@whl/eslint-config/next", "@whl/eslint-config/base"],
 };
 
 module.exports = config;

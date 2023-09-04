@@ -1,8 +1,8 @@
-import "~style.css";
+import "~/style.css";
 
 function IndexPopup() {
   return (
-    <div className="whl-flex whl-items-center whl-justify-center whl-h-16 whl-w-40"></div>
+    <div className="whl-flex whl-h-16 whl-w-40 whl-items-center whl-justify-center"></div>
   );
 }
 

@@ -1,11 +1,11 @@
 {
-  "extends": "tsconfig/react-library.json",
+  "extends": "@whl/tsconfig/react.json",
   "include": ["."],
   "exclude": ["dist", "build", "node_modules"],
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@ui/*": ["./*"]
+      "@whl/ui/*": ["./*"]
     }
   }
 }

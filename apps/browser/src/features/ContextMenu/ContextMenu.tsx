@@ -1,11 +1,13 @@
+import type { FC } from "react";
 import { useState } from "react";
-import { Card, CardContent, CardFooter } from "@ui/components/ui/Card";
-import { Textarea } from "@ui/components/ui/Textarea";
 import { useEvent } from "react-use";
+
+import { Card, CardContent, CardFooter } from "@whl/ui/components/ui/Card";
+import { Textarea } from "@whl/ui/components/ui/Textarea";
 
 import Colors from "./Colors";
 
-const ContextMenu = () => {
+const ContextMenu: FC = () => {
   const [text, setText] = useState("");
   const [open, setOpen] = useState(false);
   const [pos, setPos] = useState({ x: 0, y: 0 });

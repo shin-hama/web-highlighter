@@ -1,4 +1,4 @@
-import baseConfig from "ui/tailwind.config";
+import baseConfig from "@whl/ui/tailwind.config";
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {

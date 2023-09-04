@@ -1,6 +1,8 @@
 import { useState } from "react";
-import { Toggle } from "@ui/components/ui/toggle";
-import { COLORS, type Color } from "common-types";
+
+import { COLORS } from "@whl/common-types";
+import type { Color } from "@whl/common-types";
+import { Toggle } from "@whl/ui/components/ui/toggle";
 
 const Colors = () => {
   const [selected, setSelected] = useState<Color>(COLORS[0]);

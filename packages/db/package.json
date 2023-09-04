@@ -1,5 +1,5 @@
 {
-  "name": "db",
+  "name": "@whl/db",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -20,15 +20,15 @@
     "@types/node": "^18.16.0",
     "dotenv-cli": "^7.3.0",
     "eslint": "^8.47.0",
-    "eslint-config-custom": "workspace:*",
+    "@whl/eslint-config": "workspace:*",
     "prettier": "^3.0.0",
-    "prettier-config": "workspace:*",
+    "@whl/prettier-config": "workspace:*",
     "prisma": "^5.1.1",
-    "tsconfig": "workspace:*",
+    "@whl/tsconfig": "workspace:*",
     "typescript": "^5.1.6"
   },
   "ct3aMetadata": {
     "initVersion": "7.19.0"
   },
-  "prettier": "prettier-config"
+  "prettier": "@whl/prettier-config"
 }

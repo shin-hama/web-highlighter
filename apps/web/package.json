@@ -1,5 +1,5 @@
 {
-  "name": "web",
+  "name": "@whl/web",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -17,13 +17,13 @@
     "@trpc/next": "^10.34.0",
     "@trpc/react-query": "^10.34.0",
     "@trpc/server": "^10.34.0",
-    "auth": "workspace:*",
-    "db": "workspace:*",
+    "@whl/auth": "workspace:*",
+    "@whl/db": "workspace:*",
     "next": "^13.4.13",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "superjson": "^1.13.1",
-    "ui": "workspace:*",
+    "@whl/ui": "workspace:*",
     "zod": "^3.21.4"
   },
   "devDependencies": {
@@ -34,17 +34,17 @@
     "autoprefixer": "^10.4.14",
     "dotenv-cli": "^7.3.0",
     "eslint": "^8.47.0",
-    "eslint-config-custom": "workspace:*",
+    "@whl/eslint-config": "workspace:*",
     "postcss": "^8.4.27",
     "prettier": "^3.0.0",
-    "prettier-config": "workspace:*",
+    "@whl/prettier-config": "workspace:*",
     "prettier-plugin-tailwindcss": "^0.5.1",
     "tailwindcss": "^3.3.3",
-    "tsconfig": "workspace:*",
+    "@whl/tsconfig": "workspace:*",
     "typescript": "^5.1.6"
   },
   "ct3aMetadata": {
     "initVersion": "7.19.0"
   },
-  "prettier": "prettier-config"
+  "prettier": "@whl/prettier-config"
 }

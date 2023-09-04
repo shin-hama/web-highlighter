@@ -1,5 +1,6 @@
 import type { Config } from "tailwindcss";
-import baseConfig from "ui/tailwind.config";
+
+import baseConfig from "@whl/ui/tailwind.config";
 
 export default {
   content: [

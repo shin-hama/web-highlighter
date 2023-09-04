@@ -1,5 +1,5 @@
 {
-  "name": "eslint-config-custom",
+  "name": "@whl/eslint-config",
   "license": "MIT",
   "version": "0.0.0",
   "private": true,
@@ -28,8 +28,9 @@
   },
   "devDependencies": {
     "eslint": "^8.48.0",
-    "prettier-config": "workspace:*",
-    "tsconfig": "workspace:*",
+    "prettier": "^3.0.3",
+    "@whl/prettier-config": "workspace:*",
+    "@whl/tsconfig": "workspace:*",
     "typescript": "^5.2.2"
   },
   "eslintConfig": {
@@ -37,5 +38,6 @@
     "extends": [
       "./base.js"
     ]
-  }
+  },
+  "prettier": "@whl/prettier-config"
 }

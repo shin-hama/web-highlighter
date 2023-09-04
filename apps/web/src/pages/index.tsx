@@ -1,6 +1,7 @@
 import Head from "next/head";
 import Link from "next/link";
-import { signIn, signOut, useSession } from "auth/react";
+
+import { signIn, signOut, useSession } from "@whl/auth/react";
 
 import { api } from "~/utils/api";
 

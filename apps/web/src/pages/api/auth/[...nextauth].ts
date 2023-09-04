@@ -1,1 +1,1 @@
-export { auth as default } from "auth";
+export { auth as default } from "@whl/auth";
