@@ -1,7 +1,12 @@
 import { useState } from "react";
+import { Card, CardContent, CardFooter } from "@ui/components/ui/Card";
+import { Textarea } from "@ui/components/ui/Textarea";
 import { useEvent } from "react-use";
 
+import Colors from "./Colors";
+
 const ContextMenu = () => {
+  const [text, setText] = useState("");
   const [open, setOpen] = useState(false);
   const [pos, setPos] = useState({ x: 0, y: 0 });
 
@@ -21,9 +26,16 @@ const ContextMenu = () => {
     <div
       className={`${
         open ? "" : "whl-hidden"
-      } whl-bg-black whl-z-50 whl-flex whl-fixed whl-top-32 whl-right-8`}
+      } whl-fixed whl-z-50 whl-flex whl-left-[${pos.x}] whl-top-[${pos.y}]`}
     >
-      <div className={`left-[${pos.x}] top-[${pos.y}]`}>test</div>
+      <Card>
+        <CardContent>
+          <Textarea value={text} onChange={(e) => setText(e.target.value)} />
+        </CardContent>
+        <CardFooter>
+          <Colors />
+        </CardFooter>
+      </Card>
     </div>
   );
 };
