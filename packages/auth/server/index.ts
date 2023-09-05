@@ -1,9 +1,10 @@
 import type { GetServerSidePropsContext } from "next";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import { prisma } from "db";
-import NextAuth, { getServerSession } from "next-auth";
 import type { DefaultSession, NextAuthOptions } from "next-auth";
+import NextAuth, { getServerSession } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
+
+import { prisma } from "@whl/db";
 
 import { env } from "../env.mjs";
 

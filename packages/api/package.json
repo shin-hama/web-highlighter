@@ -1,7 +1,10 @@
 {
-  "name": "@whl/auth",
+  "name": "@whl/api",
   "version": "0.1.0",
   "private": true,
+  "main": "./index.ts",
+  "types": "./index.ts",
+  "license": "MIT",
   "scripts": {
     "clean": "rm -rf .turbo node_modules",
     "lint": "eslint .",
@@ -9,18 +12,14 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@next-auth/prisma-adapter": "^1.0.7",
-    "@t3-oss/env-nextjs": "^0.6.0",
+    "@whl/auth": "workspace:*",
     "@whl/db": "workspace:*",
-    "next": "^13.4.19",
-    "next-auth": "^4.22.4",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
+    "@trpc/client": "^10.38.1",
+    "@trpc/server": "^10.38.1",
+    "superjson": "^1.13.1",
     "zod": "^3.22.2"
   },
   "devDependencies": {
-    "@types/eslint": "^8.44.2",
-    "@types/node": "^20.5.7",
     "@whl/eslint-config": "workspace:*",
     "@whl/prettier-config": "workspace:*",
     "@whl/tsconfig": "workspace:*",
@@ -28,8 +27,11 @@
     "prettier": "^3.0.3",
     "typescript": "^5.2.2"
   },
-  "ct3aMetadata": {
-    "initVersion": "7.19.0"
+  "eslintConfig": {
+    "root": true,
+    "extends": [
+      "@whl/eslint-config/base"
+    ]
   },
   "prettier": "@whl/prettier-config"
 }

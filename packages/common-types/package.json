@@ -1,6 +1,6 @@
 {
   "name": "@whl/common-types",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -10,14 +10,14 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "zod": "^3.21.4"
+    "zod": "^3.22.2"
   },
   "devDependencies": {
     "@types/eslint": "^8.44.2",
-    "@types/node": "20.5.0",
-    "eslint": "^8.47.0",
+    "@types/node": "^20.5.7",
+    "eslint": "^8.48.0",
     "@whl/eslint-config": "workspace:*",
-    "prettier": "3.0.2",
+    "prettier": "^3.0.3",
     "@whl/prettier-config": "workspace:*",
     "@whl/tsconfig": "workspace:*",
     "typescript": "^5.2.2"
