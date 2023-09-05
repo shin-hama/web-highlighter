@@ -74,4 +74,8 @@ export const getServerAuthSession = (ctx: {
   return getServerSession(ctx.req, ctx.res, authOptions);
 };
 
-export const auth = NextAuth(authOptions);
+export const {
+  handlers: { GET, POST },
+  auth,
+  CSRF_experimental,
+} = NextAuth(authOptions);

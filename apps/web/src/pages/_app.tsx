@@ -3,8 +3,6 @@ import type { AppType } from "next/app";
 import type { Session } from "@whl/auth";
 import { SessionProvider } from "@whl/auth/react";
 
-import { api } from "~/utils/api";
-
 import "~/styles/globals.css";
 
 const MyApp: AppType<{ session: Session | null }> = ({
@@ -18,4 +16,4 @@ const MyApp: AppType<{ session: Session | null }> = ({
   );
 };
 
-export default api.withTRPC(MyApp);
+export default MyApp;
