@@ -1,3 +1,3 @@
-export { GET, POST } from "@whl/auth";
+import { auth } from "@whl/auth";
 
-export const runtime = "edge";
+export { auth as GET, auth as POST };
