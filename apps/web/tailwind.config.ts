@@ -8,5 +8,4 @@ export default {
     "../../packages/ui/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   presets: [baseConfig],
-  prefix: undefined,
 } satisfies Config;
