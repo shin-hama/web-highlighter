@@ -16,7 +16,8 @@ const Colors = () => {
           >
             <div
               onClick={() => setSelected(color)}
-              className={`whl-h-4 whl-w-4 whl-rounded-full whl-bg-${color}-400`}
+              className={`whl-h-4 whl-w-4 whl-rounded-full`}
+              style={{ backgroundColor: color }}
             />
           </Toggle>
         );

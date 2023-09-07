@@ -10,7 +10,7 @@ import Colors from "./Colors";
 const ContextMenu: FC = () => {
   const [text, setText] = useState("");
   const [open, setOpen] = useState(false);
-  const [pos, setPos] = useState({ x: 0, y: 0 });
+  const [pos, setPos] = useState({ x: 100, y: 100 });
 
   const onMouseUp = (event: React.MouseEvent) => {
     const selectedText = window.getSelection()?.toString().trim();
@@ -26,9 +26,12 @@ const ContextMenu: FC = () => {
 
   return (
     <div
-      className={`${
-        open ? "" : "whl-hidden"
-      } whl-fixed whl-z-50 whl-flex whl-left-[${pos.x}] whl-top-[${pos.y}]`}
+      className={`${open ? "" : "whl-hidden"} whl-absolute whl-z-50`}
+      // tailwind を使うと動的に移動できなかったので、style で指定
+      style={{
+        left: pos.x,
+        top: pos.y,
+      }}
     >
       <Card>
         <CardContent>

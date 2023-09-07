@@ -1,7 +1,9 @@
-import cssText from "data-text:~style.css";
+import cssText from "data-text:@whl/ui/app/globals.css";
 import type { PlasmoCSConfig } from "plasmo";
 
-import ContextMenu from "~/features/ContextMenu";
+import "@whl/ui/app/globals.css";
+
+import ContextMenu from "./features/ContextMenu";
 
 export const config: PlasmoCSConfig = {
   matches: ["<all_urls>"],
@@ -15,11 +17,7 @@ export const getStyle = () => {
 };
 
 const PlasmoOverlay = () => {
-  return (
-    <div>
-      <ContextMenu />
-    </div>
-  );
+  return <ContextMenu />;
 };
 
 export default PlasmoOverlay;

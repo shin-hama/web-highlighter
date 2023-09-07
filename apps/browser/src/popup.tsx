@@ -1,4 +1,4 @@
-import "~/style.css";
+import "@whl/ui/app/globals.css";
 
 function IndexPopup() {
   return (
