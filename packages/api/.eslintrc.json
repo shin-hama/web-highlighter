@@ -1,0 +1,7 @@
+{
+  "extends": ["@whl/eslint-config/base"],
+  "rules": {
+    "@typescript-eslint/no-unsafe-call": "off",
+    "@typescript-eslint/no-redundant-type-constituents": "off"
+  }
+}

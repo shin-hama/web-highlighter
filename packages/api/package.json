@@ -1,19 +1,16 @@
 {
-  "name": "@whl/db",
+  "name": "@whl/api",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "clean": "rm -rf .turbo node_modules",
     "lint": "eslint .",
     "format": "prettier --check \"**/*.{mjs,ts,md,json}\"",
-    "postinstall": "prisma generate",
-    "typecheck": "tsc --noEmit",
-    "generate": "prisma generate",
-    "push": "prisma db push --skip-generate"
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@prisma/client": "^5.2.0",
-    "@t3-oss/env-nextjs": "^0.6.0",
+    "@whl/auth": "workspace:*",
+    "@whl/db": "workspace:*",
     "superjson": "^1.13.1",
     "zod": "^3.22.2"
   },
@@ -25,11 +22,7 @@
     "@whl/tsconfig": "workspace:*",
     "eslint": "^8.48.0",
     "prettier": "^3.0.3",
-    "prisma": "^5.2.0",
     "typescript": "^5.2.2"
-  },
-  "ct3aMetadata": {
-    "initVersion": "7.19.0"
   },
   "prettier": "@whl/prettier-config"
 }

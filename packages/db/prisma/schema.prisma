@@ -38,13 +38,15 @@ model Session {
 }
 
 model User {
-    id            String    @id @default(cuid())
+    id            String       @id @default(cuid())
     name          String?
-    email         String?   @unique
+    email         String?      @unique
     emailVerified DateTime?
     image         String?
     accounts      Account[]
     sessions      Session[]
+    highlights    Highlight[]
+    pages         PageOnUser[]
 }
 
 model VerificationToken {
@@ -53,4 +55,37 @@ model VerificationToken {
     expires    DateTime
 
     @@unique([identifier, token])
+}
+
+// highlight
+model Highlight {
+    id        String   @id @default(cuid())
+    userId    String
+    pageId    String
+    color     String
+    content   String
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    page      Page     @relation(fields: [pageId], references: [id], onDelete: Cascade)
+}
+
+model Page {
+    id         String       @id @default(cuid())
+    url        String       @unique
+    title      String
+    createdAt  DateTime     @default(now())
+    updatedAt  DateTime     @updatedAt
+    highlights Highlight[]
+    users      PageOnUser[]
+}
+
+model PageOnUser {
+    id        String   @id @default(cuid())
+    userId    String
+    pageId    String
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    page      Page     @relation(fields: [pageId], references: [id], onDelete: Cascade)
 }

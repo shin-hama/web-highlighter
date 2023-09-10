@@ -1,14 +1,13 @@
 import type { FC } from "react";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useEvent } from "react-use";
 
-import { Card, CardContent, CardFooter } from "@whl/ui/components/ui/Card";
-import { Textarea } from "@whl/ui/components/ui/Textarea";
+import type { Color } from "@whl/common-types";
+import { Card, CardContent } from "@whl/ui/components/ui/Card";
 
 import Colors from "./Colors";
 
 const ContextMenu: FC = () => {
-  const [text, setText] = useState("");
   const [open, setOpen] = useState(false);
   const [pos, setPos] = useState({ x: 100, y: 100 });
 
@@ -21,8 +20,11 @@ const ContextMenu: FC = () => {
       setOpen(false);
     }
   };
-
   useEvent("mouseup", onMouseUp);
+
+  const handleChanged = useCallback((color: Color) => {
+    console.log({ color, content: window.getSelection()?.toString().trim() });
+  }, []);
 
   return (
     <div
@@ -35,11 +37,8 @@ const ContextMenu: FC = () => {
     >
       <Card>
         <CardContent>
-          <Textarea value={text} onChange={(e) => setText(e.target.value)} />
+          <Colors onChanged={handleChanged} />
         </CardContent>
-        <CardFooter>
-          <Colors />
-        </CardFooter>
       </Card>
     </div>
   );

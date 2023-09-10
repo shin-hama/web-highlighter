@@ -1,11 +1,22 @@
-import { useState } from "react";
+import type { FC } from "react";
+import { useEffect, useState } from "react";
 
 import { COLORS } from "@whl/common-types";
 import type { Color } from "@whl/common-types";
 import { Toggle } from "@whl/ui/components/ui/toggle";
 
-const Colors = () => {
-  const [selected, setSelected] = useState<Color>(COLORS[0]);
+interface Props {
+  onChanged: (color: Color) => void;
+}
+const Colors: FC<Props> = ({ onChanged }) => {
+  const [selected, setSelected] = useState<Color>();
+
+  useEffect(() => {
+    if (selected) {
+      onChanged(selected);
+    }
+  }, [selected]);
+
   return (
     <div className="whl-flex whl-flex-row whl-space-x-2">
       {COLORS.map((color) => {
