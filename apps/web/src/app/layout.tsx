@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 
 import "~/styles/globals.css";
 
+import Auth from "./_root/Auth";
 import NextAuthProvider from "./_root/providers/NextAuth";
 
 export const metadata: Metadata = {
@@ -20,7 +21,9 @@ export default function RootLayout({
   return (
     <html lang="jp">
       <body className={inter.className}>
-        <NextAuthProvider>{children}</NextAuthProvider>
+        <NextAuthProvider>
+          <Auth>{children}</Auth>
+        </NextAuthProvider>
       </body>
     </html>
   );
