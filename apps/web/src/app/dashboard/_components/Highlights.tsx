@@ -12,7 +12,7 @@ const data: { color: string; text: string }[] = [
 ];
 const Highlights = () => {
   return (
-    <div className="whl-flex whl-flex-col">
+    <div className="whl-flex whl-flex-col whl-space-y-1">
       {data.map((item, index) => (
         <Highlight key={index} {...item} />
       ))}

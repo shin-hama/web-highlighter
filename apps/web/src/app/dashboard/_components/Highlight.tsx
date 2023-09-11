@@ -8,8 +8,8 @@ interface Props {
 }
 const Highlight: FC<Props> = ({ color, text }) => {
   return (
-    <div className="whl-flex whl-flex-row whl-space-x-2">
-      <CircleIcon fill={color} />
+    <div className="whl-flex whl-flex-row whl-items-center whl-space-x-2 whl-pl-6">
+      <CircleIcon color={color} />
       <p>{text}</p>
     </div>
   );

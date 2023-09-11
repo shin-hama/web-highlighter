@@ -3,7 +3,11 @@
 import { signIn, signOut, useSession } from "@whl/auth/react";
 
 export default function Home() {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
+
+  if (status === "loading") {
+    return <>Loading</>;
+  }
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
