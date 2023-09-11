@@ -6,10 +6,11 @@
     "clean": "rm -rf .turbo node_modules",
     "lint": "eslint .",
     "format": "prettier --check \"**/*.{mjs,ts,md,json}\"",
-    "postinstall": "prisma generate",
+    "postinstall": "pnpm with-env prisma generate",
     "typecheck": "tsc --noEmit",
-    "generate": "prisma generate",
-    "push": "prisma db push --skip-generate"
+    "generate": "pnpm with-env prisma generate",
+    "push": "pnpm with-env db push --skip-generate",
+    "with-env": "dotenv -e ../../.env --"
   },
   "dependencies": {
     "@prisma/client": "^5.2.0",
@@ -23,6 +24,7 @@
     "@whl/eslint-config": "workspace:*",
     "@whl/prettier-config": "workspace:*",
     "@whl/tsconfig": "workspace:*",
+    "dotenv-cli": "^7.3.0",
     "eslint": "^8.48.0",
     "prettier": "^3.0.3",
     "prisma": "^5.2.0",

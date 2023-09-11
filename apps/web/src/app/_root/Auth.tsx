@@ -5,7 +5,6 @@ import { getServerAuthSession } from "@whl/auth";
 
 const Auth: FC<PropsWithChildren> = async ({ children }) => {
   const session = await getServerAuthSession();
-  console.log(session);
 
   if (!session) {
     redirect("/api/auth/signin?callbackUrl=/dashboard");
