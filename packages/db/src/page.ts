@@ -7,7 +7,9 @@ export const createPage = async (data: Prisma.PageCreateInput) => {
     where: {
       url: data.url,
     },
-    update: {},
+    update: {
+      ...data,
+    },
     create: {
       ...data,
     },

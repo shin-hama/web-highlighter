@@ -12,6 +12,7 @@ const Colors: FC<Props> = ({ onChanged }) => {
   const [selected, setSelected] = useState<Color>();
 
   useEffect(() => {
+    console.log(selected)
     if (selected) {
       onChanged(selected);
     }
@@ -22,6 +23,7 @@ const Colors: FC<Props> = ({ onChanged }) => {
       {COLORS.map((color) => {
         return (
           <Toggle
+            key={color}
             pressed={selected === color}
             onPressedChange={() => setSelected(color)}
             className="whl-h-auto whl-rounded-full whl-p-1"

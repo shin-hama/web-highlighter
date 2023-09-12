@@ -60,9 +60,15 @@ importers:
       '@types/react-dom':
         specifier: ^18.2.7
         version: 18.2.7
+      '@whl/auth':
+        specifier: workspace:*
+        version: link:../../packages/auth
       '@whl/common-types':
         specifier: workspace:*
         version: link:../../packages/common-types
+      '@whl/db':
+        specifier: workspace:*
+        version: link:../../packages/db
       autoprefixer:
         specifier: ^10.4.14
         version: 10.4.14(postcss@8.4.28)

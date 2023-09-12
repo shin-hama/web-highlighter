@@ -1,11 +1,11 @@
 {
   "name": "@whl/browser",
-  "displayName": "Browser",
+  "displayName": "Web Highlighter",
   "version": "0.0.1",
   "description": "A basic Plasmo extension.",
   "author": "coppla <htysivista@gmail.com>",
   "scripts": {
-    "dev": "plasmo dev",
+    "dev": "plasmo dev --env=../../.env",
     "lint": "eslint .",
     "build": "plasmo build",
     "package": "plasmo package"
@@ -23,6 +23,7 @@
     "@types/node": "^20.5.7",
     "@types/react": "^18.2.20",
     "@types/react-dom": "^18.2.7",
+    "@whl/auth": "workspace:*",
     "@whl/common-types": "workspace:*",
     "autoprefixer": "^10.4.14",
     "postcss": "8.4.28",
@@ -32,11 +33,11 @@
   },
   "manifest": {
     "host_permissions": [
-      "https://*/*"
+      "https://*/*",
+      "http://localhost:3000/*"
     ],
     "permissions": [
-      "cookies",
-      "<all_urls>"
+      "cookies"
     ]
   },
   "prettier": "@whl/prettier-config"
