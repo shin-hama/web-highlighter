@@ -3,7 +3,7 @@ import { useCallback, useState } from "react";
 import { useEvent } from "react-use";
 
 import type { Color } from "@whl/common-types";
-import { Card, CardContent } from "@whl/ui/components/ui/Card";
+import { Card } from "@whl/ui/components/ui/Card";
 
 import Colors from "./Colors";
 
@@ -36,9 +36,9 @@ const ContextMenu: FC = () => {
       }}
     >
       <Card>
-        <CardContent>
+        <div className="whl-p-2">
           <Colors onChanged={handleChanged} />
-        </CardContent>
+        </div>
       </Card>
     </div>
   );

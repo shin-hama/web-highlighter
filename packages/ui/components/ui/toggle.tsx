@@ -7,7 +7,7 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@whl/ui/lib/utils";
 
 const toggleVariants = cva(
-  "whl-inline-flex whl-items-center whl-justify-center whl-rounded-md whl-text-sm whl-font-medium whl-ring-offset-background whl-transition-colors hover:whl-bg-muted hover:whl-text-muted-foreground focus-visible:whl-outline-none focus-visible:whl-ring-2 focus-visible:whl-ring-ring focus-visible:whl-ring-offset-2 disabled:whl-pointer-events-none disabled:whl-opacity-50 data-[state=on]:whl-bg-accent data-[state=on]:whl-text-accent-foreground",
+  "whl-inline-flex whl-items-center whl-justify-center whl-rounded-md whl-text-sm whl-font-medium whl-ring-offset-background whl-transition-colors hover:whl-bg-slate-200 hover:whl-text-muted-foreground focus-visible:whl-outline-none focus-visible:whl-ring-2 focus-visible:whl-ring-ring focus-visible:whl-ring-offset-2 disabled:whl-pointer-events-none disabled:whl-opacity-50 data-[state=on]:whl-bg-slate-300 data-[state=on]:whl-text-accent-foreground",
   {
     variants: {
       variant: {
