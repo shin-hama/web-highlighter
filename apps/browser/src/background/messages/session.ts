@@ -6,6 +6,10 @@ const handler: PlasmoMessaging.MessageHandler = async (req, res) => {
     .then((json) => {
       console.log(json);
       return json;
+    })
+    .catch((err) => {
+      console.error(err);
+      return [];
     });
 
   res.send({
