@@ -2,8 +2,7 @@ import { NextResponse } from "next/server";
 
 import { getServerAuthSession } from "@whl/auth";
 import { CreateHighlightRequestSchema } from "@whl/common-types";
-
-import { prisma } from "~/lib/db";
+import { prisma } from "@whl/db";
 
 export async function POST(req: Request) {
   const session = await getServerAuthSession();

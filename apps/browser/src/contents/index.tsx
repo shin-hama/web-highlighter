@@ -1,7 +1,5 @@
 import cssText from "data-text:@whl/ui/app/globals.css";
-import type { PlasmoCSConfig } from "plasmo";
-
-import "@whl/ui/app/globals.css";
+import type { PlasmoCSConfig, PlasmoGetStyle } from "plasmo";
 
 import ContextMenu from "./components/ContextMenu";
 
@@ -10,7 +8,7 @@ export const config: PlasmoCSConfig = {
   all_frames: true,
 };
 
-export const getStyle = () => {
+export const getStyle: PlasmoGetStyle = () => {
   const style = document.createElement("style");
   style.textContent = cssText;
   return style;
