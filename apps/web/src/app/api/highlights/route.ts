@@ -2,7 +2,8 @@ import { NextResponse } from "next/server";
 
 import { getServerAuthSession } from "@whl/auth";
 import { CreateHighlightRequestSchema } from "@whl/common-types";
-import { createHighlight } from "@whl/db";
+
+import { prisma } from "~/lib/db";
 
 export async function POST(req: Request) {
   const session = await getServerAuthSession();
@@ -20,23 +21,25 @@ export async function POST(req: Request) {
     await req.json(),
   );
 
-  const result = await createHighlight({
-    content: highlight.content,
-    color: highlight.color,
-    page: {
-      connectOrCreate: {
-        where: {
-          url: page.url,
-        },
-        create: {
-          title: page.title,
-          url: page.url,
+  const result = await prisma.highlight.create({
+    data: {
+      content: highlight.content,
+      color: highlight.color,
+      page: {
+        connectOrCreate: {
+          where: {
+            url: page.url,
+          },
+          create: {
+            title: page.title,
+            url: page.url,
+          },
         },
       },
-    },
-    user: {
-      connect: {
-        id: session.user.id,
+      user: {
+        connect: {
+          id: session.user.id,
+        },
       },
     },
   });

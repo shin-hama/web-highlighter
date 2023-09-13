@@ -66,6 +66,9 @@ importers:
       '@whl/common-types':
         specifier: workspace:*
         version: link:../../packages/common-types
+      '@whl/db':
+        specifier: workspace:*
+        version: link:../../packages/db
       autoprefixer:
         specifier: ^10.4.14
         version: 10.4.14(postcss@8.4.28)
@@ -154,46 +157,6 @@ importers:
       tailwindcss:
         specifier: ^3.3.3
         version: 3.3.3
-      typescript:
-        specifier: ^5.2.2
-        version: 5.2.2
-
-  packages/api:
-    dependencies:
-      '@whl/auth':
-        specifier: workspace:*
-        version: link:../auth
-      '@whl/db':
-        specifier: workspace:*
-        version: link:../db
-      superjson:
-        specifier: ^1.13.1
-        version: 1.13.1
-      zod:
-        specifier: ^3.22.2
-        version: 3.22.2
-    devDependencies:
-      '@types/eslint':
-        specifier: ^8.44.2
-        version: 8.44.2
-      '@types/node':
-        specifier: ^20.5.7
-        version: 20.5.7
-      '@whl/eslint-config':
-        specifier: workspace:*
-        version: link:../../tools/eslint-config
-      '@whl/prettier-config':
-        specifier: workspace:*
-        version: link:../../tools/prettier-config
-      '@whl/tsconfig':
-        specifier: workspace:*
-        version: link:../../tools/tsconfig
-      eslint:
-        specifier: ^8.48.0
-        version: 8.48.0
-      prettier:
-        specifier: ^3.0.3
-        version: 3.0.3
       typescript:
         specifier: ^5.2.2
         version: 5.2.2
