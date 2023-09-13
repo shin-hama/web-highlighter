@@ -66,9 +66,6 @@ importers:
       '@whl/common-types':
         specifier: workspace:*
         version: link:../../packages/common-types
-      '@whl/db':
-        specifier: workspace:*
-        version: link:../../packages/db
       autoprefixer:
         specifier: ^10.4.14
         version: 10.4.14(postcss@8.4.28)
@@ -124,6 +121,9 @@ importers:
       '@types/react-dom':
         specifier: ^18.2.7
         version: 18.2.7
+      '@whl/common-types':
+        specifier: workspace:*
+        version: link:../../packages/common-types
       '@whl/eslint-config':
         specifier: workspace:*
         version: link:../../tools/eslint-config

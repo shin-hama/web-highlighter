@@ -7,7 +7,6 @@ export interface SaveHighlightRequest {
     content: string;
     color: string;
   };
-  userId: string;
 }
 
 const handler: PlasmoMessaging.MessageHandler<SaveHighlightRequest> = async (
@@ -20,7 +19,11 @@ const handler: PlasmoMessaging.MessageHandler<SaveHighlightRequest> = async (
     return;
   }
 
-  const { url, title, highlight, userId } = req.body;
+  const { url, title, highlight } = req.body;
+
+  const result = await fetch(`http://localhost:3000/api/highlights`, {
+    method: "POST",
+  });
 
   res.send({});
 };

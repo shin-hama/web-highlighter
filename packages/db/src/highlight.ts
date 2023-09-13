@@ -1,3 +1,5 @@
+import type { Prisma } from "@prisma/client";
+
 import { prisma } from ".";
 
 export const findHighlightsByUserAndPage = async ({
@@ -12,5 +14,11 @@ export const findHighlightsByUserAndPage = async ({
       userId,
       pageId,
     },
+  });
+};
+
+export const createHighlight = async (data: Prisma.HighlightCreateInput) => {
+  return await prisma.highlight.create({
+    data,
   });
 };
