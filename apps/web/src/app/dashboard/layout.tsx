@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import Header from "./_layout/Header";
+import Sidebar from "./_layout/Sidebar";
 
 export const metadata: Metadata = {
   title: "Highlighter Dashboard",
@@ -14,10 +15,17 @@ export default function RootLayout({
 }) {
   return (
     <>
-      <header>
-        <Header />
-      </header>
-      {children}
+      <div className="whl-flex whl-flex-row">
+        <nav className="whl-h-screen">
+          <Sidebar className="whl-h-full" />
+        </nav>
+        <div className="whl-flex-grow">
+          <header>
+            <Header />
+          </header>
+          {children}
+        </div>
+      </div>
     </>
   );
 }
