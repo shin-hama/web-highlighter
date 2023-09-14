@@ -40,7 +40,6 @@ const ContextMenu = () => {
   const handleChanged = useCallback(
     async (color: Color) => {
       const content = window.getSelection()?.toString().trim();
-      console.log({ content, session });
       if (!content || !session) {
         return;
       }

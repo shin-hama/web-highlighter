@@ -41,9 +41,11 @@ export const getPages = async (userId: string, cursor?: string) => {
       },
       take: 10,
       skip: cursor ? 1 : 0,
-      cursor: {
-        id: cursor,
-      },
+      cursor: cursor
+        ? {
+            id: cursor,
+          }
+        : undefined,
     });
     return result;
   } catch (e) {

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 
-import "~/styles/globals.css";
+import "@whl/ui/app/globals.css";
 
 import Auth from "./_root/Auth";
 import NextAuthProvider from "./_root/providers/NextAuth";

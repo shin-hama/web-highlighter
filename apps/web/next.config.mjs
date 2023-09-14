@@ -8,6 +8,15 @@ await import("./src/env.mjs");
 const config = {
   reactStrictMode: true,
   transpilePackages: ["@whl/auth", "@whl/db", "@whl/ui"],
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "www.google.com",
+        pathname: "/s2/favicons",
+      },
+    ],
+  },
 
   /**
    * If you are using `appDir` then you must comment the below `i18n` config out.
