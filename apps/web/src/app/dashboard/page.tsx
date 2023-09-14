@@ -1,19 +1,9 @@
-import type { FC } from "react";
+import PageList from "./_components/PageList";
 
-import PageCard from "./_components/PageCard";
-
-const pages = [
-  { title: "test", highlights: ["test1", "test2"] },
-  { title: "test2", highlights: ["test1", "test2"] },
-  { title: "test3", highlights: ["test1", "test2"] },
-  { title: "test3", highlights: ["test1", "test2"] },
-];
-const Dashboard: FC = () => {
+const Dashboard = () => {
   return (
     <div>
-      {pages.map((page, index) => (
-        <PageCard key={index} {...page} />
-      ))}
+      <PageList />
     </div>
   );
 };

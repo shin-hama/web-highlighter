@@ -1,9 +1,9 @@
-import type { FC, PropsWithChildren } from "react";
+import type { PropsWithChildren } from "react";
 import { redirect } from "next/navigation";
 
 import { getServerAuthSession } from "@whl/auth";
 
-const Auth: FC<PropsWithChildren> = async ({ children }) => {
+const Auth = async ({ children }: PropsWithChildren) => {
   const session = await getServerAuthSession();
 
   if (!session) {

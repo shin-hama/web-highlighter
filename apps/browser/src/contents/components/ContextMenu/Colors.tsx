@@ -1,4 +1,3 @@
-import type { FC } from "react";
 import { useEffect, useState } from "react";
 
 import { COLORS } from "@whl/common-types";
@@ -8,11 +7,11 @@ import { Toggle } from "@whl/ui/components/ui/toggle";
 interface Props {
   onChanged: (color: Color) => void;
 }
-const Colors: FC<Props> = ({ onChanged }) => {
+const Colors = ({ onChanged }: Props) => {
   const [selected, setSelected] = useState<Color>();
 
   useEffect(() => {
-    console.log(selected)
+    console.log(selected);
     if (selected) {
       onChanged(selected);
     }

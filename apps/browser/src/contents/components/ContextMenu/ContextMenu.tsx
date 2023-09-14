@@ -1,4 +1,3 @@
-import type { FC } from "react";
 import { useCallback, useEffect, useState } from "react";
 import { sendToBackground } from "@plasmohq/messaging";
 import { useEvent } from "react-use";
@@ -10,7 +9,7 @@ import { Card } from "@whl/ui/components/ui/Card";
 import type { SaveHighlightRequest } from "~/background/messages/highlight/save";
 import Colors from "./Colors";
 
-const ContextMenu: FC = () => {
+const ContextMenu = () => {
   const [open, setOpen] = useState(false);
   const [pos, setPos] = useState({ x: 100, y: 100 });
   const [session, setSession] = useState<Session | undefined>(undefined);
@@ -50,7 +49,6 @@ const ContextMenu: FC = () => {
         body: {
           url: window.location.href,
           title: document.title,
-          userId: session.user.id,
           highlight: {
             color,
             content,

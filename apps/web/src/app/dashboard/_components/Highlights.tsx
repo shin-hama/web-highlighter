@@ -1,19 +1,14 @@
+import type { Highlight as HighlightType } from "@whl/db";
+
 import Highlight from "./Highlight";
 
-const data: { color: string; text: string }[] = [
-  { color: "yellow", text: "New highlight" },
-  { color: "yellow", text: "Sample text for highlight" },
-  { color: "red", text: "Sample text for highlight" },
-  { color: "yellow", text: "Sample text for highlight" },
-  { color: "orange", text: "Sample text for highlight" },
-  { color: "red", text: "Sample text for highlight" },
-  { color: "orange", text: "Sample text for highlight" },
-  { color: "blue", text: "Sample text for highlight" },
-];
-const Highlights = () => {
+interface Props {
+  highlights: HighlightType[];
+}
+const Highlights = ({ highlights }: Props) => {
   return (
     <div className="whl-flex whl-flex-col whl-space-y-1">
-      {data.map((item, index) => (
+      {highlights.map((item, index) => (
         <Highlight key={index} {...item} />
       ))}
     </div>

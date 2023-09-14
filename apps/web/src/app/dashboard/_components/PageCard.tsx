@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 
+import type { Highlight, Page } from "@whl/db";
 import {
   Card,
   CardDescription,
@@ -11,18 +12,22 @@ import {
 
 import Highlights from "./Highlights";
 
-const PageCard = () => {
+interface Props extends Page {
+  highlights: Highlight[];
+}
+const PageCard = ({ title, url, highlights }: Props) => {
   const [open, setOpen] = useState(false);
 
   return (
     <>
       <Card onClick={() => setOpen((prev) => !prev)}>
         <CardHeader>
-          <CardTitle>Title</CardTitle>
-          <CardDescription>2 highlights</CardDescription>
+          <CardTitle>{title}</CardTitle>
+          <CardDescription>{url}</CardDescription>
+          <CardDescription>{highlights.length} highlights</CardDescription>
         </CardHeader>
       </Card>
-      {open && <Highlights />}
+      {open && <Highlights highlights={highlights} />}
     </>
   );
 };
