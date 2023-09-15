@@ -38,14 +38,15 @@ model Session {
 }
 
 model User {
-    id            String      @id @default(cuid())
+    id            String       @id @default(cuid())
     name          String?
-    email         String?     @unique
+    email         String?      @unique
     emailVerified DateTime?
     image         String?
     accounts      Account[]
     sessions      Session[]
     highlights    Highlight[]
+    PageOnUser    PageOnUser[]
 }
 
 model VerificationToken {
@@ -70,10 +71,23 @@ model Highlight {
 }
 
 model Page {
-    id         String      @id @default(cuid())
-    url        String      @unique
+    id         String       @id @default(cuid())
+    url        String       @unique
     title      String
-    createdAt  DateTime    @default(now())
-    updatedAt  DateTime    @updatedAt
+    createdAt  DateTime     @default(now())
+    updatedAt  DateTime     @updatedAt
     highlights Highlight[]
+    PageOnUser PageOnUser[]
+}
+
+// Page・User 間の中間テーブル
+// updatedAt を参照することで、ユーザーがいつページをハイライトしたかどうかを判定する
+model PageOnUser {
+    id        String   @id @default(cuid())
+    userId    String
+    pageId    String
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    page      Page     @relation(fields: [pageId], references: [id], onDelete: Cascade)
 }

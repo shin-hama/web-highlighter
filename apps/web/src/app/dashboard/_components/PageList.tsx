@@ -11,7 +11,7 @@ const PageList = async () => {
   }
   const pages = await getPages(session.user.id);
 
-  return pages.map((page, index) => <PageCard key={index} {...page} />);
+  return pages.map((page, index) => <PageCard key={index} {...page.page} />);
 };
 
 export default PageList;
