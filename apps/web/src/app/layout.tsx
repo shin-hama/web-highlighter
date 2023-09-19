@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+
+import { fontMono, fontSans } from "~/lib/core/fonts";
 
 import "@whl/ui/app/globals.css";
+
+import { cn } from "@whl/ui/lib/utils";
 
 import Auth from "./_root/Auth";
 import NextAuthProvider from "./_root/providers/NextAuth";
@@ -11,8 +14,6 @@ export const metadata: Metadata = {
   description: "Welcome!!",
 };
 
-const inter = Inter({ subsets: ["latin"] });
-
 export default function RootLayout({
   children,
 }: {
@@ -20,7 +21,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="jp">
-      <body className={inter.className}>
+      <body
+        className={cn(
+          "whl-font-sans whl-antialiased",
+          fontSans.variable,
+          fontMono.variable,
+        )}
+      >
         <NextAuthProvider>
           <Auth>{children}</Auth>
         </NextAuthProvider>

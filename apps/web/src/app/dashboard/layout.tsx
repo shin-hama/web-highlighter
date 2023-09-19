@@ -17,7 +17,7 @@ export default function RootLayout({
     <>
       <div className="whl-flex whl-flex-row">
         <nav className="whl-h-screen">
-          <Sidebar className="whl-h-full" />
+          <Sidebar />
         </nav>
         <div className="whl-flex-grow">
           <header>
