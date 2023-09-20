@@ -7,7 +7,7 @@ interface Props {
 }
 const Highlights = ({ highlights }: Props) => {
   return (
-    <div className="whl-flex whl-flex-col whl-space-y-1">
+    <div className="whl-flex whl-flex-col">
       {highlights.map((item, index) => (
         <Highlight key={index} {...item} />
       ))}

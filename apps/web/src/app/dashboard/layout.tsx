@@ -19,11 +19,11 @@ export default function RootLayout({
         <nav className="whl-h-screen">
           <Sidebar />
         </nav>
-        <div className="whl-flex-grow">
+        <div className="whl-h-screen whl-flex-grow whl-overflow-hidden">
           <header>
             <Header />
           </header>
-          {children}
+          <div className="whl-h-full">{children}</div>
         </div>
       </div>
     </>

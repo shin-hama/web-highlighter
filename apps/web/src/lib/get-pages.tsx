@@ -3,7 +3,7 @@ import { prisma } from "@whl/db";
 
 import { env } from "~/env.mjs";
 
-const devColors = ["red", "orange", "yellow", "green", "blue"];
+const devColors = ["#FFB2B2", "#B2C3FF", "#F0FFB2", "#B2FFC8", "#FFDCB2"];
 const devPages = Array.from(Array(10)).map(
   (
     _,
@@ -74,6 +74,9 @@ export const getPages = async (
           }
         : undefined,
     });
+    if (env.NODE_ENV === "development" && result.length === 0) {
+      return devPages;
+    }
     return result;
   } catch (e) {
     console.error(e);

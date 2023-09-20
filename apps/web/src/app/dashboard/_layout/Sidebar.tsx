@@ -18,8 +18,8 @@ const Sidebar = async ({ className }: React.HTMLAttributes<HTMLDivElement>) => {
     >
       <div className="whl-h-full">
         <div className="whl-flex whl-h-full whl-flex-col whl-space-y-6">
-          <h1 className="whl-px-4 whl-font-mono whl-text-2xl whl-font-bold">
-            <span className="whl-bg-yellow-400 whl-p-0.5">High</span>lighter
+          <h1 className="whl-px-4 whl-font-mono whl-text-4xl whl-font-bold">
+            Highlighter
           </h1>
           <div className="whl-flex whl-h-full whl-flex-col whl-justify-between">
             <div className="whl-flex whl-flex-col whl-space-y-1">

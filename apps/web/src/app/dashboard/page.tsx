@@ -2,7 +2,7 @@ import PageList from "./_components/PageList";
 
 const Dashboard = () => {
   return (
-    <div>
+    <div className="whl-h-full">
       <PageList />
     </div>
   );
