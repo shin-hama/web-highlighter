@@ -23,7 +23,6 @@ export async function POST(req: Request) {
   const result = await prisma.highlight.create({
     data: {
       content: highlight.content,
-      color: highlight.color,
       page: {
         connectOrCreate: {
           where: {
@@ -33,6 +32,11 @@ export async function POST(req: Request) {
             title: page.title,
             url: page.url,
           },
+        },
+      },
+      label: {
+        connect: {
+          id: highlight.labelId,
         },
       },
       user: {

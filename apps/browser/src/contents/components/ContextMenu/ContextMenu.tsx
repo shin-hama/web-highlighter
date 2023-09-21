@@ -1,20 +1,20 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { sendToBackground } from "@plasmohq/messaging";
-import { useEvent } from "react-use";
+import { useEffectOnce, useEvent } from "react-use";
 
 import type { Session } from "@whl/auth";
-import type { Color } from "@whl/common-types";
+import type { CreateHighlightRequest } from "@whl/common-types";
+import type { Label } from "@whl/db";
 import { Card } from "@whl/ui/components/ui/Card";
 
-import type { SaveHighlightRequest } from "~/background/messages/highlight/save";
-import Colors from "./Colors";
+import Labels from "./Colors";
 
 const ContextMenu = () => {
   const [open, setOpen] = useState(false);
   const [pos, setPos] = useState({ x: 100, y: 100 });
   const [session, setSession] = useState<Session | undefined>(undefined);
 
-  useEffect(() => {
+  useEffectOnce(() => {
     sendToBackground<undefined, Session>({
       name: "session",
     })
@@ -25,7 +25,8 @@ const ContextMenu = () => {
       .catch((error) => {
         console.error(error);
       });
-  }, []);
+  });
+
   const onMouseUp = (event: React.MouseEvent) => {
     const selectedText = window.getSelection()?.toString().trim();
     if (selectedText && selectedText.length > 0) {
@@ -35,22 +36,25 @@ const ContextMenu = () => {
       setOpen(false);
     }
   };
+
   useEvent("mouseup", onMouseUp);
 
   const handleChanged = useCallback(
-    async (color: Color) => {
+    async (label: Label) => {
       const content = window.getSelection()?.toString().trim();
       if (!content || !session) {
         return;
       }
-      const result = await sendToBackground<SaveHighlightRequest>({
+      const result = await sendToBackground<CreateHighlightRequest>({
         name: "highlight/save",
         body: {
-          url: window.location.href,
-          title: document.title,
+          page: {
+            url: window.location.href,
+            title: document.title,
+          },
           highlight: {
-            color,
             content,
+            labelId: label.id,
           },
         },
       });
@@ -70,7 +74,17 @@ const ContextMenu = () => {
     >
       <Card>
         <div className="whl-p-2">
-          <Colors onChanged={handleChanged} />
+          <Labels onChanged={handleChanged} />
+        </div>
+        <div className="whl-flex whl-flex-row">
+          <a
+            href="http://localhost:3000"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="whl-font-mono whl-text-sm whl-font-bold"
+          >
+            Highlighter
+          </a>
         </div>
       </Card>
     </div>

@@ -1,16 +1,22 @@
-import type { Highlight, Page, PageOnUser } from "@whl/db";
+import { DEFAULT_COLORS } from "@whl/common-types";
+import type { Label } from "@whl/db";
 import { prisma } from "@whl/db";
 
 import { env } from "~/env.mjs";
+import type { PageOnUserWithPageWithHighlightsWithLabel } from "~/types";
 
-const devColors = ["#FFB2B2", "#B2C3FF", "#F0FFB2", "#B2FFC8", "#FFDCB2"];
+const devLabels: Label[] = DEFAULT_COLORS.map((color, i) => {
+  return {
+    id: `${i}`,
+    name: null,
+    color,
+    userId: "1",
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  };
+});
 const devPages = Array.from(Array(10)).map(
-  (
-    _,
-    p_index,
-  ): PageOnUser & {
-    page: Page & { highlights: Highlight[] };
-  } => ({
+  (_, p_index): PageOnUserWithPageWithHighlightsWithLabel => ({
     id: `${p_index}`,
     pageId: `${p_index}`,
     userId: "1",
@@ -23,15 +29,19 @@ const devPages = Array.from(Array(10)).map(
       createdAt: new Date(),
       updatedAt: new Date(),
       highlights: Array.from(Array(Math.floor(Math.random() * 10))).map(
-        (_, h_index): Highlight => ({
-          id: `${p_index}-${h_index}`,
-          content: `Test ${p_index}-${h_index}`,
-          color: devColors[Math.floor(Math.random() * devColors.length)]!,
-          pageId: `${p_index}`,
-          userId: "1",
-          createdAt: new Date(),
-          updatedAt: new Date(),
-        }),
+        (_, h_index) => {
+          const labelId = Math.floor(Math.random() * devLabels.length);
+          return {
+            id: `${p_index}-${h_index}`,
+            content: `Test ${p_index}-${h_index}`,
+            pageId: `${p_index}`,
+            userId: "1",
+            labelId: labelId.toString(),
+            label: devLabels[labelId]!,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+          };
+        },
       ),
     },
   }),
@@ -46,11 +56,7 @@ const devPages = Array.from(Array(10)).map(
 export const getPages = async (
   userId: string,
   cursor?: string,
-): Promise<
-  (PageOnUser & {
-    page: Page & { highlights: Highlight[] };
-  })[]
-> => {
+): Promise<PageOnUserWithPageWithHighlightsWithLabel[]> => {
   try {
     const result = await prisma.pageOnUser.findMany({
       where: {
@@ -59,7 +65,11 @@ export const getPages = async (
       include: {
         page: {
           include: {
-            highlights: true,
+            highlights: {
+              include: {
+                label: true,
+              },
+            },
           },
         },
       },

@@ -7,7 +7,7 @@ export const CreateHighlightRequestSchema = z.object({
   }),
   highlight: z.object({
     content: z.string(),
-    color: z.string(),
+    labelId: z.string(),
   }),
 });
 

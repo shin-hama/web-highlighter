@@ -1,9 +1,8 @@
-import type { Highlight as HighlightType } from "@whl/db";
-
+import type { HighlightWithLabel } from "~/types";
 import Highlight from "./Highlight";
 
 interface Props {
-  highlights: HighlightType[];
+  highlights: HighlightWithLabel[];
 }
 const Highlights = ({ highlights }: Props) => {
   return (

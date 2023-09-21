@@ -1,3 +1,3 @@
-{
-  "extends": ["@whl/eslint-config/base"]
-}
+module.exports = {
+  extends: ["@whl/eslint-config/base"],
+};

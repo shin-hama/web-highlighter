@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { DialogProps } from "@radix-ui/react-dialog";
+import type { DialogProps } from "@radix-ui/react-dialog";
 import { Command as CommandPrimitive } from "cmdk";
 import { Search } from "lucide-react";
 
@@ -23,7 +23,7 @@ const Command = React.forwardRef<
 ));
 Command.displayName = CommandPrimitive.displayName;
 
-interface CommandDialogProps extends DialogProps {}
+type CommandDialogProps = DialogProps;
 
 const CommandDialog = ({ children, ...props }: CommandDialogProps) => {
   return (
@@ -43,6 +43,7 @@ const CommandInput = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <div
     className="whl-flex whl-items-center whl-border-b whl-px-3"
+    // eslint-disable-next-line react/no-unknown-property
     cmdk-input-wrapper=""
   >
     <Search className="whl-mr-2 whl-h-4 whl-w-4 whl-shrink-0 whl-opacity-50" />

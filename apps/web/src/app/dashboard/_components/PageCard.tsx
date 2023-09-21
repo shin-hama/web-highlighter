@@ -3,7 +3,6 @@
 import { useState } from "react";
 import Image from "next/image";
 
-import type { Highlight, Page } from "@whl/db";
 import {
   Card,
   CardDescription,
@@ -11,12 +10,10 @@ import {
   CardTitle,
 } from "@whl/ui/components/ui/card";
 
+import type { PageWithHighlightsWithLabel } from "~/types";
 import Highlights from "./Highlights";
 
-interface Props extends Page {
-  highlights: Highlight[];
-}
-const PageCard = ({ title, url, highlights }: Props) => {
+const PageCard = ({ title, url, highlights }: PageWithHighlightsWithLabel) => {
   const [open, setOpen] = useState(false);
 
   return (
