@@ -45,6 +45,17 @@ const authOptions: NextAuthOptions = {
       };
     },
   },
+  events: {
+    createUser: async ({ user }) => {
+      // デフォルトのラベルを作成
+      await prisma.label.createMany({
+        data: ["DEFAULT_COLORS"].map((color) => ({
+          userId: user.id,
+          color,
+        })),
+      });
+    },
+  },
   adapter: PrismaAdapter(prisma),
   session: {
     strategy: "database",

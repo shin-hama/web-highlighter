@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Highlighter Dashboard",
+  title: "Settings",
   description: "Welcome!!",
 };
 

@@ -47,6 +47,7 @@ model User {
     sessions      Session[]
     highlights    Highlight[]
     PageOnUser    PageOnUser[]
+    Label         Label[]
 }
 
 model VerificationToken {
@@ -62,12 +63,13 @@ model Highlight {
     id        String   @id @default(cuid())
     userId    String
     pageId    String
-    color     String
+    labelId   String
     content   String
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
     user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
     page      Page     @relation(fields: [pageId], references: [id], onDelete: Cascade)
+    label     Label    @relation(fields: [labelId], references: [id], onDelete: Cascade)
 }
 
 model Page {
@@ -90,4 +92,15 @@ model PageOnUser {
     updatedAt DateTime @updatedAt
     user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
     page      Page     @relation(fields: [pageId], references: [id], onDelete: Cascade)
+}
+
+model Label {
+    id         String      @id @default(cuid())
+    name       String?
+    color      String
+    userId     String
+    createdAt  DateTime    @default(now())
+    updatedAt  DateTime    @updatedAt
+    user       User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+    highlights Highlight[]
 }
