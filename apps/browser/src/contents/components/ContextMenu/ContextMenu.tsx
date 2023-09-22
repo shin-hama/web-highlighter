@@ -1,13 +1,13 @@
-import { useCallback, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { sendToBackground } from "@plasmohq/messaging";
-import { useEffectOnce, useEvent } from "react-use";
+import { useClickAway, useEffectOnce, useEvent } from "react-use";
 
 import type { Session } from "@whl/auth";
 import type { CreateHighlightRequest } from "@whl/common-types";
 import type { Label } from "@whl/db";
 import { Card } from "@whl/ui/components/ui/Card";
 
-import Labels from "./Colors";
+import Labels from "./Labels";
 
 const ContextMenu = () => {
   const [open, setOpen] = useState(false);
@@ -27,6 +27,12 @@ const ContextMenu = () => {
       });
   });
 
+  const ref = useRef<HTMLDivElement>(null);
+  useClickAway(ref, (event) => {
+    console.log(event);
+    setOpen(false);
+  });
+
   const onMouseUp = (event: React.MouseEvent) => {
     const selectedText = window.getSelection()?.toString().trim();
     if (selectedText && selectedText.length > 0) {
@@ -41,10 +47,20 @@ const ContextMenu = () => {
 
   const handleChanged = useCallback(
     async (label: Label) => {
-      const content = window.getSelection()?.toString().trim();
-      if (!content || !session) {
+      const selection = window.getSelection();
+      if (!selection || !session) {
         return;
       }
+      const selectedElement = selection.anchorNode?.parentElement;
+      if (selectedElement?.tagName === "INPUT") {
+        return;
+      }
+
+      const content = selection?.toString().trim();
+      if (content.length === 0) {
+        return;
+      }
+
       const result = await sendToBackground<CreateHighlightRequest>({
         name: "highlight/save",
         body: {
@@ -72,7 +88,7 @@ const ContextMenu = () => {
         top: pos.y,
       }}
     >
-      <Card>
+      <Card ref={ref}>
         <div className="whl-p-2">
           <Labels onChanged={handleChanged} />
         </div>
