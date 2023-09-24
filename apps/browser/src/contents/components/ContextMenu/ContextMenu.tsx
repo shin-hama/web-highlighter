@@ -1,6 +1,6 @@
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useState } from "react";
 import { sendToBackground } from "@plasmohq/messaging";
-import { useClickAway, useEffectOnce, useEvent } from "react-use";
+import { useEffectOnce, useEvent } from "react-use";
 
 import type { Session } from "@whl/auth";
 import type { CreateHighlightRequest } from "@whl/common-types";
@@ -27,14 +27,10 @@ const ContextMenu = () => {
       });
   });
 
-  const ref = useRef<HTMLDivElement>(null);
-  useClickAway(ref, (event) => {
-    console.log(event);
-    setOpen(false);
-  });
-
   const onMouseUp = (event: React.MouseEvent) => {
     const selectedText = window.getSelection()?.toString().trim();
+
+    // TODO: 選択した要素が input などの場合は表示しない
     if (selectedText && selectedText.length > 0) {
       setOpen(true);
       setPos({ x: event.pageX, y: event.pageY });
@@ -49,10 +45,6 @@ const ContextMenu = () => {
     async (label: Label) => {
       const selection = window.getSelection();
       if (!selection || !session) {
-        return;
-      }
-      const selectedElement = selection.anchorNode?.parentElement;
-      if (selectedElement?.tagName === "INPUT") {
         return;
       }
 
@@ -88,7 +80,11 @@ const ContextMenu = () => {
         top: pos.y,
       }}
     >
-      <Card ref={ref}>
+      <Card
+        onClick={() => {
+          console.log("Clicked");
+        }}
+      >
         <div className="whl-p-2">
           <Labels onChanged={handleChanged} />
         </div>

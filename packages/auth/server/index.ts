@@ -3,6 +3,7 @@ import type { DefaultSession, NextAuthOptions } from "next-auth";
 import NextAuth, { getServerSession } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 
+import { DEFAULT_COLORS } from "@whl/common-types";
 import { prisma } from "@whl/db";
 
 import { env } from "../env.mjs";
@@ -49,7 +50,7 @@ const authOptions: NextAuthOptions = {
     createUser: async ({ user }) => {
       // デフォルトのラベルを作成
       await prisma.label.createMany({
-        data: ["DEFAULT_COLORS"].map((color) => ({
+        data: DEFAULT_COLORS.map((color) => ({
           userId: user.id,
           color,
         })),

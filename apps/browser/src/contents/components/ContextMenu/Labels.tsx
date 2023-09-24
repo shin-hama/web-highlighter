@@ -18,7 +18,6 @@ const Labels = ({ onChanged }: Props) => {
       name: "labels/list",
     })
       .then((response) => {
-        console.log(response);
         setLabels(response);
       })
       .catch((error) => {
@@ -41,7 +40,10 @@ const Labels = ({ onChanged }: Props) => {
           <Toggle
             key={label.id}
             pressed={selected === label}
-            onPressedChange={() => setSelected(label)}
+            onPressedChange={(presses) => {
+              console.log(presses);
+              setSelected(label);
+            }}
             className="whl-h-auto whl-rounded-full whl-p-1"
           >
             <div
