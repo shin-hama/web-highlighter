@@ -1,31 +1,18 @@
 import { useCallback, useState } from "react";
 import { sendToBackground } from "@plasmohq/messaging";
-import { useEffectOnce, useEvent } from "react-use";
+import { useEvent } from "react-use";
 
-import type { Session } from "@whl/auth";
 import type { CreateHighlightRequest } from "@whl/common-types";
 import type { Label } from "@whl/db";
 import { Card } from "@whl/ui/components/ui/Card";
 
+import { useSession } from "~/hooks/useSession";
 import Labels from "./Labels";
 
 const ContextMenu = () => {
   const [open, setOpen] = useState(false);
   const [pos, setPos] = useState({ x: 100, y: 100 });
-  const [session, setSession] = useState<Session | undefined>(undefined);
-
-  useEffectOnce(() => {
-    sendToBackground<undefined, Session>({
-      name: "session",
-    })
-      .then((response) => {
-        console.log(response);
-        setSession(response);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  });
+  const { session, status } = useSession();
 
   const onMouseUp = (event: React.MouseEvent) => {
     const selectedText = window.getSelection()?.toString().trim();
@@ -70,6 +57,10 @@ const ContextMenu = () => {
     },
     [session],
   );
+
+  if (status !== "authenticated") {
+    return <></>;
+  }
 
   return (
     <div

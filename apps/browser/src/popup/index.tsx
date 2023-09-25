@@ -1,30 +1,13 @@
-import { useState } from "react";
-
 import "@whl/ui/app/globals.css";
 
-import { sendToBackground } from "@plasmohq/messaging";
-import { useEffectOnce } from "react-use";
-
-import type { Session } from "@whl/auth";
 import { Button } from "@whl/ui/components/ui/Button";
 
+import { useSession } from "~/hooks/useSession";
+
 function IndexPopup() {
-  const [session, setSession] = useState<Session | undefined | null>(undefined);
+  const { session, status } = useSession();
 
-  useEffectOnce(() => {
-    sendToBackground<undefined, Session>({
-      name: "session",
-    })
-      .then((response) => {
-        console.log(response);
-        setSession(response);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  });
-
-  if (session === undefined) {
+  if (status === "loading") {
     return <></>;
   }
 
