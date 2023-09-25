@@ -11,3 +11,4 @@ export type DefaultColor = z.infer<typeof DefaultColorSchema>;
 export const DEFAULT_COLORS = DefaultColorSchema.options;
 
 export * from "./api/highlights";
+export * from "./schema";

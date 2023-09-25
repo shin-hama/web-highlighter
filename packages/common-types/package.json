@@ -10,6 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@whl/db": "workspace:*",
     "zod": "^3.22.2"
   },
   "devDependencies": {

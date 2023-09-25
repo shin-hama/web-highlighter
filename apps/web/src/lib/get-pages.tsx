@@ -1,9 +1,9 @@
 import { DEFAULT_COLORS } from "@whl/common-types";
+import type { PageOnUserWithPageWithHighlightsWithLabel } from "@whl/common-types";
 import type { Label } from "@whl/db";
 import { prisma } from "@whl/db";
 
 import { env } from "~/env.mjs";
-import type { PageOnUserWithPageWithHighlightsWithLabel } from "~/types";
 
 const devLabels: Label[] = DEFAULT_COLORS.map((color, i) => {
   return {

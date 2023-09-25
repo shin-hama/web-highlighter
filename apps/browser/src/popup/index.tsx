@@ -3,6 +3,7 @@ import "@whl/ui/app/globals.css";
 import { Button } from "@whl/ui/components/ui/Button";
 
 import { useSession } from "~/hooks/useSession";
+import Highlights from "./components/Highlights";
 
 function IndexPopup() {
   const { session, status } = useSession();
@@ -14,7 +15,10 @@ function IndexPopup() {
   return (
     <div className="whl-flex whl-h-64 whl-w-80 whl-items-center whl-justify-center">
       {session ? (
-        <div>latest highlights</div>
+        <>
+          <div>latest highlights</div>
+          <Highlights />
+        </>
       ) : (
         <div className="whl-flex whl-flex-col whl-items-center whl-space-y-8 whl-px-12">
           <p>

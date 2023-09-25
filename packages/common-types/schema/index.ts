@@ -1,5 +1,12 @@
 import type { Prisma } from "@whl/db";
 
+export type HighlightWithLabelAndPage = Prisma.HighlightGetPayload<{
+  include: {
+    label: true;
+    page: true;
+  };
+}>;
+
 export type HighlightWithLabel = Prisma.HighlightGetPayload<{
   include: {
     label: true;
