@@ -88,14 +88,14 @@ const ContextMenu = () => {
         <div className="whl-p-2">
           <Labels onChanged={handleChanged} />
         </div>
-        <div className="whl-flex whl-flex-row">
+        <div className="whl-flex whl-flex-row whl-px-3 whl-pb-1">
           <a
-            href="http://localhost:3000"
+            href="http://localhost:3000/dashboard"
             target="_blank"
             rel="noopener noreferrer"
             className="whl-font-mono whl-text-sm whl-font-bold"
           >
-            Highlighter
+            Dashboard
           </a>
         </div>
       </Card>
