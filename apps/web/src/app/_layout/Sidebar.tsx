@@ -1,14 +1,9 @@
-import { getServerAuthSession } from "@whl/auth";
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "@whl/ui/components/ui/avatar";
 import { Button } from "@whl/ui/components/ui/Button";
 import { cn } from "@whl/ui/lib/utils";
 
-const Sidebar = async ({ className }: React.HTMLAttributes<HTMLDivElement>) => {
-  const session = await getServerAuthSession();
+import AccountMenu from "./AccountMenu";
+
+const Sidebar = ({ className }: React.HTMLAttributes<HTMLDivElement>) => {
   return (
     <div
       className={cn(
@@ -63,22 +58,7 @@ const Sidebar = async ({ className }: React.HTMLAttributes<HTMLDivElement>) => {
                 </svg>
                 Settings
               </Button>
-              <Button
-                variant="ghost"
-                className="whl-justify-start whl-space-x-2 whl-rounded-none"
-              >
-                {session?.user ? (
-                  <>
-                    <Avatar>
-                      <AvatarImage src={session.user.image ?? ""} />
-                      <AvatarFallback>{session.user.name}</AvatarFallback>
-                    </Avatar>
-                    <div>Account</div>
-                  </>
-                ) : (
-                  <>Unknown user</>
-                )}
-              </Button>
+              <AccountMenu />
             </div>
           </div>
         </div>
