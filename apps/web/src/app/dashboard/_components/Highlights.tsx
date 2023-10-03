@@ -1,4 +1,5 @@
-import type { HighlightWithLabel } from "~/types";
+import type { HighlightWithLabel } from "@whl/common-types";
+
 import Highlight from "./Highlight";
 
 interface Props {

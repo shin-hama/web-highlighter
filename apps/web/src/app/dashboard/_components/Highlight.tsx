@@ -1,4 +1,4 @@
-import type { HighlightWithLabel } from "~/types";
+import type { HighlightWithLabel } from "@whl/common-types";
 
 const Highlight = ({ label, content }: HighlightWithLabel) => {
   return (
