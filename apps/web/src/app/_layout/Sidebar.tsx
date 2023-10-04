@@ -2,6 +2,7 @@ import { Button } from "@whl/ui/components/ui/Button";
 import { cn } from "@whl/ui/lib/utils";
 
 import AccountMenu from "./AccountMenu";
+import UserInfo from "./UserInfo";
 
 const Sidebar = ({ className }: React.HTMLAttributes<HTMLDivElement>) => {
   return (
@@ -58,7 +59,14 @@ const Sidebar = ({ className }: React.HTMLAttributes<HTMLDivElement>) => {
                 </svg>
                 Settings
               </Button>
-              <AccountMenu />
+              <AccountMenu>
+                <Button
+                  variant="ghost"
+                  className="whl-justify-start whl-space-x-2 whl-rounded-none"
+                >
+                  <UserInfo />
+                </Button>
+              </AccountMenu>
             </div>
           </div>
         </div>
