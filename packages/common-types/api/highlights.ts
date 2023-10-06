@@ -14,3 +14,10 @@ export const CreateHighlightRequestSchema = z.object({
 export type CreateHighlightRequest = z.infer<
   typeof CreateHighlightRequestSchema
 >;
+
+export const DeleteHighlightRequestSchema = z.object({
+  id: z.string(),
+});
+export type DeleteHighlightRequest = z.infer<
+  typeof DeleteHighlightRequestSchema
+>;
