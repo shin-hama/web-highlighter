@@ -53,14 +53,32 @@ const devPages = Array.from(Array(10)).map(
  * @param cursor ページネーション用のカーソル。PageOnUser の id を指定すると、その Record から取得する。
  * @returns
  */
-export const getPages = async (
-  userId: string,
-  cursor?: string,
-): Promise<PageOnUserWithPageWithHighlightsWithLabel[]> => {
+export const getPages = async ({
+  userId,
+  cursor,
+  filter,
+}: {
+  userId: string;
+  cursor?: string;
+  filter?: {
+    labels?: string[];
+  };
+}): Promise<PageOnUserWithPageWithHighlightsWithLabel[]> => {
   try {
     const result = await prisma.pageOnUser.findMany({
       where: {
-        userId,
+        AND: {
+          userId,
+          page: {
+            highlights: {
+              some: {
+                labelId: {
+                  in: filter?.labels,
+                },
+              },
+            },
+          },
+        },
       },
       include: {
         page: {

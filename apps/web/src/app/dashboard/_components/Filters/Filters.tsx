@@ -1,16 +1,8 @@
-import { getServerAuthSession } from "@whl/auth";
-
 import { getLabels } from "~/lib/labels";
 import LabelFilter from "./LabelFilter";
 
 const Filters = async () => {
-  const session = await getServerAuthSession();
-
-  if (session === null) {
-    return <></>;
-  }
-
-  const labels = await getLabels(session.user.id);
+  const labels = await getLabels();
 
   return (
     <div className="whl-flex whl-flex-row whl-items-center whl-gap-x-4 whl-px-4 whl-py-2">

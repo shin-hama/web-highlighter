@@ -16,7 +16,7 @@ export async function GET(_: Request) {
     );
   }
 
-  const result = getLabels(session.user.id);
+  const result = getLabels();
 
   return NextResponse.json(result);
 }

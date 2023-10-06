@@ -1,5 +1,6 @@
 "use client";
 
+import { redirect } from "next/navigation";
 import { Palette } from "lucide-react";
 
 import type { Label } from "@whl/db";
@@ -26,6 +27,9 @@ const LabelFilter = ({ labels }: Props) => {
       }))}
       onClose={(selected) => {
         console.log(selected);
+        redirect(
+          `/dashboard?labels=${selected.map((item) => item.id).join(",")}`,
+        );
       }}
     >
       <Button variant="ghost">
