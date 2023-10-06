@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
 
 import { getServerAuthSession } from "@whl/auth";
-import { prisma } from "@whl/db";
+
+import { getLabels } from "~/lib/labels";
 
 export async function GET(_: Request) {
   const session = await getServerAuthSession();
@@ -15,11 +16,7 @@ export async function GET(_: Request) {
     );
   }
 
-  const result = await prisma.label.findMany({
-    where: {
-      userId: session.user.id,
-    },
-  });
+  const result = getLabels(session.user.id);
 
   return NextResponse.json(result);
 }
