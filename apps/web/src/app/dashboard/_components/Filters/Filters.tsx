@@ -1,10 +1,7 @@
-import { Palette } from "lucide-react";
-
 import { getServerAuthSession } from "@whl/auth";
-import { Button } from "@whl/ui/components/ui/Button";
 
 import { getLabels } from "~/lib/labels";
-import FilterPopover from "./FilterPopup";
+import LabelFilter from "./LabelFilter";
 
 const Filters = async () => {
   const session = await getServerAuthSession();
@@ -21,17 +18,7 @@ const Filters = async () => {
         <p>FILTERS: </p>
       </div>
       <div className="whl-flex whl-flex-row whl-items-center whl-gap-2">
-        <FilterPopover
-          target="Label"
-          items={labels.map((label) => label.color)}
-        >
-          <Button variant="ghost">
-            <div className="whl-flex whl-flex-row whl-items-center whl-gap-1 whl-font-bold">
-              <Palette />
-              Color
-            </div>
-          </Button>
-        </FilterPopover>
+        <LabelFilter labels={labels} />
       </div>
     </div>
   );
