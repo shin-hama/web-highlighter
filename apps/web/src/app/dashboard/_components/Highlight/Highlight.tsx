@@ -1,7 +1,6 @@
-import { Trash2 } from "lucide-react";
-
 import type { HighlightWithLabel } from "@whl/common-types";
-import { Button } from "@whl/ui/components/ui/Button";
+
+import { Actions } from "./Actions";
 
 const Highlight = ({ label, content }: HighlightWithLabel) => {
   return (
@@ -11,11 +10,9 @@ const Highlight = ({ label, content }: HighlightWithLabel) => {
         style={{ backgroundColor: label.color }}
       ></div>
       <div className="whl-relative whl-flex whl-flex-grow whl-flex-row whl-items-center">
-        <span className="whl-py-1">{content}</span>
+        <span className="whl-py-2">{content}</span>
         <div className="whl-invisible whl-absolute whl-right-2 whl-top-1 group-hover/highlight:whl-visible">
-          <Button size="icon" variant="ghost">
-            <Trash2 />
-          </Button>
+          <Actions />
         </div>
       </div>
     </div>
