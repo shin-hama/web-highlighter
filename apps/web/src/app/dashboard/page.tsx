@@ -3,9 +3,11 @@ import PageList from "./_components/PageList";
 
 const Dashboard = () => {
   return (
-    <div className="whl-h-full">
+    <div className="whl-flex whl-h-full whl-flex-col whl-overflow-hidden">
       <Filters />
-      <PageList />
+      <div className="whl-h-full whl-flex-1 whl-overflow-hidden">
+        <PageList />
+      </div>
     </div>
   );
 };

@@ -19,41 +19,40 @@ const PageCard = ({ title, url, highlights }: PageWithHighlightsWithLabel) => {
   const [open, setOpen] = useState(false);
 
   return (
-    <>
+    <div className="whl-group/page whl-w-full whl-overflow-hidden">
       <Card
         onClick={() => setOpen((prev) => !prev)}
-        className="whl-rounded-none"
+        className="whl-w-full whl-overflow-hidden whl-rounded-none"
       >
-        <CardHeader className="whl-p-2">
-          <div className="whl-flex whl-flex-row whl-justify-between">
-            <div className="whl-flex whl-flex-row whl-items-center whl-space-x-1">
-              <Image
-                // src に props.url のドメイン + favicon.ico がある場所を指定する
-                src={`https://www.google.com/s2/favicons?sz=64&domain=${
-                  new URL(url).hostname
-                }`}
-                alt={`Favicon for ${title}`}
-                width={32}
-                height={32}
-              />
-              <div>
-                <CardTitle className="whl-text-lg">{title}</CardTitle>
-                <div className="whl-flex whl-flex-row whl-space-x-1">
-                  <CardDescription>
-                    {highlights.length} highlights
-                  </CardDescription>
-                  <CardDescription>|</CardDescription>
-                  <CardDescription>{new URL(url).hostname}</CardDescription>
-                </div>
+        <CardHeader className="whl-w-full whl-overflow-hidden whl-p-2">
+          <div className="whl-flex whl-w-full whl-flex-row whl-items-center whl-space-x-1 whl-overflow-hidden">
+            <Image
+              src={`https://www.google.com/s2/favicons?sz=64&domain=${
+                new URL(url).hostname
+              }`}
+              alt={`Favicon for ${title}`}
+              width={32}
+              height={32}
+              className="whl-flex-shrink-0"
+            />
+            <div className="whl-flex whl-w-full whl-flex-1 whl-flex-col whl-overflow-hidden">
+              <CardTitle className="whl-overflow-hidden whl-truncate whl-text-lg">
+                {title}
+              </CardTitle>
+              <div className="whl-flex whl-flex-row whl-space-x-1">
+                <CardDescription>
+                  {highlights.length} highlights
+                </CardDescription>
+                <CardDescription>|</CardDescription>
+                <CardDescription>{new URL(url).hostname}</CardDescription>
               </div>
             </div>
-            <div className="whl-flex whl-flex-row whl-space-x-2">
+            <div className="whl-invisible whl-flex whl-flex-shrink-0 whl-flex-row whl-space-x-2 group-hover/page:whl-visible">
               <Button
                 variant="ghost"
                 size="icon"
                 onClick={() => {
                   console.log("open link");
-                  // url を新しいタブで開く
                   window.open(url, "_blank");
                 }}
               >
@@ -64,7 +63,7 @@ const PageCard = ({ title, url, highlights }: PageWithHighlightsWithLabel) => {
         </CardHeader>
       </Card>
       {open && <Highlights highlights={highlights} />}
-    </>
+    </div>
   );
 };
 

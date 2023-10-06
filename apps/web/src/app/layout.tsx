@@ -32,15 +32,17 @@ export default function RootLayout({
       >
         <NextAuthProvider>
           <Auth>
-            <div className="whl-flex whl-flex-row">
-              <nav className="whl-h-screen">
+            <div className="whl-relative whl-flex whl-h-screen whl-flex-row">
+              <nav className="whl-h-full">
                 <Sidebar />
               </nav>
-              <div className="whl-h-screen whl-flex-grow whl-overflow-hidden">
+              <div className="whl-flex whl-h-full whl-flex-grow whl-flex-col whl-overflow-hidden">
                 <header>
                   <Header />
                 </header>
-                <div className="whl-h-full">{children}</div>
+                <div className="whl-h-full whl-flex-1 whl-overflow-hidden">
+                  {children}
+                </div>
               </div>
             </div>
           </Auth>

@@ -13,7 +13,7 @@ const PageList = async () => {
   const pages = await getPages(session.user.id);
 
   return (
-    <ScrollArea className="whl-h-full">
+    <ScrollArea className="whl-box-border whl-h-full whl-w-full">
       {pages.map((page, index) => (
         <PageCard key={index} {...page.page} />
       ))}
