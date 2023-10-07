@@ -62,7 +62,7 @@ const getTestData = (filter?: { labels?: string[] }) => {
         page: {
           ...page.page,
           highlights: page.page.highlights.filter((highlight) => {
-            return filter?.labels?.includes(highlight.label.id);
+            return filter?.labels?.includes(highlight.label.id) ?? true;
           }),
         },
       };

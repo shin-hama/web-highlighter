@@ -1,3 +1,4 @@
+import { DashboardQuerySchema } from "~/types/query";
 import Filters from "./_components/Filters";
 import PageList from "./_components/PageList";
 
@@ -6,18 +7,16 @@ const Dashboard = ({
 }: {
   searchParams: Record<string, string | string[] | undefined>;
 }) => {
-  const { labels } = searchParams;
+  const { labels } = DashboardQuerySchema.parse(searchParams);
   return (
     <div className="whl-flex whl-h-full whl-flex-col whl-overflow-hidden">
       <Filters
         filtered={{
-          labels: typeof labels === "string" ? labels.split(",") : labels,
+          labels,
         }}
       />
       <div className="whl-h-full whl-flex-1 whl-overflow-hidden">
-        <PageList
-          labels={typeof labels === "string" ? labels.split(",") : labels}
-        />
+        <PageList labels={labels} />
       </div>
     </div>
   );

@@ -37,9 +37,14 @@ const LabelFilter = ({ labels, selected }: Props) => {
       )}
       onClose={(selected) => {
         console.log(selected);
-        redirect(
-          `/dashboard?labels=${selected.map((item) => item.id).join(",")}`,
-        );
+        const params = new URLSearchParams(window.location.search);
+        if (selected.length !== 0) {
+          params.set("labels", selected.map((item) => item.id).join(","));
+        } else {
+          params.delete("labels");
+        }
+
+        redirect(`/dashboard?${params.toString()}`);
       }}
     >
       <Button variant="ghost">
