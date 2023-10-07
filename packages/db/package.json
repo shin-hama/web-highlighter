@@ -15,7 +15,7 @@
     "with-env": "dotenv -e ../../.env --"
   },
   "dependencies": {
-    "@prisma/client": "^5.2.0",
+    "@prisma/client": "^5.4.1",
     "dotenv": "^16.3.1"
   },
   "devDependencies": {
@@ -27,7 +27,7 @@
     "dotenv-cli": "^7.3.0",
     "eslint": "^8.48.0",
     "prettier": "^3.0.3",
-    "prisma": "^5.2.0",
+    "prisma": "^5.4.1",
     "typescript": "^5.2.2"
   },
   "ct3aMetadata": {
