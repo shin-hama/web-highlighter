@@ -1,13 +1,19 @@
-import { DEFAULT_COLORS } from "@whl/common-types";
 import type { PageOnUserWithPageWithHighlightsWithLabel } from "@whl/common-types";
 import type { Label } from "@whl/db";
 import { prisma } from "@whl/db";
 
 import { env } from "~/env.mjs";
 
-const devLabels: Label[] = DEFAULT_COLORS.map((color, i) => {
+const LABELS = [
+  { id: "dGscax0", color: "#B2C3FF" },
+  { id: "fe157EL", color: "#FFDCB2" },
+  { id: "QhpQyuW", color: "#F0FFB2" },
+  { id: "SIMniLc", color: "#FFB2B2" },
+  { id: "UTCB33F", color: "#B2FFC8" },
+];
+const devLabels: Label[] = LABELS.map(({ id, color }) => {
   return {
-    id: `${i}`,
+    id,
     name: null,
     color,
     userId: "1",
@@ -15,6 +21,7 @@ const devLabels: Label[] = DEFAULT_COLORS.map((color, i) => {
     updatedAt: new Date(),
   };
 });
+
 const devPages = Array.from(Array(10)).map(
   (_, p_index): PageOnUserWithPageWithHighlightsWithLabel => ({
     id: `${p_index}`,
@@ -46,6 +53,24 @@ const devPages = Array.from(Array(10)).map(
     },
   }),
 );
+
+const getTestData = (filter?: { labels?: string[] }) => {
+  return devPages
+    .map((page) => {
+      return {
+        ...page,
+        page: {
+          ...page.page,
+          highlights: page.page.highlights.filter((highlight) => {
+            return filter?.labels?.includes(highlight.label.id);
+          }),
+        },
+      };
+    })
+    .filter((page) => {
+      return page.page.highlights.length > 0;
+    });
+};
 
 /**
  *
@@ -103,7 +128,7 @@ export const getPages = async ({
         : undefined,
     });
     if (env.NODE_ENV === "development" && result.length === 0) {
-      return devPages;
+      return getTestData(filter);
     }
     return result;
   } catch (e) {
@@ -111,7 +136,7 @@ export const getPages = async ({
     if (env.NODE_ENV !== "development") {
       throw e;
     } else {
-      return devPages;
+      return getTestData(filter);
     }
   }
 };

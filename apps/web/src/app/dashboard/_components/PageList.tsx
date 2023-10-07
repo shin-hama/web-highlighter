@@ -8,7 +8,6 @@ interface Props {
   labels?: string[];
 }
 const PageList = async ({ labels }: Props) => {
-  console.log(labels);
   const session = await getServerAuthSession();
 
   if (session === null) {

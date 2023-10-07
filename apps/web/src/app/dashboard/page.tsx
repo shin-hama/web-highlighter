@@ -6,11 +6,14 @@ const Dashboard = ({
 }: {
   searchParams: Record<string, string | string[] | undefined>;
 }) => {
-  console.log(searchParams);
   const { labels } = searchParams;
   return (
     <div className="whl-flex whl-h-full whl-flex-col whl-overflow-hidden">
-      <Filters />
+      <Filters
+        filtered={{
+          labels: typeof labels === "string" ? labels.split(",") : labels,
+        }}
+      />
       <div className="whl-h-full whl-flex-1 whl-overflow-hidden">
         <PageList
           labels={typeof labels === "string" ? labels.split(",") : labels}

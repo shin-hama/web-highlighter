@@ -1,5 +1,6 @@
 "use client";
 
+import { useMemo } from "react";
 import { redirect } from "next/navigation";
 import { Palette } from "lucide-react";
 
@@ -10,12 +11,12 @@ import FilterPopover from "./FilterPopup";
 
 interface Props {
   labels: Label[];
+  selected?: string[];
 }
-const LabelFilter = ({ labels }: Props) => {
-  return (
-    <FilterPopover
-      target="Label"
-      items={labels.map((label) => ({
+const LabelFilter = ({ labels, selected }: Props) => {
+  const items = useMemo(
+    () =>
+      labels.map((label) => ({
         id: label.id,
         label: !label.name ? "No Name" : label.name,
         icon: (
@@ -24,7 +25,16 @@ const LabelFilter = ({ labels }: Props) => {
             style={{ backgroundColor: label.color }}
           />
         ),
-      }))}
+      })),
+    [labels],
+  );
+  return (
+    <FilterPopover
+      target="Label"
+      items={items}
+      defaultSelected={items.filter(
+        (item) => selected?.includes(item.id) ?? false,
+      )}
       onClose={(selected) => {
         console.log(selected);
         redirect(

@@ -1,7 +1,12 @@
 import { getLabels } from "~/lib/labels";
 import LabelFilter from "./LabelFilter";
 
-const Filters = async () => {
+interface Props {
+  filtered?: {
+    labels?: string[];
+  };
+}
+const Filters = async ({ filtered }: Props) => {
   const labels = await getLabels();
 
   return (
@@ -10,7 +15,7 @@ const Filters = async () => {
         <p>FILTERS: </p>
       </div>
       <div className="whl-flex whl-flex-row whl-items-center whl-gap-2">
-        <LabelFilter labels={labels} />
+        <LabelFilter labels={labels} selected={filtered?.labels} />
       </div>
     </div>
   );

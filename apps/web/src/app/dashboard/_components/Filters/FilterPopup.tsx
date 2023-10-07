@@ -24,15 +24,17 @@ interface Item {
 interface Props {
   target: string;
   items: Item[];
+  defaultSelected?: Item[];
   onClose?: (selected: Item[]) => void;
 }
 const FilterPopover = ({
   target,
   items,
+  defaultSelected,
   children,
   onClose,
 }: PropsWithChildren<Props>) => {
-  const [selected, setSelected] = useState<Item[]>([]);
+  const [selected, setSelected] = useState<Item[]>(defaultSelected ?? []);
 
   const handleOpenChange = useCallback(
     (open: boolean) => {
