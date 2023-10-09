@@ -4,7 +4,7 @@ import { useEvent } from "react-use";
 
 import type { CreateHighlightRequest } from "@whl/common-types";
 import type { Label } from "@whl/db";
-import { Card } from "@whl/ui/components/ui/Card";
+import { Card } from "@whl/ui/components/ui/card";
 
 import { useSession } from "~/hooks/useSession";
 import Labels from "./Labels";

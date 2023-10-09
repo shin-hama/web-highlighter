@@ -2,7 +2,7 @@
 
 import { Trash2 } from "lucide-react";
 
-import { Button } from "@whl/ui/components/ui/Button";
+import { Button } from "@whl/ui/components/ui/button";
 
 interface Props {
   id: string;

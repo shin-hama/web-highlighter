@@ -1,4 +1,4 @@
-import { Button } from "@whl/ui/components/ui/Button";
+import { Button } from "@whl/ui/components/ui/button";
 import { cn } from "@whl/ui/lib/utils";
 
 import AccountMenu from "./AccountMenu";

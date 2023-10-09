@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 import { Palette } from "lucide-react";
 
 import type { Label } from "@whl/db";
-import { Button } from "@whl/ui/components/ui/Button";
+import { Button } from "@whl/ui/components/ui/button";
 
 import FilterPopover from "./FilterPopup";
 

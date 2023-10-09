@@ -1,6 +1,6 @@
 import "@whl/ui/app/globals.css";
 
-import { Button } from "@whl/ui/components/ui/Button";
+import { Button } from "@whl/ui/components/ui/button";
 
 import { useSession } from "~/hooks/useSession";
 import Highlights from "./components/Highlights";

@@ -3,18 +3,18 @@
 import { useCallback, useState } from "react";
 import type { PropsWithChildren } from "react";
 
-import { Checkbox } from "@whl/ui/components/ui/Checkbox";
+import { Checkbox } from "@whl/ui/components/ui/checkbox";
 import {
   Command,
   CommandGroup,
   CommandItem,
   CommandList,
-} from "@whl/ui/components/ui/Command";
+} from "@whl/ui/components/ui/command";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@whl/ui/components/ui/Popover";
+} from "@whl/ui/components/ui/popover";
 
 interface Item {
   id: string;

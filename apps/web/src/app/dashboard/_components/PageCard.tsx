@@ -5,7 +5,7 @@ import Image from "next/image";
 import { ExternalLink } from "lucide-react";
 
 import type { PageWithHighlightsWithLabel } from "@whl/common-types";
-import { Button } from "@whl/ui/components/ui/Button";
+import { Button } from "@whl/ui/components/ui/button";
 import {
   Card,
   CardDescription,
