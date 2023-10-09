@@ -2,11 +2,13 @@ import type { PlasmoMessaging } from "@plasmohq/messaging";
 
 import type { Session } from "@whl/auth";
 
+import { API_HOST } from "~/lib/config";
+
 const handler: PlasmoMessaging.MessageHandler<
   undefined,
   Session | null
 > = async (_, res) => {
-  const result = await fetch(`http://localhost:3000/api/auth/session`)
+  const result = await fetch(`${API_HOST}/api/auth/session`)
     .then((res) => res.json())
     .then((json) => {
       console.log(json);

@@ -2,6 +2,7 @@ import type { PlasmoMessaging } from "@plasmohq/messaging";
 
 import type { CreateHighlightRequest } from "@whl/common-types";
 import type { Highlight } from "@whl/db";
+import { API_HOST } from "~/lib/config";
 
 const handler: PlasmoMessaging.MessageHandler<
   CreateHighlightRequest,
@@ -14,7 +15,7 @@ const handler: PlasmoMessaging.MessageHandler<
 
   const { page, highlight } = req.body;
 
-  const result = await fetch(`http://localhost:3000/api/highlights`, {
+  const result = await fetch(`${API_HOST}/api/highlights`, {
     method: "POST",
     body: JSON.stringify({
       page,
