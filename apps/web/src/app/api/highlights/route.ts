@@ -1,3 +1,4 @@
+import crypto from "crypto";
 import { NextResponse } from "next/server";
 
 import { getServerAuthSession } from "@whl/auth";
@@ -46,18 +47,38 @@ export async function POST(req: Request) {
     await req.json(),
   );
 
+  const data = await prisma.pageOnUser.upsert({
+    where: {
+      userId_pageId: {
+        userId: session.user.id,
+        pageId: crypto.createHash("MD5").update(page.url).digest("hex"),
+      },
+    },
+    update: {
+      userId: session.user.id, // Required to update updatedAt field on pageOnUser
+    },
+    create: {
+      user: {
+        connect: {
+          id: session.user.id,
+        },
+      },
+      page: {
+        create: {
+          id: crypto.createHash("MD5").update(page.url).digest("hex"),
+          title: page.title,
+          url: page.url,
+        },
+      },
+    },
+  });
+
   const result = await prisma.highlight.create({
     data: {
       content: highlight.content,
       page: {
-        connectOrCreate: {
-          where: {
-            url: page.url,
-          },
-          create: {
-            title: page.title,
-            url: page.url,
-          },
+        connect: {
+          id: data.pageId,
         },
       },
       label: {
@@ -72,6 +93,5 @@ export async function POST(req: Request) {
       },
     },
   });
-
   return NextResponse.json(result);
 }

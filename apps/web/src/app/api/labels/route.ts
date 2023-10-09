@@ -16,7 +16,7 @@ export async function GET(_: Request) {
     );
   }
 
-  const result = getLabels();
+  const result = await getLabels();
 
   return NextResponse.json(result);
 }

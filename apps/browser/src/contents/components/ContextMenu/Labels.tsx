@@ -13,7 +13,6 @@ const Labels = ({ onChanged }: Props) => {
   const [labels, setLabels] = useState<Label[]>([]);
 
   useEffectOnce(() => {
-    console.log("get all labels");
     sendToBackground<undefined, Label[]>({
       name: "labels/list",
     })
@@ -26,7 +25,6 @@ const Labels = ({ onChanged }: Props) => {
   });
 
   useEffect(() => {
-    console.log(selected);
     if (selected) {
       onChanged(selected);
     }
@@ -40,8 +38,7 @@ const Labels = ({ onChanged }: Props) => {
           <Toggle
             key={label.id}
             pressed={selected === label}
-            onPressedChange={(presses) => {
-              console.log(presses);
+            onPressedChange={() => {
               setSelected(label);
             }}
             className="whl-h-auto whl-rounded-full whl-p-1"

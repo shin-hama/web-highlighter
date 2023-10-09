@@ -18,6 +18,7 @@ const ContextMenu = () => {
     const selectedText = window.getSelection()?.toString().trim();
 
     // TODO: 選択した要素が input などの場合は表示しない
+    // FIXME: 選択した要素がからでも表示されてしまうことがある
     if (selectedText && selectedText.length > 0) {
       setOpen(true);
       setPos({ x: event.pageX, y: event.pageY });
@@ -25,7 +26,6 @@ const ContextMenu = () => {
       setOpen(false);
     }
   };
-
   useEvent("mouseup", onMouseUp);
 
   const handleChanged = useCallback(
@@ -44,7 +44,8 @@ const ContextMenu = () => {
         name: "highlight/save",
         body: {
           page: {
-            url: window.location.href,
+            // build url removed query and flagment
+            url: window.location.origin + window.location.pathname,
             title: document.title,
           },
           highlight: {
@@ -72,8 +73,9 @@ const ContextMenu = () => {
       }}
     >
       <Card
-        onClick={() => {
-          console.log("Clicked");
+        onMouseUp={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
         }}
       >
         <div className="whl-p-2">
