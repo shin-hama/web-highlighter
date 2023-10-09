@@ -55,6 +55,16 @@ const ContextMenu = () => {
         },
       });
       console.log(result);
+      // 保存に成功したら、現在選択されているテキストをハイライトする
+      if (result) {
+        const range = selection.getRangeAt(0);
+        const newNode = document.createElement("span");
+        newNode.style.backgroundColor = label.color;
+        newNode.style.borderRadius = "2px";
+        newNode.style.padding = "2px 2px";
+        newNode.style.margin = "0 1px";
+        range.surroundContents(newNode);
+      }
     },
     [session],
   );

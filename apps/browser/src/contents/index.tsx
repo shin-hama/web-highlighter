@@ -5,6 +5,7 @@ import ContextMenu from "./components/ContextMenu";
 
 export const config: PlasmoCSConfig = {
   matches: ["<all_urls>"],
+  exclude_matches: ["http://localhost:3000/*"],
   all_frames: true,
 };
 

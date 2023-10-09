@@ -2,7 +2,7 @@
   "name": "@whl/browser",
   "displayName": "Web Highlighter",
   "version": "0.0.1",
-  "description": "A basic Plasmo extension.",
+  "description": "Highlighting web contents",
   "author": "coppla <htysivista@gmail.com>",
   "scripts": {
     "dev": "plasmo dev --env=../../.env",
@@ -37,11 +37,7 @@
   },
   "manifest": {
     "host_permissions": [
-      "https://*/*",
-      "http://localhost:3000/*"
-    ],
-    "permissions": [
-      "cookies"
+      "https://*/*"
     ]
   },
   "prettier": "@whl/prettier-config"

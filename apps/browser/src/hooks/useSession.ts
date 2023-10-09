@@ -14,7 +14,6 @@ export const useSession = () => {
       name: "session",
     })
       .then((response) => {
-        console.log(response);
         setSession(response);
       })
       .catch((error) => {
