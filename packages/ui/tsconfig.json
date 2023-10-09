@@ -7,7 +7,7 @@
     "declarationMap": true,
     "baseUrl": ".",
     "paths": {
-      "@whl/ui/*": ["./*"]
+      "@ui/*": ["./*"]
     }
   }
 }

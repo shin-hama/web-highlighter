@@ -2,8 +2,7 @@
 
 import * as React from "react";
 import { CheckIcon } from "@radix-ui/react-icons";
-
-import { cn } from "@whl/ui/lib/utils";
+import { cn } from "@ui/lib/utils";
 
 import {
   Command,

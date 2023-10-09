@@ -11,7 +11,6 @@ const handler: PlasmoMessaging.MessageHandler<
   const result = await fetch(`${API_HOST}/api/auth/session`)
     .then((res) => res.json())
     .then((json) => {
-      console.log(json);
       if (json && typeof json === "object" && "user" in json) {
         return json as Session;
       } else {
