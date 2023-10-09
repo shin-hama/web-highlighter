@@ -7,8 +7,8 @@
   "scripts": {
     "dev": "plasmo dev --env=../../.env",
     "lint": "eslint .",
-    "build": "plasmo build",
-    "package": "plasmo package"
+    "build": "plasmo build --env=../../.env",
+    "package": "plasmo package --env=../../.env"
   },
   "dependencies": {
     "@plasmohq/messaging": "^0.5.0",
