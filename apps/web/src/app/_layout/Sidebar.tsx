@@ -1,3 +1,5 @@
+import { List } from "lucide-react";
+
 import { Button } from "@whl/ui/components/ui/button";
 import { cn } from "@whl/ui/lib/utils";
 
@@ -23,42 +25,11 @@ const Sidebar = ({ className }: React.HTMLAttributes<HTMLDivElement>) => {
                 variant="ghost"
                 className="whl-justify-start whl-rounded-none"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="whl-mr-2 whl-h-4 whl-w-4"
-                >
-                  <circle cx="12" cy="12" r="10" />
-                  <polygon points="10 8 16 12 10 16 10 8" />
-                </svg>
+                <List size={24} color="white" />
                 Dashboard
               </Button>
             </div>
             <div className="whl-flex whl-flex-col whl-space-y-1">
-              <Button
-                variant="ghost"
-                className="whl-justify-start whl-rounded-none"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="whl-mr-2 whl-h-4 whl-w-4"
-                >
-                  <circle cx="12" cy="12" r="10" />
-                  <polygon points="10 8 16 12 10 16 10 8" />
-                </svg>
-                Settings
-              </Button>
               <AccountMenu>
                 <Button
                   variant="ghost"
