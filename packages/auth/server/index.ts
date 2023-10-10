@@ -61,6 +61,7 @@ const authOptions: NextAuthOptions = {
   session: {
     strategy: "database",
   },
+  secret: env.NEXTAUTH_SECRET,
   providers: [
     GoogleProvider({
       clientId: env.GOOGLE_CLIENT_ID,
