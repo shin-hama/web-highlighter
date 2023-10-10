@@ -1,10 +1,12 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+// @ts-nocheck
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-return */
 /**
  * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially useful
  * for Docker builds.
  */
 await import("./src/env.mjs");
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
 import { PrismaPlugin } from '@prisma/nextjs-monorepo-workaround-plugin'
 
 
@@ -23,9 +25,10 @@ const config = {
   },
   webpack: (config, { isServer }) => {
     if (isServer) {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       config.plugins = [...config.plugins, new PrismaPlugin()]
     }
+
+    return config
   },
 
   /**
