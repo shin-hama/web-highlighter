@@ -3,6 +3,10 @@
  * for Docker builds.
  */
 await import("./src/env.mjs");
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import { PrismaPlugin } from '@prisma/nextjs-monorepo-workaround-plugin'
+
 
 /** @type {import("next").NextConfig} */
 const config = {
@@ -16,6 +20,12 @@ const config = {
         pathname: "/s2/favicons",
       },
     ],
+  },
+  webpack: (config, { isServer }) => {
+    if (isServer) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      config.plugins = [...config.plugins, new PrismaPlugin()]
+    }
   },
 
   /**
