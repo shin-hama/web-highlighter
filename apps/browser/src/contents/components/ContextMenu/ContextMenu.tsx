@@ -7,6 +7,7 @@ import type { Label } from "@whl/db";
 import { Card } from "@whl/ui/components/ui/card";
 
 import { useSession } from "~/hooks/useSession";
+import { APP_HOST } from "~/lib/config";
 import Labels from "./Labels";
 
 const ContextMenu = () => {
@@ -93,7 +94,7 @@ const ContextMenu = () => {
         </div>
         <div className="whl-flex whl-flex-row whl-px-3 whl-pb-1">
           <a
-            href="http://localhost:3000/dashboard"
+            href={`${APP_HOST}/dashboard`}
             target="_blank"
             rel="noopener noreferrer"
             className="whl-font-mono whl-text-sm whl-font-bold"
