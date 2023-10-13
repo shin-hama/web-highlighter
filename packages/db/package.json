@@ -12,6 +12,7 @@
     "typecheck": "tsc --noEmit",
     "generate": "pnpm with-env prisma generate",
     "push": "pnpm with-env prisma db push --skip-generate",
+    "studio": "pnpm with-env prisma studio",
     "with-env": "dotenv -e ../../.env --"
   },
   "dependencies": {
