@@ -57,6 +57,7 @@ const ContextMenu = () => {
       });
       console.log(result);
       // 保存に成功したら、現在選択されているテキストをハイライトする
+      // TODO: 保存にかかる時間が遅いので、先に色を変えて失敗したら削除するようにする
       if (result) {
         const range = selection.getRangeAt(0);
         const newNode = document.createElement("span");
