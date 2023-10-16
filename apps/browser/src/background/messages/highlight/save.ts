@@ -24,6 +24,10 @@ const handler: PlasmoMessaging.MessageHandler<
     }),
   });
 
+  if (result.status >= 400) {
+    console.error(await result.json());
+    return;
+  }
   res.send((await result.json()) as Highlight);
 };
 

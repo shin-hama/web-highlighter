@@ -41,31 +41,36 @@ const ContextMenu = () => {
         return;
       }
 
-      const result = await sendToBackground<CreateHighlightRequest>({
-        name: "highlight/save",
-        body: {
-          page: {
-            // build url removed query and flagment
-            url: window.location.origin + window.location.pathname,
-            title: document.title,
+      // 現在選択されているテキストをハイライトする
+      const range = selection.getRangeAt(0);
+      const highlight = document.createElement("span");
+      highlight.style.backgroundColor = label.color;
+      highlight.style.borderRadius = "2px";
+      highlight.style.padding = "2px 2px";
+      highlight.style.margin = "0 1px";
+      range.surroundContents(highlight);
+
+      try {
+        const result = await sendToBackground<CreateHighlightRequest>({
+          name: "highlight/save",
+          body: {
+            page: {
+              // build url removed query and flagment
+              url: window.location.origin + window.location.pathname,
+              title: document.title,
+            },
+            highlight: {
+              content,
+              labelId: label.id,
+            },
           },
-          highlight: {
-            content,
-            labelId: label.id,
-          },
-        },
-      });
-      console.log(result);
-      // 保存に成功したら、現在選択されているテキストをハイライトする
-      // TODO: 保存にかかる時間が遅いので、先に色を変えて失敗したら削除するようにする
-      if (result) {
-        const range = selection.getRangeAt(0);
-        const newNode = document.createElement("span");
-        newNode.style.backgroundColor = label.color;
-        newNode.style.borderRadius = "2px";
-        newNode.style.padding = "2px 2px";
-        newNode.style.margin = "0 1px";
-        range.surroundContents(newNode);
+        });
+        if (!result) {
+          highlight.remove();
+        }
+      } catch {
+        // ハイライトを削除する
+        highlight.remove();
       }
     },
     [session],
