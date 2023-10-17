@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@plasmohq/messaging": "^0.5.0",
+    "@plasmohq/storage": "^1.8.1",
     "@whl/auth": "workspace:*",
     "@whl/common-types": "workspace:*",
     "@whl/db": "workspace:*",
