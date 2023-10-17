@@ -13,7 +13,7 @@ import Labels from "./Labels";
 const ContextMenu = () => {
   const [open, setOpen] = useState(false);
   const [pos, setPos] = useState({ x: 100, y: 100 });
-  const { session, status } = useSession();
+  const { status } = useSession();
 
   const onMouseUp = (event: React.MouseEvent) => {
     const selectedText = window.getSelection()?.toString().trim();
@@ -32,7 +32,7 @@ const ContextMenu = () => {
   const handleChanged = useCallback(
     async (label: Label) => {
       const selection = window.getSelection();
-      if (!selection || !session) {
+      if (!selection || status !== "authenticated") {
         return;
       }
 
@@ -73,7 +73,7 @@ const ContextMenu = () => {
         highlight.remove();
       }
     },
-    [session],
+    [status],
   );
 
   if (status !== "authenticated") {

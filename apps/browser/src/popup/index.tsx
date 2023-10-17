@@ -6,15 +6,15 @@ import { useSession } from "~/hooks/useSession";
 import Highlights from "./components/Highlights";
 
 function IndexPopup() {
-  const { session, status } = useSession();
+  const { status } = useSession();
 
   if (status === "loading") {
-    return <></>;
+    return <>loading</>;
   }
 
   return (
     <div className="whl-flex whl-h-64 whl-w-80 whl-items-center whl-justify-center">
-      {session ? (
+      {status === "authenticated" ? (
         <>
           <div>latest highlights</div>
           <Highlights />

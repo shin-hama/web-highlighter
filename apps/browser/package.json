@@ -37,6 +37,9 @@
     "typescript": "^5.2.2"
   },
   "manifest": {
+    "permissions": [
+      "cookies"
+    ],
     "host_permissions": [
       "https://*/*"
     ]

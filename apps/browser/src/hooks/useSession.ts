@@ -2,19 +2,17 @@ import { useMemo, useState } from "react";
 import { sendToBackground } from "@plasmohq/messaging";
 import { useEffectOnce } from "react-use";
 
-import type { Session } from "@whl/db";
-
 export const useSession = () => {
-  const [session, setSession] = useState<Session | null>(null);
+  const [authenticated, setAuthenticated] = useState<boolean>();
   const [loading, setLoading] = useState(true);
 
   useEffectOnce(() => {
     setLoading(true);
-    sendToBackground<undefined, Session | null>({
+    sendToBackground<undefined, boolean>({
       name: "session",
     })
       .then((response) => {
-        setSession(response);
+        setAuthenticated(response);
       })
       .catch((error) => {
         console.error(error);
@@ -24,16 +22,18 @@ export const useSession = () => {
       });
   });
 
-  const value = useMemo(
+  const value = useMemo<{
+    status: "loading" | "authenticated" | "unauthenticated";
+  }>(
     () => ({
-      session,
-      status: loading
-        ? "loading"
-        : session
-        ? "authenticated"
-        : "unauthenticated",
+      status:
+        loading || authenticated === undefined
+          ? "loading"
+          : authenticated
+          ? "authenticated"
+          : "unauthenticated",
     }),
-    [loading, session],
+    [loading, authenticated],
   );
 
   return value;

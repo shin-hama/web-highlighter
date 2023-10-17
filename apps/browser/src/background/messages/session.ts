@@ -1,28 +1,27 @@
 import type { PlasmoMessaging } from "@plasmohq/messaging";
 
-import type { Session } from "@whl/auth";
-
 import { APP_HOST } from "~/lib/config";
 
-const handler: PlasmoMessaging.MessageHandler<
-  undefined,
-  Session | null
-> = async (_, res) => {
-  const result = await fetch(`${APP_HOST}/api/auth/session`)
-    .then((res) => res.json())
-    .then((json) => {
-      if (json && typeof json === "object" && "user" in json) {
-        return json as Session;
-      } else {
-        return null;
-      }
-    })
-    .catch((err) => {
-      console.error(err);
-      throw err;
-    });
+const handler: PlasmoMessaging.MessageHandler<undefined, boolean> = async (
+  _,
+  res,
+) => {
+  const hasSession = await new Promise<boolean>((resolve) => {
+    chrome.cookies.getAll(
+      {
+        url: APP_HOST,
+      },
+      (cookies) => {
+        const session = cookies.find((cookie) =>
+          cookie.name.endsWith("next-auth.session-token"),
+        );
 
-  res.send(result);
+        resolve(session !== null);
+      },
+    );
+  }).catch(() => false);
+
+  res.send(hasSession);
 };
 
 export default handler;
