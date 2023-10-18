@@ -12,11 +12,11 @@ const handler: PlasmoMessaging.MessageHandler<undefined, boolean> = async (
         url: APP_HOST,
       },
       (cookies) => {
-        const session = cookies.find((cookie) =>
+        const hasSession = cookies.some((cookie) =>
           cookie.name.endsWith("next-auth.session-token"),
         );
 
-        resolve(session !== null);
+        resolve(hasSession);
       },
     );
   }).catch(() => false);
