@@ -18,17 +18,18 @@ jobs:
         with:
           version: latest
           run_install: true
-      - name: Use Node.js 16.x
+      - name: Use Node.js 18.x
         uses: actions/setup-node@v3.4.1
         with:
-          node-version: 16.x
+          node-version: 18.x
           cache: "pnpm"
       - name: Build the extension
-        run: pnpm build
+        run: pnpm -F browser build
       - name: Package the extension into a zip artifact
-        run: pnpm package
+        run: pnpm -F browser package
       - name: Browser Platform Publish
         uses: PlasmoHQ/bpp@v3
         with:
           keys: ${{ secrets.BPP_KEYS }}
-          artifact: build/chrome-mv3-prod.zip
+          artifact: apps/browser/build/chrome-mv3-prod.zip
+          version-file: apps/browser/package.json
