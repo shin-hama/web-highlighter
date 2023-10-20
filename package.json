@@ -6,7 +6,7 @@
     "clean:workspaces": "turbo clean",
     "db:generate": "pnpm -F db generate",
     "db:push": "pnpm -F db push",
-    "db:studio": "pnpm -F db dev",
+    "db:studio": "pnpm -F db studio",
     "dev": "turbo run dev",
     "format": "turbo format --continue",
     "format:fix": "turbo format --continue -- --write",
