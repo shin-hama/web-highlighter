@@ -123,7 +123,7 @@ model Label {
 
 model Tag {
     id             String           @id @default(cuid())
-    name           String?
+    name           String           @unique
     userId         String
     createdAt      DateTime         @default(now())
     updatedAt      DateTime         @updatedAt
@@ -131,6 +131,7 @@ model Tag {
     HighlightOnTag HighlightOnTag[]
 
     @@index([userId])
+    @@index([name])
 }
 
 model HighlightOnTag {
