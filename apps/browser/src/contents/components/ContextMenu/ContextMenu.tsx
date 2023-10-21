@@ -85,10 +85,14 @@ const ContextMenu = () => {
     return <></>;
   }
 
+  if (!open) {
+    return <></>;
+  }
+
   return (
     <div
-      className={`${open ? "" : "whl-hidden"} whl-absolute whl-z-50`}
-      // tailwind を使うと動的に移動できなかったので、style で指定
+      className={"whl-absolute whl-z-50"}
+      // tailwind を使うと動的に位置を変更できなかったので、style で指定
       style={{
         left: pos.x,
         top: pos.y,
@@ -101,7 +105,7 @@ const ContextMenu = () => {
         }}
       >
         <div className="whl-p-2">
-          {selected ? (
+          {!selected ? (
             <TagForm label={selected} />
           ) : (
             <Labels onChanged={handleChanged} />
