@@ -1,4 +1,4 @@
-import type { PageOnUserWithPageWithHighlightsWithLabel } from "@whl/common-types";
+import type { PageOnUserWithPageWithHighlightsWithLabel as PageOnUserWithPageWithHighlightsWithLabelAndTag } from "@whl/common-types";
 import type { Label } from "@whl/db";
 import { prisma } from "@whl/db";
 
@@ -23,7 +23,7 @@ const devLabels: Label[] = LABELS.map(({ id, color }) => {
 });
 
 const devPages = Array.from(Array(10)).map(
-  (_, p_index): PageOnUserWithPageWithHighlightsWithLabel => ({
+  (_, p_index): PageOnUserWithPageWithHighlightsWithLabelAndTag => ({
     id: `${p_index}`,
     pageId: `${p_index}`,
     userId: "1",
@@ -47,6 +47,7 @@ const devPages = Array.from(Array(10)).map(
             label: devLabels[labelId]!,
             createdAt: new Date(),
             updatedAt: new Date(),
+            HighlightOnTag: [],
           };
         },
       ),
@@ -88,7 +89,7 @@ export const getPages = async ({
   filter?: {
     labels?: string[];
   };
-}): Promise<PageOnUserWithPageWithHighlightsWithLabel[]> => {
+}): Promise<PageOnUserWithPageWithHighlightsWithLabelAndTag[]> => {
   try {
     const result = await prisma.pageOnUser.findMany({
       where: {
@@ -111,6 +112,11 @@ export const getPages = async ({
             highlights: {
               include: {
                 label: true,
+                HighlightOnTag: {
+                  include: {
+                    tag: true,
+                  },
+                },
               },
             },
           },

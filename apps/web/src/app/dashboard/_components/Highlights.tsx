@@ -1,9 +1,9 @@
-import type { HighlightWithLabel } from "@whl/common-types";
+import type { HighlightWithLabelAndTag } from "@whl/common-types";
 
 import Highlight from "./Highlight";
 
 interface Props {
-  highlights: HighlightWithLabel[];
+  highlights: HighlightWithLabelAndTag[];
 }
 const Highlights = ({ highlights }: Props) => {
   return (
