@@ -4,7 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import { ExternalLink } from "lucide-react";
 
-import type { PageWithHighlightsWithLabel } from "@whl/common-types";
+import type { PageWithHighlightsWithLabelAndTag } from "@whl/common-types";
 import { Button } from "@whl/ui/components/ui/button";
 import {
   Card,
@@ -15,7 +15,11 @@ import {
 
 import Highlights from "./Highlights";
 
-const PageCard = ({ title, url, highlights }: PageWithHighlightsWithLabel) => {
+const PageCard = ({
+  title,
+  url,
+  highlights,
+}: PageWithHighlightsWithLabelAndTag) => {
   const [open, setOpen] = useState(false);
 
   return (

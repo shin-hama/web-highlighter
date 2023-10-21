@@ -7,13 +7,14 @@ import type { Label } from "@whl/db";
 import { Card } from "@whl/ui/components/ui/card";
 
 import { useSession } from "~/hooks/useSession";
-import { APP_HOST } from "~/lib/config";
 import Labels from "./Labels";
+import TagForm from "./TagForm";
 
 const ContextMenu = () => {
   const [open, setOpen] = useState(false);
   const [pos, setPos] = useState({ x: 100, y: 100 });
   const { status } = useSession();
+  const [selected, setSelected] = useState<Label | null>(null);
 
   const onMouseUp = (event: React.MouseEvent) => {
     const selectedText = window.getSelection()?.toString().trim();
@@ -41,6 +42,8 @@ const ContextMenu = () => {
         return;
       }
 
+      setSelected(label);
+
       // 現在選択されているテキストをハイライトする
       const range = selection.getRangeAt(0);
       const highlight = document.createElement("span");
@@ -55,7 +58,7 @@ const ContextMenu = () => {
           name: "highlight/save",
           body: {
             page: {
-              // build url removed query and flagment
+              // build url removed query and fragment
               url: window.location.origin + window.location.pathname,
               title: document.title,
             },
@@ -67,10 +70,12 @@ const ContextMenu = () => {
         });
         if (!result) {
           highlight.remove();
+          setSelected(null);
         }
       } catch {
         // ハイライトを削除する
         highlight.remove();
+        setSelected(null);
       }
     },
     [status],
@@ -96,17 +101,11 @@ const ContextMenu = () => {
         }}
       >
         <div className="whl-p-2">
-          <Labels onChanged={handleChanged} />
-        </div>
-        <div className="whl-flex whl-flex-row whl-px-3 whl-pb-1">
-          <a
-            href={`${APP_HOST}/dashboard`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="whl-font-mono whl-text-sm whl-font-bold"
-          >
-            Dashboard
-          </a>
+          {selected ? (
+            <TagForm label={selected} />
+          ) : (
+            <Labels onChanged={handleChanged} />
+          )}
         </div>
       </Card>
     </div>
