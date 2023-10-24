@@ -27,14 +27,19 @@ const TagForm = ({ label }: Props) => {
     };
   }, [tagsAction]);
 
+  {
+    /* タグが増えたら複数行に表示できるようにする */
+  }
   return (
-    <div className="whl-flex whl-w-60 whl-flex-row whl-gap-2">
+    <div
+      className="whl-flex whl-w-60 whl-flex-row whl-flex-wrap whl-gap-2    "
+    >
       <LabelButton color={label?.color || "black"} />
       {tags.map((tag) => {
         return (
           <Badge
             key={tag}
-            className="whl-gbftext-xs whl-items-center whl-gap-1"
+            className="whl-text-xs whl-items-center whl-gap-1"
           >
             {tag}
             <Button variant="ghost" size="icon_xs">
