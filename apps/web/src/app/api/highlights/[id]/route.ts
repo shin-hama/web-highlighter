@@ -15,12 +15,7 @@ export async function DELETE(
   const session = await getServerAuthSession();
 
   if (!session) {
-    return NextResponse.json(
-      { message: "Unauthorized" },
-      {
-        status: 401,
-      },
-    );
+    return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
   }
 
   const { id } = SpecifiedHighlightRouteParamSchema.parse(params);
@@ -36,9 +31,7 @@ export async function DELETE(
   } catch (e) {
     return NextResponse.json(
       { message: "Failed to delete highlight" },
-      {
-        status: 404,
-      },
+      { status: 404 },
     );
   }
 }
@@ -50,12 +43,7 @@ export async function PUT(
   const session = await getServerAuthSession();
 
   if (!session) {
-    return NextResponse.json(
-      { message: "Unauthorized" },
-      {
-        status: 401,
-      },
-    );
+    return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
   }
 
   const { tag } = CreateHighlightOnTagRequestScheme.parse(await req.json());
