@@ -1,23 +1,28 @@
-import { useCallback, useMemo, useState } from "react";
-import { sendToBackground } from "@plasmohq/messaging";
+import { useMemo, useState } from "react";
 
-import type { CreateHighlightRequest } from "@whl/common-types";
 import type { Label } from "@whl/db";
 
-import { useSession } from "~/hooks/useSession";
+interface HighlightedContent {
+  content: string;
+  label: Label;
+}
 
-export const useLabel = (): readonly [
-  Label | null,
-  (label: Label) => Promise<void>,
+interface Actions {
+  setLabel: (label: Label) => void;
+  removeHighlight: () => void;
+}
+
+export const useHighlight = (): readonly [
+  HighlightedContent | null,
+  Actions,
 ] => {
-  const { status } = useSession();
+  const [highlight, setSelected] = useState<HighlightedContent | null>(null);
+  const [highlightElm, setHighlightElm] = useState<HTMLElement | null>(null);
 
-  const [selected, setSelected] = useState<Label | null>(null);
-
-  const handleChanged = useCallback(
-    async (label: Label) => {
+  const actions = useMemo<Actions>(() => {
+    const setLabel = (label: Label) => {
       const selection = window.getSelection();
-      if (!selection || status !== "authenticated") {
+      if (!selection) {
         return;
       }
 
@@ -26,47 +31,33 @@ export const useLabel = (): readonly [
         return;
       }
 
-      setSelected(label);
+      setSelected({ content, label });
 
       // 現在選択されているテキストをハイライトする
       const range = selection.getRangeAt(0);
-      const highlight = document.createElement("span");
-      highlight.style.backgroundColor = label.color;
-      highlight.style.borderRadius = "2px";
-      highlight.style.padding = "2px 2px";
-      highlight.style.margin = "0 1px";
-      range.surroundContents(highlight);
+      const elm = document.createElement("span");
+      elm.style.backgroundColor = label.color;
+      elm.style.borderRadius = "2px";
+      elm.style.padding = "2px 2px";
+      elm.style.margin = "0 1px";
+      range.surroundContents(elm);
+      setHighlightElm(elm);
+    };
 
-      try {
-        const result = await sendToBackground<CreateHighlightRequest>({
-          name: "highlight/save",
-          body: {
-            page: {
-              // build url removed query and fragment
-              url: window.location.origin + window.location.pathname,
-              title: document.title,
-            },
-            highlight: {
-              content,
-              labelId: label.id,
-            },
-          },
-        });
-        if (!result) {
-          highlight.remove();
-          setSelected(null);
-        }
-      } catch {
-        // ハイライトを削除する
-        highlight.remove();
-        setSelected(null);
+    const removeHighlight = () => {
+      if (!highlightElm) {
+        return;
       }
-    },
-    [status],
-  );
 
-  return useMemo(
-    () => [selected, handleChanged] as const,
-    [selected, handleChanged],
-  );
+      highlightElm.remove();
+      setHighlightElm(null);
+    };
+
+    return {
+      setLabel,
+      removeHighlight,
+    };
+  }, [highlightElm]);
+
+  return useMemo(() => [highlight, actions] as const, [highlight, actions]);
 };

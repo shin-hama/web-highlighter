@@ -43,7 +43,7 @@ export async function POST(req: Request) {
     );
   }
 
-  const { page, highlight } = CreateHighlightRequestSchema.parse(
+  const { page, highlight, tag } = CreateHighlightRequestSchema.parse(
     await req.json(),
   );
 
@@ -89,6 +89,22 @@ export async function POST(req: Request) {
       user: {
         connect: {
           id: session.user.id,
+        },
+      },
+      HighlightOnTag: tag && {
+        create: {
+          tag: {
+            connectOrCreate: {
+              where: {
+                userId: session.user.id,
+                name: tag.name,
+              },
+              create: {
+                userId: session.user.id,
+                name: tag.name,
+              },
+            },
+          },
         },
       },
     },

@@ -27,20 +27,13 @@ const TagForm = ({ label }: Props) => {
     };
   }, [tagsAction]);
 
-  {
-    /* タグが増えたら複数行に表示できるようにする */
-  }
+  // TODO: タグが増えたら複数行に表示できるようにする
   return (
-    <div
-      className="whl-flex whl-w-60 whl-flex-row whl-flex-wrap whl-gap-2    "
-    >
+    <div className="whl-flex whl-w-60 whl-flex-row whl-flex-wrap whl-gap-2">
       <LabelButton color={label?.color || "black"} />
       {tags.map((tag) => {
         return (
-          <Badge
-            key={tag}
-            className="whl-text-xs whl-items-center whl-gap-1"
-          >
+          <Badge key={tag} className="whl-items-center whl-gap-1 whl-text-xs">
             {tag}
             <Button variant="ghost" size="icon_xs">
               <XIcon size={12} />
@@ -57,12 +50,9 @@ const TagForm = ({ label }: Props) => {
       >
         <Input
           type="text"
-          placeholder="Add a tag"
+          placeholder="Enter tag"
           value={value}
-          onChange={(e) => {
-            console.log(e.target.value);
-            setValue(e.target.value);
-          }}
+          onChange={(e) => setValue(e.target.value)}
         />
       </form>
     </div>

@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import { useEvent } from "react-use";
 
-export const usePopup = () => {
+export const usePopover = () => {
   const [open, setOpen] = useState(false);
   const [pos, setPos] = useState({ x: 100, y: 100 });
 

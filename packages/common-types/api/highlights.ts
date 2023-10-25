@@ -12,6 +12,11 @@ export const CreateHighlightRequestSchema = z.object({
     url: z.string(),
     title: z.string(),
   }),
+  tag: z
+    .object({
+      name: z.string(),
+    })
+    .optional(),
   highlight: HighlightDTO,
 });
 
