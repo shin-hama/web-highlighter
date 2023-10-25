@@ -1,5 +1,6 @@
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import { sendToBackground } from "@plasmohq/messaging";
+import { useList } from "react-use";
 
 import type { CreateHighlightRequest } from "@whl/common-types";
 import { Card } from "@whl/ui/components/ui/card";
@@ -12,6 +13,7 @@ import {
 import { useHighlight } from "~/contents/hooks/useLabel";
 import { usePopover } from "~/contents/hooks/usePopover";
 import { useSession } from "~/hooks/useSession";
+import LabelButton from "./LabelButton";
 import Labels from "./Labels";
 import TagForm from "./TagForm";
 
@@ -19,6 +21,13 @@ const ContextMenu = () => {
   const [highlight, { setLabel, removeHighlight }] = useHighlight();
   const { open, pos } = usePopover();
   const { status } = useSession();
+  const [tags, tagsAction] = useList<string>([]);
+
+  useEffect(() => {
+    return () => {
+      tagsAction.clear();
+    };
+  }, [tagsAction]);
 
   const handleClose = useCallback(async () => {
     // Label と Tag を作成する
@@ -38,6 +47,7 @@ const ContextMenu = () => {
             content: highlight.content,
             labelId: highlight.label.id,
           },
+          tags: tags.map((tag) => ({ name: tag })),
         },
       });
       if (!result) {
@@ -47,7 +57,7 @@ const ContextMenu = () => {
       // ハイライトを削除する
       removeHighlight();
     }
-  }, [highlight, removeHighlight]);
+  }, [highlight, removeHighlight, tags]);
 
   if (status !== "authenticated" || !open) {
     return <></>;
@@ -80,8 +90,11 @@ const ContextMenu = () => {
           }}
         >
           <div className="whl-p-2">
-            {!highlight ? (
-              <TagForm label={highlight} />
+            {highlight ? (
+              <div className="whl-flex whl-w-60 whl-flex-row whl-flex-wrap whl-gap-2">
+                <LabelButton color={highlight.label.color} />
+                <TagForm tags={tags} onChangeTag={tagsAction.push} />
+              </div>
             ) : (
               <Labels onChanged={setLabel} />
             )}

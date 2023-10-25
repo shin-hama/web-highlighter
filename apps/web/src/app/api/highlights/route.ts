@@ -43,19 +43,21 @@ export async function POST(req: Request) {
     );
   }
 
-  const { page, highlight, tag } = CreateHighlightRequestSchema.parse(
+  const { page, highlight, tags } = CreateHighlightRequestSchema.parse(
     await req.json(),
   );
 
+  // pageOnUser.updatedAt を更新したいので個別に upsert している
   const data = await prisma.pageOnUser.upsert({
     where: {
       userId_pageId: {
         userId: session.user.id,
+        // URL に含まれる文字の影響をなくすためにハッシュ化する
         pageId: crypto.createHash("MD5").update(page.url).digest("hex"),
       },
     },
     update: {
-      userId: session.user.id, // Required to update updatedAt field on pageOnUser
+      userId: session.user.id, // To update updatedAt, any field is required
     },
     create: {
       user: {
@@ -91,21 +93,24 @@ export async function POST(req: Request) {
           id: session.user.id,
         },
       },
-      HighlightOnTag: tag && {
-        create: {
+      HighlightOnTag: tags && {
+        create: tags.map((tag) => ({
           tag: {
             connectOrCreate: {
               where: {
-                userId: session.user.id,
                 name: tag.name,
               },
               create: {
-                userId: session.user.id,
                 name: tag.name,
+                user: {
+                  connect: {
+                    id: session.user.id,
+                  },
+                },
               },
             },
           },
-        },
+        })),
       },
     },
   });

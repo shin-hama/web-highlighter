@@ -14,14 +14,14 @@ const handler: PlasmoMessaging.MessageHandler<
     return;
   }
 
-  const { page, highlight, tag } = req.body;
+  const { page, highlight, tags } = req.body;
 
   const result = await fetch(`${APP_HOST}/api/highlights`, {
     method: "POST",
     body: JSON.stringify({
       page,
       highlight,
-      tag,
+      tags,
     }),
   });
 
