@@ -1,9 +1,8 @@
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { sendToBackground } from "@plasmohq/messaging";
 import { useList } from "react-use";
 
 import type { CreateHighlightRequest } from "@whl/common-types";
-import { Card } from "@whl/ui/components/ui/card";
 import {
   Popover,
   PopoverAnchor,
@@ -13,7 +12,6 @@ import {
 import { useHighlight } from "~/contents/hooks/useLabel";
 import { usePopover } from "~/contents/hooks/usePopover";
 import { useSession } from "~/hooks/useSession";
-import LabelButton from "./LabelButton";
 import Labels from "./Labels";
 import TagForm from "./TagForm";
 
@@ -22,6 +20,7 @@ const ContextMenu = () => {
   const { open, pos } = usePopover();
   const { status } = useSession();
   const [tags, tagsAction] = useList<string>([]);
+  const anchor = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     return () => {
@@ -56,10 +55,12 @@ const ContextMenu = () => {
     } catch {
       // ハイライトを削除する
       removeHighlight();
+    } finally {
+      tagsAction.clear();
     }
-  }, [highlight, removeHighlight, tags]);
+  }, [highlight, removeHighlight, tags, tagsAction]);
 
-  if (status !== "authenticated" || !open) {
+  if (status !== "authenticated") {
     return <></>;
   }
 
@@ -68,12 +69,13 @@ const ContextMenu = () => {
       open={open}
       onOpenChange={(open) => {
         if (!open) {
-          handleClose;
+          handleClose().then().catch(console.error);
         }
       }}
     >
-      <PopoverAnchor>
+      <PopoverAnchor asChild>
         <div
+          ref={anchor}
           className={"whl-absolute whl-z-50"}
           // tailwind を使うと動的に位置を変更できなかったので、style で指定
           style={{
@@ -82,24 +84,21 @@ const ContextMenu = () => {
           }}
         />
       </PopoverAnchor>
-      <PopoverContent>
-        <Card
-          onMouseUp={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-          }}
-        >
-          <div className="whl-p-2">
-            {highlight ? (
-              <div className="whl-flex whl-w-60 whl-flex-row whl-flex-wrap whl-gap-2">
-                <LabelButton color={highlight.label.color} />
-                <TagForm tags={tags} onChangeTag={tagsAction.push} />
-              </div>
-            ) : (
-              <Labels onChanged={setLabel} />
-            )}
-          </div>
-        </Card>
+      <PopoverContent
+        className="whl-p-0"
+        onMouseUp={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+        }}
+      >
+        <div className="whl-p-2">
+          <Labels onChanged={setLabel} />
+          {highlight && (
+            <div className="whl-w-60">
+              <TagForm tags={tags} onChangeTag={tagsAction.push} />
+            </div>
+          )}
+        </div>
       </PopoverContent>
     </Popover>
   );
