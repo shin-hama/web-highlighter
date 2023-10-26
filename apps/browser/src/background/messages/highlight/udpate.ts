@@ -1,12 +1,18 @@
 import type { PlasmoMessaging } from "@plasmohq/messaging";
 
-import type { CreateHighlightRequest } from "@whl/common-types";
+import type {
+  CreateHighlightOnTagRequest,
+  SpecifiedHighlightRouteParam,
+} from "@whl/common-types";
 import type { Highlight } from "@whl/db";
 
 import { APP_HOST } from "~/lib/config";
 
+type UpdateHighlightRequest = CreateHighlightOnTagRequest &
+  SpecifiedHighlightRouteParam;
+
 const handler: PlasmoMessaging.MessageHandler<
-  CreateHighlightRequest,
+  UpdateHighlightRequest,
   Highlight
 > = async (req, res) => {
   if (!req.body) {
@@ -14,14 +20,12 @@ const handler: PlasmoMessaging.MessageHandler<
     return;
   }
 
-  const { page, highlight, tags } = req.body;
+  const { id, tag } = req.body;
 
-  const result = await fetch(`${APP_HOST}/api/highlights`, {
-    method: "POST",
+  const result = await fetch(`${APP_HOST}/api/highlights/${id}`, {
+    method: "PUT",
     body: JSON.stringify({
-      page,
-      highlight,
-      tags,
+      tag,
     }),
   });
 

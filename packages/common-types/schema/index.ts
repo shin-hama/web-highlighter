@@ -7,17 +7,27 @@ export type HighlightWithLabelAndPage = Prisma.HighlightGetPayload<{
   };
 }>;
 
-export type HighlightWithLabel = Prisma.HighlightGetPayload<{
+export type HighlightWithLabelAndTag = Prisma.HighlightGetPayload<{
   include: {
     label: true;
+    HighlightOnTag: {
+      include: {
+        tag: true;
+      };
+    };
   };
 }>;
 
-export type PageWithHighlightsWithLabel = Prisma.PageGetPayload<{
+export type PageWithHighlightsWithLabelAndTag = Prisma.PageGetPayload<{
   include: {
     highlights: {
       include: {
         label: true;
+        HighlightOnTag: {
+          include: {
+            tag: true;
+          };
+        };
       };
     };
   };
@@ -31,6 +41,11 @@ export type PageOnUserWithPageWithHighlightsWithLabel =
           highlights: {
             include: {
               label: true;
+              HighlightOnTag: {
+                include: {
+                  tag: true;
+                };
+              };
             };
           };
         };

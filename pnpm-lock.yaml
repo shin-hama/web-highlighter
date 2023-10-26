@@ -50,6 +50,9 @@ importers:
       '@whl/ui':
         specifier: workspace:*
         version: link:../../packages/ui
+      lucide-react:
+        specifier: ^0.274.0
+        version: 0.274.0(react@18.2.0)
       plasmo:
         specifier: 0.83.0
         version: 0.83.0(postcss@8.4.28)(react-dom@18.2.0)(react@18.2.0)

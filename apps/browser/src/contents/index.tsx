@@ -1,4 +1,9 @@
+// for shadow dom
 import cssText from "data-text:@whl/ui/app/globals.css";
+
+// for root dom to use popper
+import "@whl/ui/app/globals.css";
+
 import type { PlasmoCSConfig, PlasmoGetStyle } from "plasmo";
 
 import { APP_HOST } from "~/lib/config";
