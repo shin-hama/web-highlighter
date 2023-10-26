@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { HomeIcon, List } from "lucide-react";
+import { HomeIcon } from "lucide-react";
 
 import { Button } from "@whl/ui/components/ui/button";
 import { cn } from "@whl/ui/lib/utils";
