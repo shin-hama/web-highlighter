@@ -1,4 +1,5 @@
-import { List } from "lucide-react";
+import Image from "next/image";
+import { HomeIcon, List } from "lucide-react";
 
 import { Button } from "@whl/ui/components/ui/button";
 import { cn } from "@whl/ui/lib/utils";
@@ -15,18 +16,12 @@ const Sidebar = ({ className }: React.HTMLAttributes<HTMLDivElement>) => {
       )}
     >
       <div className="whl-h-full">
-        <div className="whl-flex whl-h-full whl-flex-col whl-space-y-6">
-          <h1 className="whl-px-4 whl-font-mono whl-text-4xl whl-font-bold">
-            Highlighter
-          </h1>
+        <div className="whl-flex whl-h-full whl-flex-col whl-items-center whl-space-y-6">
+          <Image src="/icon.svg" width={48} height={48} alt="Logo Image" />
           <div className="whl-flex whl-h-full whl-flex-col whl-justify-between">
             <div className="whl-flex whl-flex-col whl-space-y-1">
-              <Button
-                variant="ghost"
-                className="whl-justify-start whl-rounded-none"
-              >
-                <List size={24} color="white" />
-                Dashboard
+              <Button variant="ghost" className="whl-rounded-none">
+                <HomeIcon size={24} />
               </Button>
             </div>
             <div className="whl-flex whl-flex-col whl-space-y-1">
