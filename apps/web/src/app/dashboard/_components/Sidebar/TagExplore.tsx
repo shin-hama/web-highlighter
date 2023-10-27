@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { ScrollArea } from "@ui/components/ui/scroll-area";
 import { SearchIcon } from "lucide-react";
 
 import { Input } from "@whl/ui/components/ui/input";
@@ -41,11 +42,11 @@ const TagExplore = () => {
   return (
     <div className="whl-h-full whl-w-48 whl-bg-primary whl-px-4 whl-pb-4 whl-pt-2 whl-text-primary-foreground">
       <div className="whl-h-full">
-        <div className="whl-flex whl-h-full whl-flex-col whl-items-center whl-space-y-6">
+        <div className="whl-flex whl-h-full whl-flex-col whl-items-center whl-space-y-6 whl-overflow-hidden">
           <h1 className="whl-px-4 whl-font-mono whl-text-2xl whl-font-bold">
             Dashboard
           </h1>
-          <div className="whl-flex whl-flex-col whl-gap-4">
+          <div className="whl-flex whl-flex-grow whl-flex-col whl-gap-4 whl-overflow-hidden">
             <div className="whl-w-fit">
               <Input
                 icon={<SearchIcon size={16} />}
@@ -55,19 +56,21 @@ const TagExplore = () => {
                 onChange={(e) => setQuery(e.target.value)}
               />
             </div>
-            <div className="whl-flex whl-flex-col whl-gap-1">
-              {tags
-                .filter((tag) => tag.includes(query))
-                .map((tag, i) => (
-                  <Toggle
-                    key={`${tag}-${i}`}
-                    size="xs"
-                    className="whl-justify-start"
-                  >
-                    # {tag}
-                  </Toggle>
-                ))}
-            </div>
+            <ScrollArea>
+              <div className="whl-flex whl-flex-col whl-gap-1">
+                {tags
+                  .filter((tag) => tag.includes(query))
+                  .map((tag, i) => (
+                    <Toggle
+                      key={`${tag}-${i}`}
+                      size="xs"
+                      className="whl-justify-start"
+                    >
+                      # {tag}
+                    </Toggle>
+                  ))}
+              </div>
+            </ScrollArea>
           </div>
         </div>
       </div>
