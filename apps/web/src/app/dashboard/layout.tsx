@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-import TagExplore from "./_components/Sidebar/TagExplore";
+import DashboardSidebar from "./_components/Sidebar/DashboardSidebar";
 
 export const metadata: Metadata = {
   title: "Highlighter Dashboard",
@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: JSX.Element }) {
   return (
     <div className="whl-flex whl-h-full whl-flex-row">
-      <TagExplore />
+      <DashboardSidebar />
       {children}
     </div>
   );
