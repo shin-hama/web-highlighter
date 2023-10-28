@@ -21,23 +21,17 @@ export const getPages = async ({
   try {
     const result = await prisma.pageOnUser.findMany({
       where: {
-        AND: {
-          userId,
-          page: {
-            highlights: {
-              some: {
-                labelId: {
-                  in: filter?.labels,
-                },
-              },
-            },
-          },
-        },
+        userId,
       },
       include: {
         page: {
           include: {
             highlights: {
+              where: {
+                labelId: {
+                  in: filter?.labels,
+                },
+              },
               include: {
                 label: true,
                 HighlightOnTag: {

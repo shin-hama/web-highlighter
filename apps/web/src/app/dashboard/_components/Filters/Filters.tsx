@@ -1,5 +1,5 @@
 import { getLabels } from "~/lib/labels";
-import FilteredTags from "./FilteredTags";
+import FilteredTags from "./TagFilter";
 import LabelFilter from "./LabelFilter";
 
 interface Props {
