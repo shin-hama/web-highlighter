@@ -8,12 +8,23 @@ import type { Tag } from "@whl/db";
 import { Input } from "@whl/ui/components/ui/input";
 import { Toggle } from "@whl/ui/components/ui/toggle";
 
+import { useTagFilter } from "../../_context/TagFilterContext";
+
 interface Props {
   tags: Tag[];
 }
 
 const TagExplore = ({ tags }: Props) => {
   const [query, setQuery] = useState("");
+  const [selectedTags, setSelectedTags] = useTagFilter();
+
+  const handleChanged = (tag: Tag) => (selected: boolean) => {
+    if (selected) {
+      setSelectedTags.push(tag);
+    } else {
+      setSelectedTags.removeAt(selectedTags.indexOf(tag));
+    }
+  };
 
   return (
     <div className="whl-flex whl-flex-grow whl-flex-col whl-gap-4 whl-overflow-hidden">
@@ -31,7 +42,13 @@ const TagExplore = ({ tags }: Props) => {
           {tags
             .filter((tag) => tag.name.includes(query))
             .map((tag) => (
-              <Toggle key={tag.id} size="xs" className="whl-justify-start">
+              <Toggle
+                key={tag.id}
+                size="xs"
+                className="whl-justify-start"
+                pressed={selectedTags.includes(tag)}
+                onPressedChange={handleChanged(tag)}
+              >
                 # {tag.name}
               </Toggle>
             ))}
