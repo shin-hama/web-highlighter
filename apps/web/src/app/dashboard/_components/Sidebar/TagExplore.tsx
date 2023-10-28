@@ -46,7 +46,7 @@ const TagExplore = ({ tags }: Props) => {
                 key={tag.id}
                 size="xs"
                 className="whl-justify-start"
-                pressed={selectedTags.includes(tag)}
+                pressed={selectedTags.some((value) => value.id === tag.id)}
                 onPressedChange={handleChanged(tag)}
               >
                 # {tag.name}
