@@ -36,6 +36,7 @@ export default {
           "700": "hsl(var(--primary-700))",
           "800": "hsl(var(--primary-800))",
           "900": "hsl(var(--primary-900))",
+          "950": "hsl(var(--primary-950))",
           foreground: "hsl(var(--primary-foreground))",
         },
         secondary: {

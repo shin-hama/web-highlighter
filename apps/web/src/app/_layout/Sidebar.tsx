@@ -12,7 +12,7 @@ const Sidebar = ({ className }: React.HTMLAttributes<HTMLDivElement>) => {
   return (
     <div
       className={cn(
-        "whl-bg-primary-900 whl-h-full whl-pb-4 whl-pt-2 whl-text-primary-foreground",
+        "whl-h-full whl-bg-primary whl-pb-4 whl-pt-2 whl-text-primary-foreground",
         className,
       )}
     >
@@ -24,7 +24,7 @@ const Sidebar = ({ className }: React.HTMLAttributes<HTMLDivElement>) => {
               <Toggle
                 size="lg"
                 pressed
-                className="whl-rounded-none data-[state=on]:whl-bg-primary data-[state=on]:whl-text-primary-foreground"
+                className="whl-rounded-none data-[state=on]:whl-bg-primary-950 data-[state=on]:whl-text-primary-foreground"
               >
                 <HomeIcon size={24} />
               </Toggle>

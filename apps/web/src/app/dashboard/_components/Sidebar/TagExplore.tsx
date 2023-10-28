@@ -32,7 +32,7 @@ const TagExplore = ({ tags }: Props) => {
         <Input
           icon={<SearchIcon size={16} />}
           placeholder="Search tags..."
-          className="whl-border-muted-foreground whl-bg-primary"
+          className="whl-border-muted-foreground whl-bg-transparent"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
         />
