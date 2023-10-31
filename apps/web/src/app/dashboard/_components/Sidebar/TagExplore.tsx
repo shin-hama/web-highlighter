@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { Badge } from "@ui/components/ui/badge";
 import { ScrollArea } from "@ui/components/ui/scroll-area";
 import { SearchIcon } from "lucide-react";
 
@@ -50,8 +51,10 @@ const TagExplore = ({ tags }: Props) => {
                 pressed={selectedTags.some((value) => value.id === tag.id)}
                 onPressedChange={handleChanged(tag)}
               >
-                <p># {tag.name}</p>
-                <p>{tag._count.HighlightOnTag}</p>
+                # {tag.name}
+                <Badge className="whl-rounded-sm">
+                  {tag._count.HighlightOnTag}
+                </Badge>
               </Toggle>
             ))}
         </div>
