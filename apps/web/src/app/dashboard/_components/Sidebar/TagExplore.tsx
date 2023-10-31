@@ -1,9 +1,11 @@
 "use client";
 
 import React, { useState } from "react";
+import { Badge } from "@ui/components/ui/badge";
 import { ScrollArea } from "@ui/components/ui/scroll-area";
 import { SearchIcon } from "lucide-react";
 
+import type { TagWithCountOfHighlights } from "@whl/common-types";
 import type { Tag } from "@whl/db";
 import { Input } from "@whl/ui/components/ui/input";
 import { Toggle } from "@whl/ui/components/ui/toggle";
@@ -11,7 +13,7 @@ import { Toggle } from "@whl/ui/components/ui/toggle";
 import { useTagFilter } from "../../_context/TagFilterContext";
 
 interface Props {
-  tags: Tag[];
+  tags: TagWithCountOfHighlights[];
 }
 
 const TagExplore = ({ tags }: Props) => {
@@ -45,11 +47,14 @@ const TagExplore = ({ tags }: Props) => {
               <Toggle
                 key={tag.id}
                 size="xs"
-                className="whl-justify-start"
+                className="whl-justify-between"
                 pressed={selectedTags.some((value) => value.id === tag.id)}
                 onPressedChange={handleChanged(tag)}
               >
                 # {tag.name}
+                <Badge className="whl-rounded-sm">
+                  {tag._count.HighlightOnTag}
+                </Badge>
               </Toggle>
             ))}
         </div>
