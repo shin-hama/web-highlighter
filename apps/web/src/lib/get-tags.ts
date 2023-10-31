@@ -11,5 +11,12 @@ export const getTags = async (userId: string) => {
         equals: userId,
       },
     },
+    include: {
+      _count: {
+        select: {
+          HighlightOnTag: true,
+        },
+      },
+    },
   });
 };

@@ -52,3 +52,13 @@ export type PageOnUserWithPageWithHighlightsWithLabel =
       };
     };
   }>;
+
+export type TagWithCountOfHighlights = Prisma.TagGetPayload<{
+  include: {
+    _count: {
+      select: {
+        HighlightOnTag: true;
+      };
+    };
+  };
+}>;

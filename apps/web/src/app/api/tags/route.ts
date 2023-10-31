@@ -15,9 +15,17 @@ export async function GET() {
     );
   }
 
+  // tag の一覧と、タグに紐づく記事の数を返す
   const result = await prisma.tag.findMany({
     where: {
       userId: session.user.id,
+    },
+    include: {
+      _count: {
+        select: {
+          HighlightOnTag: true,
+        },
+      },
     },
   });
 
