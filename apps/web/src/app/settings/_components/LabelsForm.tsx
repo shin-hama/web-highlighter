@@ -18,7 +18,18 @@ import { Input } from "@whl/ui/components/ui/input";
 const LabelsFormSchema = z.object({
   labels: z.array(
     z.object({
-      name: z.string(),
+      name: z
+        .string()
+        .max(128, { message: "Name can only be 128 characters long" })
+        .refine(
+          (value) =>
+            /^[\w\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}\p{Script=Hangul}-]*$/u.test(
+              value,
+            ),
+          {
+            message: "Name can only contain alphanumeric characters, -, _",
+          },
+        ),
       color: z.string(),
       id: z.string(),
     }),
