@@ -8,6 +8,7 @@ interface HighlightedContent {
 }
 
 interface Actions {
+  init: () => void;
   setLabel: (label: Label) => void;
   removeHighlight: () => void;
 }
@@ -20,6 +21,11 @@ export const useHighlight = (): readonly [
   const [highlightElm, setHighlightElm] = useState<HTMLElement | null>(null);
 
   const actions = useMemo<Actions>(() => {
+    const init = () => {
+      setSelected(null);
+      setHighlightElm(null);
+    };
+
     const setLabel = (label: Label) => {
       const selection = window.getSelection();
       if (!selection) {
@@ -54,6 +60,7 @@ export const useHighlight = (): readonly [
     };
 
     return {
+      init,
       setLabel,
       removeHighlight,
     };

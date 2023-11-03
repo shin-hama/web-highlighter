@@ -1,8 +1,7 @@
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { sendToBackground } from "@plasmohq/messaging";
-import { useList } from "react-use";
 
-import type { CreateHighlightRequest } from "@whl/common-types";
+import type { CreateHighlightRequest, TagDTO } from "@whl/common-types";
 import {
   Popover,
   PopoverAnchor,
@@ -16,49 +15,53 @@ import Labels from "./Labels";
 import TagForm from "./TagForm";
 
 const ContextMenu = () => {
-  const [highlight, { setLabel, removeHighlight }] = useHighlight();
+  const [highlight, { init, setLabel, removeHighlight }] = useHighlight();
   const { open, pos } = usePopover();
   const { status } = useSession();
-  const [tags, tagsAction] = useList<string>([]);
+  const [tags, setTags] = useState<TagDTO[]>([]);
   const anchor = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    return () => {
-      tagsAction.clear();
-    };
-  }, [tagsAction]);
+    if (!open) {
+      setTags([]);
+      init();
+    }
+  }, [init, open]);
 
-  const handleClose = useCallback(async () => {
+  const handleClose = useCallback(() => {
+    setTags([]);
+
     // Label と Tag を作成する
     if (!highlight) {
       return;
     }
-    try {
-      const result = await sendToBackground<CreateHighlightRequest>({
-        name: "highlight/save",
-        body: {
-          page: {
-            // build url removed query and fragment
-            url: window.location.origin + window.location.pathname,
-            title: document.title,
-          },
-          highlight: {
-            content: highlight.content,
-            labelId: highlight.label.id,
-          },
-          tags: tags.map((tag) => ({ name: tag })),
+
+    sendToBackground<CreateHighlightRequest>({
+      name: "highlight/save",
+      body: {
+        page: {
+          // build url removed query and fragment
+          url: window.location.origin + window.location.pathname,
+          title: document.title,
         },
-      });
-      if (!result) {
+        highlight: {
+          content: highlight.content,
+          labelId: highlight.label.id,
+        },
+        tags: tags,
+      },
+    })
+      .then((result) => {
+        if (!result) {
+          removeHighlight();
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+        // ハイライトを削除する
         removeHighlight();
-      }
-    } catch {
-      // ハイライトを削除する
-      removeHighlight();
-    } finally {
-      tagsAction.clear();
-    }
-  }, [highlight, removeHighlight, tags, tagsAction]);
+      });
+  }, [highlight, removeHighlight, tags]);
 
   if (status !== "authenticated") {
     return <></>;
@@ -69,7 +72,7 @@ const ContextMenu = () => {
       open={open}
       onOpenChange={(open) => {
         if (!open) {
-          handleClose().then().catch(console.error);
+          handleClose();
         }
       }}
     >
@@ -85,19 +88,15 @@ const ContextMenu = () => {
         />
       </PopoverAnchor>
       <PopoverContent
-        className="whl-p-0"
+        className="whl-w-auto whl-max-w-xs whl-p-0"
         onMouseUp={(e) => {
           e.preventDefault();
           e.stopPropagation();
         }}
       >
-        <div className="whl-p-2">
+        <div className="whl-flex whl-flex-col whl-gap-2 whl-p-2">
           <Labels onChanged={setLabel} />
-          {highlight && (
-            <div className="whl-w-60">
-              <TagForm tags={tags} onChangeTag={tagsAction.push} />
-            </div>
-          )}
+          {highlight && <TagForm tags={tags} onChangeTags={setTags} />}
         </div>
       </PopoverContent>
     </Popover>
