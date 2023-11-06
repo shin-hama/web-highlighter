@@ -6,12 +6,9 @@ import {
   CardTitle,
 } from "@whl/ui/components/ui/card";
 
-import { getLabels } from "~/lib/labels";
 import LabelsForm from "./_components/LabelsForm";
 
-const Settings = async () => {
-  const labels = await getLabels();
-
+const Settings = () => {
   return (
     <div className="whl-container whl-flex whl-flex-col whl-gap-4 whl-py-8">
       <Card>
@@ -22,7 +19,7 @@ const Settings = async () => {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <LabelsForm labels={labels} />
+          <LabelsForm />
         </CardContent>
       </Card>
     </div>
