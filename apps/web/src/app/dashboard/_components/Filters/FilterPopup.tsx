@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import type { PropsWithChildren } from "react";
 
 import { Checkbox } from "@whl/ui/components/ui/checkbox";
@@ -35,6 +35,10 @@ const FilterPopover = ({
   onClose,
 }: PropsWithChildren<Props>) => {
   const [selected, setSelected] = useState<Item[]>(defaultSelected ?? []);
+
+  useEffect(() => {
+    setSelected(defaultSelected ?? []);
+  }, [defaultSelected]);
 
   const handleOpenChange = useCallback(
     (open: boolean) => {
