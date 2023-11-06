@@ -40,11 +40,11 @@ type LabelsForm = z.infer<typeof LabelsFormSchema>;
 interface Props {
   labels: Label[];
 }
-const LabelsForm = ({ labels }: Props) => {
+const LabelsForm = ({ labels: orgLabels }: Props) => {
   const form = useForm<LabelsForm>({
     resolver: zodResolver(LabelsFormSchema),
     defaultValues: {
-      labels: labels.map((label) => ({
+      labels: orgLabels.map((label) => ({
         ...label,
         name: label.name ?? "",
       })),
@@ -53,8 +53,23 @@ const LabelsForm = ({ labels }: Props) => {
 
   const { formState } = form;
 
-  const handleSubmit = (values: LabelsForm) => {
-    console.log(values);
+  const handleSubmit = ({ labels }: LabelsForm) => {
+    Promise.all(
+      labels.map(async (label) => {
+        const org = orgLabels.find((orgLabel) => orgLabel.id === label.id);
+        if (org !== undefined && org.name !== label.name) {
+          await fetch(`/api/labels/${label.id}`, {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(label),
+          });
+        }
+      }),
+    )
+      .then(console.log)
+      .catch(console.error);
   };
 
   return (
@@ -63,7 +78,7 @@ const LabelsForm = ({ labels }: Props) => {
         onSubmit={form.handleSubmit(handleSubmit)}
         className="whl-space-y-2"
       >
-        {labels.map((label, i) => (
+        {orgLabels.map((label, i) => (
           <FormField
             key={label.id}
             control={form.control}

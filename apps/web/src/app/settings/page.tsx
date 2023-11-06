@@ -10,7 +10,6 @@ import { getLabels } from "~/lib/labels";
 import LabelsForm from "./_components/LabelsForm";
 
 const Settings = async () => {
-  console.log("settings");
   const labels = await getLabels();
 
   return (
