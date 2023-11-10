@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 
 import { getServerAuthSession } from "@whl/auth";
-import type { HighlightWithLabelAndPage } from "@whl/common-types";
+import type { HighlightWithLabelAndPageAndTag } from "@whl/common-types";
 import { CreateHighlightRequestSchema } from "@whl/common-types";
 import { prisma } from "@whl/db";
 
@@ -28,16 +28,22 @@ export async function GET(req: Request) {
     Object.fromEntries(searchParams),
   );
 
-  const result: HighlightWithLabelAndPage[] = await prisma.highlight.findMany({
-    where: {
-      userId: session.user.id,
-      pageId,
-    },
-    include: {
-      label: true,
-      page: true,
-    },
-  });
+  const result: HighlightWithLabelAndPageAndTag[] =
+    await prisma.highlight.findMany({
+      where: {
+        userId: session.user.id,
+        pageId,
+      },
+      include: {
+        label: true,
+        page: true,
+        HighlightOnTag: {
+          include: {
+            tag: true,
+          },
+        },
+      },
+    });
 
   return NextResponse.json(result);
 }

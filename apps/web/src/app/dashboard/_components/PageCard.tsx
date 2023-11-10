@@ -5,7 +5,10 @@ import Image from "next/image";
 import { ExternalLink } from "lucide-react";
 import useSWR from "swr";
 
-import type { PageWithHighlightsWithLabelAndTag } from "@whl/common-types";
+import type {
+  HighlightWithLabelAndPageAndTag,
+  PageWithHighlightsWithLabelAndTag,
+} from "@whl/common-types";
 import { Button } from "@whl/ui/components/ui/button";
 import {
   Card,
@@ -28,21 +31,26 @@ const PageCard = ({
   const [open, setOpen] = useState(false);
   const [tags] = useTagFilter();
 
+  const { data } = useSWR<HighlightWithLabelAndPageAndTag[]>(
+    `/api/highlights?pageId=${id}`,
+    fetcher,
+    {
+      revalidateOnMount: false,
+    },
+  );
+
   const highlights = useMemo(() => {
-    return _highlights.filter((highlight) => {
+    console.log(data);
+    return (data ?? _highlights).filter((highlight) => {
       return tags.every((tag) =>
         highlight.HighlightOnTag.some((_tag) => _tag.tagId === tag.id),
       );
     });
-  }, [tags]);
+  }, [tags, data]);
 
   if (highlights.length === 0) {
     return <></>;
   }
-
-  const { data } = useSWR(`/api/highlights?pageId=${id}`, fetcher);
-  console.log(data);
-
   return (
     <div className="whl-group/page whl-w-full whl-overflow-hidden">
       <Card
