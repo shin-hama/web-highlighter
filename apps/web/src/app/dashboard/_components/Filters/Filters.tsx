@@ -1,3 +1,4 @@
+import FilteredTags from "./TagFilter";
 import LabelFilter from "./LabelFilter";
 
 interface Props {
@@ -14,6 +15,7 @@ const Filters = ({ filtered }: Props) => {
       <div className="whl-flex whl-flex-row whl-items-center whl-gap-2">
         <LabelFilter selected={filtered?.labels} />
       </div>
+      <FilteredTags />
     </div>
   );
 };
