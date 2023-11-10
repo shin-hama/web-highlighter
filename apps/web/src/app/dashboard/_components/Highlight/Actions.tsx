@@ -1,18 +1,22 @@
 "use client";
 
 import { Trash2 } from "lucide-react";
+import { useSWRConfig } from "swr";
 
 import { Button } from "@whl/ui/components/ui/button";
 
 interface Props {
   id: string;
+  pageId: string;
 }
-export const Actions = ({ id }: Props) => {
+export const Actions = ({ id, pageId }: Props) => {
+  const { mutate } = useSWRConfig();
   const handleRemove = async () => {
-    console.log(`Removing highlight ${id}`);
     await fetch(`/api/highlights/${id}`, {
       method: "DELETE",
     });
+
+    void mutate(`/api/highlights?pageId=${pageId}`);
   };
 
   return (
