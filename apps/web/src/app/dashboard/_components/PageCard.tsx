@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import Image from "next/image";
 import { ExternalLink } from "lucide-react";
 
@@ -13,14 +13,28 @@ import {
   CardTitle,
 } from "@whl/ui/components/ui/card";
 
+import { useTagFilter } from "../_context/TagFilterContext";
 import Highlights from "./Highlights";
 
 const PageCard = ({
   title,
   url,
-  highlights,
+  highlights: _highlights,
 }: PageWithHighlightsWithLabelAndTag) => {
   const [open, setOpen] = useState(false);
+  const [tags] = useTagFilter();
+
+  const highlights = useMemo(() => {
+    return _highlights.filter((highlight) => {
+      return tags.every((tag) =>
+        highlight.HighlightOnTag.some((_tag) => _tag.tagId === tag.id),
+      );
+    });
+  }, [tags]);
+
+  if (highlights.length === 0) {
+    return <></>;
+  }
 
   return (
     <div className="whl-group/page whl-w-full whl-overflow-hidden">

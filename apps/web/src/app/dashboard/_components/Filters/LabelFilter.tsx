@@ -2,6 +2,7 @@
 
 import { useMemo } from "react";
 import { redirect } from "next/navigation";
+import { Badge } from "@ui/components/ui/badge";
 import { Palette } from "lucide-react";
 
 import type { Label } from "@whl/db";
@@ -51,6 +52,9 @@ const LabelFilter = ({ labels, selected }: Props) => {
         <div className="whl-flex whl-flex-row whl-items-center whl-gap-1 whl-font-bold">
           <Palette />
           Label
+          {selected && (
+            <Badge className="whl-rounded-sm whl-px-2">{selected.length}</Badge>
+          )}
         </div>
       </Button>
     </FilterPopover>
