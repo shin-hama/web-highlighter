@@ -1,12 +1,17 @@
 import crypto from "crypto";
 import { NextResponse } from "next/server";
+import { z } from "zod";
 
 import { getServerAuthSession } from "@whl/auth";
 import type { HighlightWithLabelAndPage } from "@whl/common-types";
 import { CreateHighlightRequestSchema } from "@whl/common-types";
 import { prisma } from "@whl/db";
 
-export async function GET() {
+const GetHighlightsRequestSchema = z.object({
+  pageId: z.string().optional(),
+});
+
+export async function GET(req: Request) {
   const session = await getServerAuthSession();
 
   if (!session) {
@@ -18,9 +23,15 @@ export async function GET() {
     );
   }
 
+  const { searchParams } = new URL(req.url);
+  const { pageId } = GetHighlightsRequestSchema.parse(
+    Object.fromEntries(searchParams),
+  );
+
   const result: HighlightWithLabelAndPage[] = await prisma.highlight.findMany({
     where: {
       userId: session.user.id,
+      pageId,
     },
     include: {
       label: true,

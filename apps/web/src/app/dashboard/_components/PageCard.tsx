@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import Image from "next/image";
 import { ExternalLink } from "lucide-react";
+import useSWR from "swr";
 
 import type { PageWithHighlightsWithLabelAndTag } from "@whl/common-types";
 import { Button } from "@whl/ui/components/ui/button";
@@ -16,7 +17,10 @@ import {
 import { useTagFilter } from "../_context/TagFilterContext";
 import Highlights from "./Highlights";
 
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
+
 const PageCard = ({
+  id,
   title,
   url,
   highlights: _highlights,
@@ -35,6 +39,9 @@ const PageCard = ({
   if (highlights.length === 0) {
     return <></>;
   }
+
+  const { data } = useSWR(`/api/highlights?pageId=${id}`, fetcher);
+  console.log(data);
 
   return (
     <div className="whl-group/page whl-w-full whl-overflow-hidden">
