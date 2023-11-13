@@ -1,81 +1,42 @@
-# Turborepo starter
+# Web Highlighter
 
-This is an official starter Turborepo.
+## Deploy
 
-## Using this example
+### web app
 
-Run the following command:
+Vercel にデプロイしているので main ブランチにマージすれば自動でデプロイされる。
+
+### database
+
+database は [PlanetScale](https://planetscale.com/) を使っている。
+PlanetScale で DB の変更をデプロイする際には、GitHub の PR を使ったフローと同じような作業が必要。
+
+まず staging ブランチに DB の変更を Push。
+そして DB の変更を Push する。
 
 ```sh
-npx create-turbo@latest
+pscale connect web-highlighter staging --port 3309
+pnpm db:push
 ```
 
-## What's inside?
+Prisma + PlanetScale を使うときは [migrate ではなく push を使うことが推奨されている](https://planetscale.com/docs/prisma/prisma-quickstart#:~:text=The%20recommended%20workflow%20with%20using%20Prisma%20alongside%20PlanetScale%20is%20to%20use%20prisma%20db%20push%20instead%20of%20prisma%20migrate.%20You%20can%20read%20more%20about%20prisma%20db%20push%20here.)
 
-This Turborepo includes the following packages/apps:
+> The recommended workflow with using Prisma alongside PlanetScale is to use prisma db push instead of prisma migrate. You can read more about prisma db push here.
 
-### Apps and Packages
+Push が完了したら PlanetScale のダッシュボード上で変更を確認して、 Deploy Request を作成する
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `ui`: a stub React component library shared by both `web` and `docs` applications
-- `eslint-config-custom`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `tsconfig`: `tsconfig.json`s used throughout the monorepo
+<https://app.planetscale.com/htysivista/web-highlighter/staging>
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
+Deploy Request 上で Deploy を実行すると、ダウンタイム無しで DB のマイグレーションが実行される。
+こんな感じで PlanetScale 上でマイグレーションを管理する仕組みが整っているため、Prisma のマイグレーションは使う必要がない。
 
-### Utilities
+### browser extension
 
-This Turborepo has some additional tools already setup for you:
+GitHub Actions にデプロイ用のコマンドを用意した
+現在は手動で実行する必要がある
 
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
+<https://github.com/shin-hama/web-highlighter/actions/workflows/publish-browser.yml>
 
-### Build
+ストアのリンクはこちら
 
-To build all apps and packages, run the following command:
-
-```shell
-cd my-turborepo
-pnpm build
-```
-
-### Develop
-
-To develop all apps and packages, run the following command:
-
-```shell
-cd my-turborepo
-pnpm dev
-```
-
-### Remote Caching
-
-Turborepo can use a technique known as [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
-
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup), then enter the following commands:
-
-```shell
-cd my-turborepo
-npx turbo login
-```
-
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
-
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
-
-```shell
-npx turbo link
-```
-
-## Useful Links
-
-Learn more about the power of Turborepo:
-
-- [Tasks](https://turbo.build/repo/docs/core-concepts/monorepos/running-tasks)
-- [Caching](https://turbo.build/repo/docs/core-concepts/caching)
-- [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching)
-- [Filtering](https://turbo.build/repo/docs/core-concepts/monorepos/filtering)
-- [Configuration Options](https://turbo.build/repo/docs/reference/configuration)
-- [CLI Usage](https://turbo.build/repo/docs/reference/command-line-reference)
+- [Chrome](https://chrome.google.com/webstore/detail/web-highlighter/fjphbbbplmoegekelnhpkbkilpjdghdi)
