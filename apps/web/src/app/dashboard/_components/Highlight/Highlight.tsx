@@ -1,3 +1,5 @@
+import { HashIcon } from "lucide-react";
+
 import type { HighlightWithLabelAndTag } from "@whl/common-types";
 import { Badge } from "@whl/ui/components/ui/badge";
 
@@ -7,6 +9,7 @@ const Highlight = ({
   id,
   label,
   content,
+  pageId,
   HighlightOnTag,
 }: HighlightWithLabelAndTag) => {
   return (
@@ -19,12 +22,14 @@ const Highlight = ({
         <span className="">{content}</span>
         <div className="whl-flex whl-flex-row whl-items-center whl-gap-x-1">
           {HighlightOnTag.map(({ tag }) => (
-            <Badge key={tag.id}># {tag.name}</Badge>
+            <Badge key={tag.id}>
+              <HashIcon size={12} /> {tag.name}
+            </Badge>
           ))}
         </div>
       </div>
       <div className="whl-invisible whl-absolute whl-right-2 whl-top-1 group-hover/highlight:whl-visible">
-        <Actions id={id} />
+        <Actions id={id} pageId={pageId} />
       </div>
     </div>
   );

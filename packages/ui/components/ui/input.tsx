@@ -1,20 +1,29 @@
 import * as React from "react";
 import { cn } from "@ui/lib/utils";
 
-export type InputProps = React.InputHTMLAttributes<HTMLInputElement>;
+export type InputProps = React.InputHTMLAttributes<HTMLInputElement> & {
+  icon?: React.ReactNode;
+};
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ className, type, ...props }, ref) => {
+  ({ className, icon, type, ...props }, ref) => {
     return (
-      <input
-        type={type}
+      <div
         className={cn(
-          "whl-flex whl-h-10 whl-w-full whl-rounded-md whl-border whl-border-input whl-bg-background whl-px-3 whl-py-2 whl-font-sans whl-text-sm whl-ring-offset-background file:whl-border-0 file:whl-bg-transparent file:whl-text-sm file:whl-font-medium placeholder:whl-text-muted-foreground focus-visible:whl-outline-none focus-visible:whl-ring-2 focus-visible:whl-ring-ring focus-visible:whl-ring-offset-2 disabled:whl-cursor-not-allowed disabled:whl-opacity-50",
+          "whl-flex whl-h-10 whl-items-center whl-rounded-md whl-border whl-border-input whl-bg-background whl-text-sm whl-ring-offset-background",
           className,
         )}
-        ref={ref}
-        {...props}
-      />
+      >
+        {icon && (
+          <div className="whl-pl-3 whl-text-muted-foreground">{icon}</div>
+        )}
+        <input
+          type={type}
+          ref={ref}
+          {...props}
+          className="whl-w-full whl-bg-transparent whl-px-3 whl-py-2 whl-font-sans file:whl-border-0 file:whl-text-sm file:whl-font-medium placeholder:whl-text-muted-foreground focus-visible:whl-outline-none disabled:whl-cursor-not-allowed disabled:whl-opacity-50 "
+        />
+      </div>
     );
   },
 );

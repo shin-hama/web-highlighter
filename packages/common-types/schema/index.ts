@@ -1,5 +1,17 @@
 import type { Prisma } from "@whl/db";
 
+export type HighlightWithLabelAndPageAndTag = Prisma.HighlightGetPayload<{
+  include: {
+    label: true;
+    page: true;
+    HighlightOnTag: {
+      include: {
+        tag: true;
+      };
+    };
+  };
+}>;
+
 export type HighlightWithLabelAndPage = Prisma.HighlightGetPayload<{
   include: {
     label: true;
@@ -52,3 +64,13 @@ export type PageOnUserWithPageWithHighlightsWithLabel =
       };
     };
   }>;
+
+export type TagWithCountOfHighlights = Prisma.TagGetPayload<{
+  include: {
+    _count: {
+      select: {
+        HighlightOnTag: true;
+      };
+    };
+  };
+}>;

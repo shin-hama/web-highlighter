@@ -2,6 +2,12 @@ import { z } from "zod";
 
 import type { Tag } from "@whl/db";
 
+export const TagDTOSchema = z.object({
+  id: z.string().optional(),
+  name: z.string(),
+});
+export type TagDTO = z.infer<typeof TagDTOSchema>;
+
 export const CreateHighlightOnTagRequestScheme = z.object({
   tag: z.object({
     name: z.string(),

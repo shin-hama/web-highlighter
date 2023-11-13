@@ -1,4 +1,4 @@
-import type { PageOnUserWithPageWithHighlightsWithLabel as PageOnUserWithPageWithHighlightsWithLabelAndTag } from "@whl/common-types";
+import type { PageOnUserWithPageWithHighlightsWithLabel } from "@whl/common-types";
 import { prisma } from "@whl/db";
 
 /**
@@ -17,27 +17,21 @@ export const getPages = async ({
   filter?: {
     labels?: string[];
   };
-}): Promise<PageOnUserWithPageWithHighlightsWithLabelAndTag[]> => {
+}): Promise<PageOnUserWithPageWithHighlightsWithLabel[]> => {
   try {
     const result = await prisma.pageOnUser.findMany({
       where: {
-        AND: {
-          userId,
-          page: {
-            highlights: {
-              some: {
-                labelId: {
-                  in: filter?.labels,
-                },
-              },
-            },
-          },
-        },
+        userId,
       },
       include: {
         page: {
           include: {
             highlights: {
+              where: {
+                labelId: {
+                  in: filter?.labels,
+                },
+              },
               include: {
                 label: true,
                 HighlightOnTag: {

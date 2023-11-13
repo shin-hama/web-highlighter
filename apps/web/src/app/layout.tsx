@@ -6,7 +6,6 @@ import "@whl/ui/app/globals.css";
 
 import { cn } from "@whl/ui/lib/utils";
 
-import Header from "./_layout/Header";
 import Sidebar from "./_layout/Sidebar";
 import Auth from "./_root/Auth";
 import NextAuthProvider from "./_root/providers/NextAuth";
@@ -37,9 +36,6 @@ export default function RootLayout({
                 <Sidebar />
               </nav>
               <div className="whl-flex whl-h-full whl-flex-grow whl-flex-col whl-overflow-hidden">
-                <header>
-                  <Header />
-                </header>
                 <div className="whl-h-full whl-flex-1 whl-overflow-hidden">
                   {children}
                 </div>
