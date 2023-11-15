@@ -1,10 +1,30 @@
 import z from "zod";
 
-import type { Highlight } from "@whl/db";
+import type { Highlight, Position } from "@whl/db";
+
+const PositionDTO = z.object({
+  startTagName: z.string().min(1),
+  startIndex: z.number().min(0),
+  startOffset: z.number().min(0),
+  endTagName: z.string().min(1),
+  endIndex: z.number().min(0),
+  endOffset: z.number().min(0),
+}) satisfies z.ZodType<
+  Pick<
+    Position,
+    | "startTagName"
+    | "startIndex"
+    | "startOffset"
+    | "endTagName"
+    | "endIndex"
+    | "endOffset"
+  >
+>;
 
 const HighlightDTO = z.object({
   content: z.string(),
   labelId: z.string(),
+  position: PositionDTO,
 }) satisfies z.ZodType<Pick<Highlight, "content" | "labelId">>;
 
 export const CreateHighlightRequestSchema = z.object({
