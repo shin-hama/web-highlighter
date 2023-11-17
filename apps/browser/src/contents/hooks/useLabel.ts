@@ -1,24 +1,27 @@
 import { useMemo, useState } from "react";
+import { sendToBackground } from "@plasmohq/messaging";
 
+import type { CreateHighlightRequest } from "@whl/common-types";
 import type { Label } from "@whl/db";
 
-interface HighlightedContent {
-  content: string;
-  label: Label;
-}
+import { usePositionParser } from "./usePositionParser";
 
 interface Actions {
   init: () => void;
   setLabel: (label: Label) => void;
+  save: (tags: { name: string }[]) => void;
   removeHighlight: () => void;
 }
 
 export const useHighlight = (): readonly [
-  HighlightedContent | null,
+  CreateHighlightRequest["highlight"] | null,
   Actions,
 ] => {
-  const [highlight, setSelected] = useState<HighlightedContent | null>(null);
+  const [highlight, setSelected] = useState<
+    CreateHighlightRequest["highlight"] | null
+  >(null);
   const [highlightElm, setHighlightElm] = useState<HTMLElement | null>(null);
+  const { parse } = usePositionParser();
 
   const actions = useMemo<Actions>(() => {
     const init = () => {
@@ -37,7 +40,7 @@ export const useHighlight = (): readonly [
         return;
       }
 
-      setSelected({ content, label });
+      setSelected({ content, labelId: label.id, position: parse(selection) });
 
       // 現在選択されているテキストをハイライトする
       const range = selection.getRangeAt(0);
@@ -59,12 +62,47 @@ export const useHighlight = (): readonly [
       setHighlightElm(null);
     };
 
+    const save = (tags: { name: string }[]) => {
+      // Label と Tag を作成する
+      if (!highlight) {
+        return;
+      }
+
+      sendToBackground<CreateHighlightRequest>({
+        name: "highlight/save",
+        body: {
+          page: {
+            // build url removed query and fragment
+            url: window.location.origin + window.location.pathname,
+            title: document.title,
+          },
+          highlight: {
+            content: highlight.content,
+            labelId: highlight.labelId,
+            position: highlight.position,
+          },
+          tags: tags,
+        },
+      })
+        .then((result) => {
+          if (!result) {
+            removeHighlight();
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+          // ハイライトを削除する
+          removeHighlight();
+        });
+    };
+
     return {
       init,
+      save,
       setLabel,
       removeHighlight,
     };
-  }, [highlightElm]);
+  }, [highlight, highlightElm, parse]);
 
   return useMemo(() => [highlight, actions] as const, [highlight, actions]);
 };

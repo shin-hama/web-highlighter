@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { sendToBackground } from "@plasmohq/messaging";
 
-import type { CreateHighlightRequest, TagDTO } from "@whl/common-types";
+import type { TagDTO } from "@whl/common-types";
 import {
   Popover,
   PopoverAnchor,
@@ -15,7 +14,7 @@ import Labels from "./Labels";
 import TagForm from "./TagForm";
 
 const ContextMenu = () => {
-  const [highlight, { init, setLabel, removeHighlight }] = useHighlight();
+  const [highlight, { init, save, setLabel }] = useHighlight();
   const { open, pos } = usePopover();
   const { status } = useSession();
   const [tags, setTags] = useState<TagDTO[]>([]);
@@ -30,38 +29,8 @@ const ContextMenu = () => {
 
   const handleClose = useCallback(() => {
     setTags([]);
-
-    // Label と Tag を作成する
-    if (!highlight) {
-      return;
-    }
-
-    sendToBackground<CreateHighlightRequest>({
-      name: "highlight/save",
-      body: {
-        page: {
-          // build url removed query and fragment
-          url: window.location.origin + window.location.pathname,
-          title: document.title,
-        },
-        highlight: {
-          content: highlight.content,
-          labelId: highlight.label.id,
-        },
-        tags: tags,
-      },
-    })
-      .then((result) => {
-        if (!result) {
-          removeHighlight();
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-        // ハイライトを削除する
-        removeHighlight();
-      });
-  }, [highlight, removeHighlight, tags]);
+    save(tags);
+  }, [save, tags]);
 
   if (status !== "authenticated") {
     return <></>;

@@ -1,3 +1,4 @@
+import type { HighlightWithLabelAndPositionAndTag } from "schema";
 import { z } from "zod";
 
 export const SpecifiedPageRouteParamSchema = z.object({
@@ -6,3 +7,6 @@ export const SpecifiedPageRouteParamSchema = z.object({
 export type SpecifiedPageRouteParam = z.infer<
   typeof SpecifiedPageRouteParamSchema
 >;
+
+export type GetHighlightsOnAPageResponse =
+  HighlightWithLabelAndPositionAndTag[];

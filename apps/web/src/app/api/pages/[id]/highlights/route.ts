@@ -1,7 +1,8 @@
-import { NextResponse } from "next/server";
-
 import { getServerAuthSession } from "@whl/auth";
-import type { SpecifiedPageRouteParam } from "@whl/common-types";
+import type {
+  GetHighlightsOnAPageResponse,
+  SpecifiedPageRouteParam,
+} from "@whl/common-types";
 import { SpecifiedPageRouteParamSchema } from "@whl/common-types";
 
 import { getHighlightsOnAPage } from "~/lib/get-highlights-on-page";
@@ -18,10 +19,10 @@ export async function GET(
 ) {
   const session = await getServerAuthSession();
   if (session === null) {
-    return NextResponse.json({ msg: "Unauthorized" }, { status: 401 });
+    return Response.json({ msg: "Unauthorized" }, { status: 401 });
   }
   const { id } = SpecifiedPageRouteParamSchema.parse(params);
-  const result = await getHighlightsOnAPage(id);
+  const result: GetHighlightsOnAPageResponse = await getHighlightsOnAPage(id);
 
-  return NextResponse.json(result);
+  return Response.json(result);
 }

@@ -19,6 +19,18 @@ export type HighlightWithLabelAndPage = Prisma.HighlightGetPayload<{
   };
 }>;
 
+export type HighlightWithLabelAndPositionAndTag = Prisma.HighlightGetPayload<{
+  include: {
+    label: true;
+    position: true;
+    HighlightOnTag: {
+      include: {
+        tag: true;
+      };
+    };
+  };
+}>;
+
 export type HighlightWithLabelAndTag = Prisma.HighlightGetPayload<{
   include: {
     label: true;
