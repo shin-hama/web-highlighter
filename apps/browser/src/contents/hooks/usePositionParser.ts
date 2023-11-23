@@ -1,5 +1,3 @@
-"use client";
-
 import { useMemo } from "react";
 
 import type { Position } from "@whl/db";
@@ -40,16 +38,17 @@ export const usePositionParser = (): PositionParser => {
       const startTagName = startNode.parentElement?.tagName;
       const endTagName = endNode.parentElement?.tagName;
 
-      // body 要素内にて何番目かを取得する
-      const startIndex = Array.from(document.body.children).indexOf(
-        startNode.parentElement,
+      // このページに有る全ての startTagName の要素を取得して、その中で startNode が何番目の要素かを取得する
+      const startTagElements = Array.from(
+        document.getElementsByTagName(startTagName),
       );
+      const startIndex = startTagElements.indexOf(startNode.parentElement);
 
-      console.log(endNode.parentElement?.parentElement);
-
-      const endIndex = Array.from(
-        endNode.parentElement?.parentElement?.children ?? [],
-      ).indexOf(endNode.parentElement);
+      // このページに有る全ての endTagName の要素を取得して、その中で endNode が何番目の要素かを取得する
+      const endTagElements = Array.from(
+        document.getElementsByTagName(endTagName),
+      );
+      const endIndex = endTagElements.indexOf(endNode.parentElement);
 
       const startOffset = range.startOffset;
       const endOffset = range.endOffset;
