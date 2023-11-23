@@ -26,7 +26,6 @@ export const usePositionParser = (): PositionParser => {
   const parser = useMemo(() => {
     const parse = (elm: Selection): PositionDTO => {
       const range = elm.getRangeAt(0);
-      console.log(range);
 
       const startNode = range.startContainer;
       const endNode = range.endContainer;

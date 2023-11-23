@@ -11,7 +11,6 @@ interface Props {
   onChangeTags: (tags: TagDTO[]) => void;
 }
 const TagForm = ({ tags, onChangeTags }: Props) => {
-  console.log(tags);
   const [value, setValue] = useState("");
   const handleSetTag = () => {
     if (tags.some((tag) => tag.name === value)) {

@@ -15,6 +15,30 @@ import type {
 } from "@whl/common-types";
 import type { Position } from "@whl/db";
 
+import type { RequestHighlightsOnAPageParams } from "~/background/messages/page/highlights";
+
+function getTextNodesInRange(range: Range) {
+  const textNodes = [];
+  let node;
+
+  const walker = document.createTreeWalker(
+    range.commonAncestorContainer,
+    NodeFilter.SHOW_TEXT,
+    function (node) {
+      return range.intersectsNode(node)
+        ? NodeFilter.FILTER_ACCEPT
+        : NodeFilter.FILTER_REJECT;
+    },
+  );
+
+  while ((node = walker.nextNode())) {
+    if (node.textContent?.trim() !== "") {
+      textNodes.push(node);
+    }
+  }
+
+  return textNodes;
+}
 const HighlightsContext = createContext<
   HighlightWithLabelAndPositionAndTag[] | null
 >(null);
@@ -43,15 +67,31 @@ export const HighlightsProvider = ({ children }: PropsWithChildren) => {
     }
 
     const range = document.createRange();
-    range.setStart(startContainer, position.startOffset);
-    range.setEnd(endContainer, position.endOffset);
+    if (startContainer.lastChild === null || endContainer.lastChild === null) {
+      return;
+    }
+    range.setStart(startContainer.lastChild, position.startOffset);
+    range.setEnd(endContainer.lastChild, position.endOffset);
 
-    const elm = document.createElement("span");
-    elm.style.backgroundColor = color;
-    elm.style.borderRadius = "2px";
-    elm.style.padding = "2px 2px";
-    elm.style.margin = "0 1px";
-    range.surroundContents(elm);
+    const textNodes = getTextNodesInRange(range);
+
+    textNodes.forEach((textNode) => {
+      const nodeRange = document.createRange();
+      nodeRange.selectNodeContents(textNode);
+      if (textNode === range.startContainer) {
+        nodeRange.setStart(textNode, position.startOffset);
+      }
+      if (textNode === range.endContainer) {
+        nodeRange.setEnd(textNode, position.endOffset);
+      }
+
+      const elm = document.createElement("span");
+      elm.style.backgroundColor = color;
+      elm.style.borderRadius = "2px";
+      elm.style.padding = "2px 2px";
+      elm.style.margin = "0 1px";
+      nodeRange.surroundContents(elm);
+    });
   }, []);
 
   useEffect(() => {
@@ -63,12 +103,16 @@ export const HighlightsProvider = ({ children }: PropsWithChildren) => {
   }, [mark, highlights]);
 
   useEffectOnce(() => {
-    sendToBackground<undefined, GetHighlightsOnAPageResponse>({
+    sendToBackground<
+      RequestHighlightsOnAPageParams,
+      GetHighlightsOnAPageResponse
+    >({
       name: "page/highlights",
+      body: {
+        url: window.location.origin + window.location.pathname,
+      },
     })
       .then((results) => {
-        console.log(results);
-
         setHighlights(results);
       })
       .catch(console.error);
