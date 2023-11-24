@@ -1,5 +1,5 @@
 import crypto from "crypto";
-import type { HighlightWithLabelAndPositionAndTag } from "schema";
+import type { HighlightWithLabelAndPositionAndTag } from "../schema";
 import { z } from "zod";
 
 export const SpecifiedPageRouteParamSchema = z.object({
