@@ -8,7 +8,6 @@ const Highlights = () => {
   const [highlights, setHighlights] = useState<HighlightWithLabelAndPage[]>([]);
 
   useEffectOnce(() => {
-    console.log("get all labels");
     sendToBackground<undefined, HighlightWithLabelAndPage[]>({
       name: "highlight/list",
     })

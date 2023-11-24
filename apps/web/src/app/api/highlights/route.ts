@@ -95,6 +95,12 @@ export async function POST(req: Request) {
   const result = await prisma.highlight.create({
     data: {
       content: highlight.content,
+      position: {
+        create: {
+          ...highlight.position,
+          text: highlight.content,
+        },
+      },
       page: {
         connect: {
           id: data.pageId,

@@ -76,10 +76,30 @@ model Highlight {
     page           Page             @relation(fields: [pageId], references: [id], onDelete: Cascade)
     label          Label            @relation(fields: [labelId], references: [id], onDelete: Cascade)
     HighlightOnTag HighlightOnTag[]
+    position       Position?
 
     @@index([userId])
     @@index([pageId])
     @@index([labelId])
+}
+
+// ハイライトの位置情報
+// html のタグ名と、そのタグが html 内の何番目の要素か、その要素の何番目の文字かを保存する
+model Position {
+    id           String    @id @default(cuid())
+    highlightId  String    @unique
+    startTagName String
+    startIndex   Int
+    startOffset  Int
+    endTagName   String
+    endIndex     Int
+    endOffset    Int
+    text         String
+    createdAt    DateTime  @default(now())
+    updatedAt    DateTime  @updatedAt
+    highlight    Highlight @relation(fields: [highlightId], references: [id], onDelete: Cascade)
+
+    @@index([highlightId])
 }
 
 model Page {

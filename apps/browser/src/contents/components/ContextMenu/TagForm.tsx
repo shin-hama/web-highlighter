@@ -11,7 +11,6 @@ interface Props {
   onChangeTags: (tags: TagDTO[]) => void;
 }
 const TagForm = ({ tags, onChangeTags }: Props) => {
-  console.log(tags);
   const [value, setValue] = useState("");
   const handleSetTag = () => {
     if (tags.some((tag) => tag.name === value)) {
@@ -36,7 +35,7 @@ const TagForm = ({ tags, onChangeTags }: Props) => {
   // TODO: タグが増えたら複数行に表示できるようにする
   return (
     <div className="whl-flex whl-flex-col whl-gap-2">
-      {tags.length > 0 && (
+      {tags?.length > 0 && (
         <div className="whl-flex whl-flex-row whl-flex-wrap whl-gap-1">
           {tags.map((tag) => {
             return (
