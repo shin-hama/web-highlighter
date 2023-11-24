@@ -4,32 +4,8 @@ import { sendToBackground } from "@plasmohq/messaging";
 import type { CreateHighlightRequest } from "@whl/common-types";
 import type { Label } from "@whl/db";
 
+import { useMarker } from "./useMarker";
 import { usePositionParser } from "./usePositionParser";
-
-function getTextNodesInRange(range: Range) {
-  const textNodes = [];
-  let node;
-
-  // Create a document traversal object
-  const walker = document.createTreeWalker(
-    range.commonAncestorContainer,
-    NodeFilter.SHOW_TEXT,
-    function (node) {
-      return range.intersectsNode(node)
-        ? NodeFilter.FILTER_ACCEPT
-        : NodeFilter.FILTER_REJECT;
-    },
-  );
-
-  // Iterate over all text nodes in the range
-  while ((node = walker.nextNode())) {
-    if (node.textContent?.trim() !== "") {
-      textNodes.push(node);
-    }
-  }
-
-  return textNodes;
-}
 
 interface Actions {
   init: () => void;
@@ -47,6 +23,7 @@ export const useHighlight = (): readonly [
   >(null);
   const [highlightElm, setHighlightElm] = useState<HTMLElement | null>(null);
   const { parse } = usePositionParser();
+  const { mark } = useMarker();
 
   const actions = useMemo<Actions>(() => {
     const init = () => {
@@ -68,26 +45,7 @@ export const useHighlight = (): readonly [
       setSelected({ content, labelId: label.id, position: parse(selection) });
 
       // 現在選択されているテキストをハイライトする
-      const range = selection.getRangeAt(0);
-      const textNodes = getTextNodesInRange(range);
-
-      textNodes.forEach((textNode) => {
-        const nodeRange = document.createRange();
-        nodeRange.selectNodeContents(textNode);
-        if (textNode === range.startContainer) {
-          nodeRange.setStart(range.startContainer, range.startOffset);
-        } else if (textNode === range.endContainer) {
-          nodeRange.setEnd(range.endContainer, range.endOffset);
-        }
-
-        const elm = document.createElement("span");
-        elm.style.backgroundColor = label.color;
-        elm.style.borderRadius = "2px";
-        elm.style.padding = "2px 2px";
-        elm.style.margin = "0 1px";
-        nodeRange.surroundContents(elm);
-        setHighlightElm(elm);
-      });
+      mark(parse(selection), label.color);
     };
 
     const removeHighlight = () => {
@@ -139,7 +97,7 @@ export const useHighlight = (): readonly [
       setLabel,
       removeHighlight,
     };
-  }, [highlight, highlightElm, parse]);
+  }, [highlight, highlightElm, mark, parse]);
 
   return useMemo(() => [highlight, actions] as const, [highlight, actions]);
 };
