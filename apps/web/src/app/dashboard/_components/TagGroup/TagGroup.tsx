@@ -11,13 +11,9 @@ const TagGroup = async () => {
   const tags = await getTags(session.user.id);
 
   return (
-    <div className="whl-group/tag whl-w-full whl-overflow-hidden">
+    <div className="whl-w-full whl-overflow-hidden">
       {tags.map((tag) => (
-        <TagCard
-          key={tag.id}
-          name={tag.name}
-          count={tag._count.HighlightOnTag}
-        />
+        <TagCard key={tag.id} tag={tag} />
       ))}
     </div>
   );
