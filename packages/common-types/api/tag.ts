@@ -1,3 +1,4 @@
+import type { TagWithCountOfHighlights } from "schema";
 import { z } from "zod";
 
 import type { Tag } from "@whl/db";
@@ -16,3 +17,5 @@ export const CreateHighlightOnTagRequestScheme = z.object({
 export type CreateHighlightOnTagRequest = z.infer<
   typeof CreateHighlightOnTagRequestScheme
 >;
+
+export type GetTagsResponse = TagWithCountOfHighlights[];

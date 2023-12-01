@@ -1,20 +1,19 @@
-import { getServerAuthSession } from "@whl/auth";
+"use client";
 
-import { getTags } from "~/lib/get-tags";
+import useSWR from "swr";
+
+import type { GetTagsResponse } from "@whl/common-types";
+
 import TagCard from "./TagCard";
 
-const TagGroup = async () => {
-  const session = await getServerAuthSession();
-  if (session === null) {
-    return <div>Not logged in</div>;
-  }
-  const tags = await getTags(session.user.id);
+const TagGroup = () => {
+  const { data: tags } = useSWR<GetTagsResponse>("/api/tags", (url: string) =>
+    fetch(url).then((res) => res.json()),
+  );
 
   return (
     <div className="whl-w-full whl-overflow-hidden">
-      {tags.map((tag) => (
-        <TagCard key={tag.id} tag={tag} />
-      ))}
+      {tags?.map((tag) => <TagCard key={tag.id} tag={tag} />)}
     </div>
   );
 };

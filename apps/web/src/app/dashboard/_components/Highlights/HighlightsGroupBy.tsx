@@ -1,4 +1,7 @@
+"use client";
+
 import { ScrollArea } from "@ui/components/ui/scroll-area";
+import { useLocalStorage } from "react-use";
 
 import type { GroupingType } from "~/types";
 import { GROUPING_TYPE } from "~/types";
@@ -7,12 +10,16 @@ import TagGroup from "./TagGroup/TagGroup";
 
 interface Props {
   labels?: string[];
-  grouped?: GroupingType;
 }
-const HighlightsGroupBy = ({ labels, grouped }: Props) => {
+const HighlightsGroupBy = ({ labels }: Props) => {
+  const [grouping] = useLocalStorage<GroupingType>(
+    "grouping",
+    GROUPING_TYPE.page,
+  );
+
   return (
     <ScrollArea className="whl-box-border whl-h-full whl-w-full">
-      {grouped === GROUPING_TYPE.page ? (
+      {grouping === GROUPING_TYPE.page ? (
         <PageList labels={labels} />
       ) : (
         <TagGroup />
