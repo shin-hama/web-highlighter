@@ -1,13 +1,13 @@
 import { DashboardQuerySchema } from "~/types/query";
 import Filters from "./_components/Filters";
-import PageList from "./_components/PageList";
+import HighlightsGroupBy from "./_components/Highlights/HighlightsGroupBy";
 
 const Dashboard = ({
   searchParams,
 }: {
   searchParams: Record<string, string | string[] | undefined>;
 }) => {
-  const { labels } = DashboardQuerySchema.parse(searchParams);
+  const { labels, grouped } = DashboardQuerySchema.parse(searchParams);
   return (
     <div className="whl-flex whl-h-full whl-flex-1 whl-flex-col whl-overflow-hidden">
       <Filters
@@ -16,7 +16,7 @@ const Dashboard = ({
         }}
       />
       <div className="whl-h-full whl-flex-1 whl-overflow-hidden">
-        <PageList labels={labels} />
+        <HighlightsGroupBy labels={labels} grouped={grouped} />
       </div>
     </div>
   );

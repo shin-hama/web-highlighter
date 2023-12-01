@@ -17,8 +17,8 @@ import {
   CardTitle,
 } from "@whl/ui/components/ui/card";
 
-import { useTagFilter } from "../_context/TagFilterContext";
-import Highlights from "./Highlights";
+import { useTagFilter } from "../../../_context/TagFilterContext";
+import Highlights from "../Highlights";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 

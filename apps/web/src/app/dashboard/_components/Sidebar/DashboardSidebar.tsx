@@ -6,10 +6,10 @@ import TagExplore from "./TagExplore";
 
 const DashboardSidebar = async () => {
   const session = await getServerAuthSession();
-
   if (session === null) {
     return <div>Not logged in</div>;
   }
+
   const tags = await getTags(session.user.id);
 
   return (

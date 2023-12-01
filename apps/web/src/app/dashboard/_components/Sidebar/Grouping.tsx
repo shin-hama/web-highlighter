@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { Label } from "@ui/components/ui/label";
 import {
   Select,
@@ -10,6 +9,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@ui/components/ui/select";
+import { useLocalStorage } from "react-use";
 
 import type { GroupingType } from "~/types";
 import { GROUPING_TYPE } from "~/types";
@@ -18,7 +18,10 @@ import { GROUPING_TYPE } from "~/types";
  * ハイライトの一覧をどの項目で Grouping するかを選択するコンポーネント
  */
 const Grouping = () => {
-  const [grouping, setGrouping] = useState<GroupingType>(GROUPING_TYPE.page);
+  const [grouping, setGrouping] = useLocalStorage<GroupingType>(
+    "grouping",
+    GROUPING_TYPE.page,
+  );
 
   return (
     <div className="whl-flex whl-w-full whl-flex-row whl-items-center whl-gap-2">
