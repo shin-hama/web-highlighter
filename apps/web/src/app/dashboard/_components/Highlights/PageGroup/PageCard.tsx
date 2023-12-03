@@ -40,7 +40,6 @@ const PageCard = ({
   );
 
   const highlights = useMemo(() => {
-    console.log(data);
     return (data ?? _highlights).filter((highlight) => {
       return tags.every((tag) =>
         highlight.HighlightOnTag.some((_tag) => _tag.tagId === tag.id),
