@@ -35,16 +35,11 @@ export const useDashboardSettings = (): readonly [
   const actions = useMemo<DashboardSettingsActions>(() => {
     return {
       setGrouping(value) {
-        console.log(value);
         setSettings({ ...settings, grouping: value });
         setGrouping(value);
       },
     };
   }, [setGrouping]);
-
-  useEffect(() => {
-    console.log(settings);
-  }, [settings]);
 
   return [settings, actions] as const;
 };

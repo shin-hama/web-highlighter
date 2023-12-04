@@ -13,7 +13,6 @@ const HighlightsGroupBy = () => {
   const [component, setComponent] = useState<JSX.Element | null>(null);
 
   useEffect(() => {
-    console.log(settings.grouping);
     // Hydration Error が発生するため useEffect でコンポーネントをセットする
     if (settings.grouping === GROUPING_TYPE.tag) {
       setComponent(<TagGroup />);
