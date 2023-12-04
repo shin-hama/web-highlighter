@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo } from "react";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { Badge } from "@ui/components/ui/badge";
 import { Palette } from "lucide-react";
 import useSWR from "swr";
@@ -9,20 +9,21 @@ import useSWR from "swr";
 import type { Label } from "@whl/db";
 import { Button } from "@whl/ui/components/ui/button";
 
+import { useLabelsFilter } from "../../_hooks/useLabelsFilter";
 import FilterPopover from "./FilterPopup";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
-interface Props {
-  selected?: string[];
-}
-const LabelFilter = ({ selected }: Props) => {
+const LabelFilter = () => {
+  const router = useRouter();
+  const selected = useLabelsFilter();
   const { data } = useSWR<Label[]>("/api/labels", fetcher);
   const items = useMemo(
     () =>
       (data ?? []).map((label) => ({
         id: label.id,
         label: !label.name ? "No Name" : label.name,
+        selected: selected.includes(label.id) ?? false,
         icon: (
           <div
             className={`whl-h-3 whl-w-3 whl-rounded-full`}
@@ -30,20 +31,23 @@ const LabelFilter = ({ selected }: Props) => {
           />
         ),
       })),
-    [data],
+    [data, selected],
   );
 
-  const handleClose = (selected: string[]) => {
+  const handleClose = (labels: string[]) => {
+    // 既存のクエリを消さないために、現在のクエリに labels を追加する
     const params = new URLSearchParams(window.location.search);
-    if (selected.length !== 0) {
-      params.set("labels", selected.join(","));
+    if (labels.length !== 0) {
+      params.set("labels", labels.join(","));
     } else {
+      // すでにクエリに labels があり、フィルター条件から labels をなくした場合は、URL のクエリを削除する
       params.delete("labels");
     }
 
-    // search query が同じ時はリダイレクトしない
+    // 画面のちらつきを防ぐため search query が同じ時はリダイレクトしない
+    // TODO: クエリが複数あると順番にも影響してしまうので、labels だけを比較するようにする
     if (params.toString() !== window.location.search.slice(1)) {
-      redirect(`/dashboard?${params.toString()}`);
+      router.replace(`/dashboard?${params.toString()}`);
     }
   };
 
@@ -51,9 +55,7 @@ const LabelFilter = ({ selected }: Props) => {
     <FilterPopover
       target="Label"
       items={items}
-      defaultSelected={items.filter(
-        (item) => selected?.includes(item.id) ?? false,
-      )}
+      defaultSelected={items.filter((item) => item.selected)}
       onClose={(selected) => handleClose(selected.map((item) => item.id))}
     >
       <Button variant="ghost">

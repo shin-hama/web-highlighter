@@ -1,6 +1,6 @@
 import type { HighlightWithLabelAndTag } from "@whl/common-types";
 
-import Highlight from "./Highlight";
+import Highlight from "../Highlight";
 
 interface Props {
   highlights: HighlightWithLabelAndTag[];

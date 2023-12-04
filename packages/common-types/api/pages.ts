@@ -1,6 +1,10 @@
 import crypto from "crypto";
-import type { HighlightWithLabelAndPositionAndTag } from "../schema";
 import { z } from "zod";
+
+import type {
+  HighlightWithLabelAndPositionAndTag,
+  PageOnUserWithCountOfHighlights,
+} from "../schema";
 
 export const SpecifiedPageRouteParamSchema = z.object({
   id: z.string(),
@@ -15,3 +19,21 @@ export type GetHighlightsOnAPageResponse =
 export const PageIdFromURL = z
   .string()
   .transform((v) => crypto.createHash("md5").update(v).digest("hex"));
+
+export const GetHighlightsGroupByPageQuerySchema = z.object({
+  cursor: z.string().optional(),
+  labels: z
+    .preprocess((v) => {
+      if (typeof v === "string") {
+        return v.split(",");
+      }
+      return v;
+    }, z.array(z.string()))
+    .optional(),
+});
+export type GetHighlightsGroupByPageQuery = z.infer<
+  typeof GetHighlightsGroupByPageQuerySchema
+>;
+
+export type GetHighlightsGroupByPageResponse =
+  PageOnUserWithCountOfHighlights[];

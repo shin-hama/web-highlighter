@@ -1,7 +1,9 @@
 import { getServerAuthSession } from "@whl/auth";
-import { prisma } from "@whl/db";
+import { GetTagsRequestScheme } from "@whl/common-types";
+import type { GetTagsResponse } from "@whl/common-types";
+import { getTags } from "@whl/db/lib/get-tags";
 
-export async function GET() {
+export async function GET(req: Request) {
   const session = await getServerAuthSession();
 
   if (!session) {
@@ -13,19 +15,13 @@ export async function GET() {
     );
   }
 
-  // tag の一覧と、タグに紐づく記事の数を返す
-  const result = await prisma.tag.findMany({
-    where: {
-      userId: session.user.id,
-    },
-    include: {
-      _count: {
-        select: {
-          HighlightOnTag: true,
-        },
-      },
-    },
-  });
+  const { searchParams } = new URL(req.url);
+  const { labels } = GetTagsRequestScheme.parse(
+    Object.fromEntries(searchParams),
+  );
 
-  return Response.json(result);
+  // tag の一覧と、タグに紐づく記事の数を返す
+  const result = await getTags(session.user.id, { labels });
+
+  return Response.json(result satisfies GetTagsResponse);
 }
