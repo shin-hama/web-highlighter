@@ -7,7 +7,7 @@ const Dashboard = ({
 }: {
   searchParams: Record<string, string | string[] | undefined>;
 }) => {
-  const { labels, grouped } = DashboardQuerySchema.parse(searchParams);
+  const { labels } = DashboardQuerySchema.parse(searchParams);
   return (
     <div className="whl-flex whl-h-full whl-flex-1 whl-flex-col whl-overflow-hidden">
       <Filters
@@ -16,7 +16,7 @@ const Dashboard = ({
         }}
       />
       <div className="whl-h-full whl-flex-1 whl-overflow-hidden">
-        <HighlightsGroupBy labels={labels} grouped={grouped} />
+        <HighlightsGroupBy />
       </div>
     </div>
   );

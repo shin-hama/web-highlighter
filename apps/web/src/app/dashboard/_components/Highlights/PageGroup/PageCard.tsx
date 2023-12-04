@@ -7,7 +7,7 @@ import useSWR from "swr";
 
 import type {
   HighlightWithLabelAndPageAndTag,
-  PageWithHighlightsWithLabelAndTag,
+  PageWithCountOfHighlights,
 } from "@whl/common-types";
 import { Button } from "@whl/ui/components/ui/button";
 import {
@@ -22,34 +22,23 @@ import Highlights from "../Highlights";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
-const PageCard = ({
-  id,
-  title,
-  url,
-  highlights: _highlights,
-}: PageWithHighlightsWithLabelAndTag) => {
+const PageCard = ({ id, title, url, _count }: PageWithCountOfHighlights) => {
   const [open, setOpen] = useState(false);
   const [tags] = useTagFilter();
 
   const { data } = useSWR<HighlightWithLabelAndPageAndTag[]>(
     `/api/highlights?pageId=${id}`,
     fetcher,
-    {
-      revalidateOnMount: false,
-    },
   );
 
   const highlights = useMemo(() => {
-    return (data ?? _highlights).filter((highlight) => {
+    return data?.filter((highlight) => {
       return tags.every((tag) =>
         highlight.HighlightOnTag.some((_tag) => _tag.tagId === tag.id),
       );
     });
   }, [tags, data]);
 
-  if (highlights.length === 0) {
-    return <></>;
-  }
   return (
     <div className="whl-group/page whl-w-full whl-overflow-hidden">
       <Card
@@ -73,7 +62,7 @@ const PageCard = ({
               </CardTitle>
               <div className="whl-flex whl-flex-row whl-space-x-1">
                 <CardDescription>
-                  {highlights.length} highlights
+                  {highlights?.length ?? _count.highlights} highlights
                 </CardDescription>
                 <CardDescription>|</CardDescription>
                 <CardDescription>{new URL(url).hostname}</CardDescription>
@@ -94,7 +83,7 @@ const PageCard = ({
           </div>
         </CardHeader>
       </Card>
-      {open && <Highlights highlights={highlights} />}
+      {highlights && open && <Highlights highlights={highlights} />}
     </div>
   );
 };

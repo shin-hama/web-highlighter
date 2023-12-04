@@ -8,10 +8,7 @@ import { useDashboardSettings } from "../../_hooks/useDashboardSettings";
 import PageList from "./PageGroup/PageList";
 import TagGroup from "./TagGroup/TagGroup";
 
-interface Props {
-  labels?: string[];
-}
-const HighlightsGroupBy = ({ labels }: Props) => {
+const HighlightsGroupBy = () => {
   const [settings] = useDashboardSettings();
   const [component, setComponent] = useState<JSX.Element | null>(null);
 
@@ -21,7 +18,7 @@ const HighlightsGroupBy = ({ labels }: Props) => {
     if (settings.grouping === GROUPING_TYPE.tag) {
       setComponent(<TagGroup />);
     } else {
-      setComponent(<PageList labels={labels} />);
+      setComponent(<PageList />);
     }
   }, [settings]);
 

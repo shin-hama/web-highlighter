@@ -5,15 +5,14 @@ import useSWR from "swr";
 
 import type { GetHighlightsGroupByPageResponse } from "@whl/common-types";
 
+import { useLabelsFilter } from "~/app/dashboard/_hooks/useLabelsFilter";
 import PageCard from "./PageCard";
 
-interface Props {
-  labels?: string[];
-}
-const PageList = ({ labels }: Props) => {
+const PageList = () => {
+  const labels = useLabelsFilter();
   const getKey = useCallback(() => {
     const params = new URLSearchParams();
-    if (labels) {
+    if (labels && labels.length > 0) {
       params.append("labels", labels.join(","));
     }
     return `/api/pages/highlights?${params.toString()}`;

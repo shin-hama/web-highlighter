@@ -25,23 +25,22 @@ export async function GET(req: Request) {
     const result = await prisma.pageOnUser.findMany({
       where: {
         userId: session.user.id,
+        page: {
+          highlights: {
+            some: {
+              labelId: {
+                in: labels,
+              },
+            },
+          },
+        },
       },
       include: {
         page: {
           include: {
-            highlights: {
-              where: {
-                labelId: {
-                  in: labels,
-                },
-              },
-              include: {
-                label: true,
-                HighlightOnTag: {
-                  include: {
-                    tag: true,
-                  },
-                },
+            _count: {
+              select: {
+                highlights: true,
               },
             },
           },

@@ -3,7 +3,7 @@ import { z } from "zod";
 
 import type {
   HighlightWithLabelAndPositionAndTag,
-  PageOnUserWithPageWithHighlightsWithLabel,
+  PageOnUserWithCountOfHighlights,
 } from "../schema";
 
 export const SpecifiedPageRouteParamSchema = z.object({
@@ -36,4 +36,4 @@ export type GetHighlightsGroupByPageQuery = z.infer<
 >;
 
 export type GetHighlightsGroupByPageResponse =
-  PageOnUserWithPageWithHighlightsWithLabel[];
+  PageOnUserWithCountOfHighlights[];
