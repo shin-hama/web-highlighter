@@ -19,4 +19,15 @@ export type CreateHighlightOnTagRequest = z.infer<
   typeof CreateHighlightOnTagRequestScheme
 >;
 
+export const GetTagsRequestScheme = z.object({
+  cursor: z.string().optional(),
+  labels: z
+    .preprocess((v) => {
+      if (typeof v === "string") {
+        return v.split(",");
+      }
+      return v;
+    }, z.array(z.string()))
+    .optional(),
+});
 export type GetTagsResponse = TagWithCountOfHighlights[];

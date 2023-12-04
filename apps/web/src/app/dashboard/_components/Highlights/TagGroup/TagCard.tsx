@@ -10,15 +10,17 @@ import {
 import { HashIcon } from "lucide-react";
 import useSWR from "swr";
 
-import type { HighlightWithLabelAndPageAndTag } from "@whl/common-types";
-import type { Tag } from "@whl/db";
+import type {
+  HighlightWithLabelAndPageAndTag,
+  TagWithCountOfHighlights,
+} from "@whl/common-types";
 
 import Highlights from "../Highlights";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 interface Props {
-  tag: Tag;
+  tag: TagWithCountOfHighlights;
 }
 const TagCard = ({ tag }: Props) => {
   const [open, setOpen] = useState(false);
@@ -45,7 +47,7 @@ const TagCard = ({ tag }: Props) => {
               </CardTitle>
               <div className="whl-flex whl-flex-row whl-space-x-1">
                 <CardDescription>
-                  {data?.length ?? "*"} highlights
+                  {data?.length ?? tag._count.HighlightOnTag} highlights
                 </CardDescription>
               </div>
             </div>
