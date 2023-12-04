@@ -16,7 +16,7 @@ export async function GET(req: Request) {
   }
 
   const { searchParams } = new URL(req.url);
-  const { cursor, filter } = GetHighlightsGroupByPageQuerySchema.parse(
+  const { cursor, labels } = GetHighlightsGroupByPageQuerySchema.parse(
     Object.fromEntries(searchParams),
   );
 
@@ -32,7 +32,7 @@ export async function GET(req: Request) {
             highlights: {
               where: {
                 labelId: {
-                  in: filter?.labels,
+                  in: labels,
                 },
               },
               include: {

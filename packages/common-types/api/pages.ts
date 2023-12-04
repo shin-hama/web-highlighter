@@ -22,10 +22,13 @@ export const PageIdFromURL = z
 
 export const GetHighlightsGroupByPageQuerySchema = z.object({
   cursor: z.string().optional(),
-  filter: z
-    .object({
-      labels: z.array(z.string()).optional(),
-    })
+  labels: z
+    .preprocess((v) => {
+      if (typeof v === "string") {
+        return v.split(",");
+      }
+      return v;
+    }, z.array(z.string()))
     .optional(),
 });
 export type GetHighlightsGroupByPageQuery = z.infer<

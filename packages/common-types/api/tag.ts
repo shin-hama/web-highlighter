@@ -1,7 +1,8 @@
-import type { TagWithCountOfHighlights } from "schema";
 import { z } from "zod";
 
 import type { Tag } from "@whl/db";
+
+import type { TagWithCountOfHighlights } from "../schema";
 
 export const TagDTOSchema = z.object({
   id: z.string().optional(),
