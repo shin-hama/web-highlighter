@@ -10,6 +10,7 @@ import {
 } from "@whl/ui/components/ui/popover";
 
 import { useHighlight } from "~/contents/hooks/useLabel";
+import { useLabels } from "~/contents/hooks/useLabels";
 import { usePopover } from "~/contents/hooks/usePopover";
 import { useSession } from "~/hooks/useSession";
 import Labels from "./Labels";
@@ -17,6 +18,7 @@ import TagForm from "./TagForm";
 
 const ContextMenu = () => {
   const [highlight, { init, save, setLabel }] = useHighlight();
+  const labels = useLabels();
   const { open, pos } = usePopover();
   const { status } = useSession();
   const [tags, setTags] = useState<TagDTO[]>([]);
@@ -33,6 +35,12 @@ const ContextMenu = () => {
     setTags([]);
     save(tags);
   }, [save, tags]);
+
+  const setDefaultHighlight = useCallback(() => {
+    if (labels.length > 0 && labels[0]) {
+      setLabel(labels[0]);
+    }
+  }, [labels, setLabel]);
 
   if (status !== "authenticated") {
     return <></>;
@@ -66,12 +74,12 @@ const ContextMenu = () => {
         }}
       >
         {highlight === null ? (
-          <Button size="icon_sm">
+          <Button size="icon_sm" onClick={setDefaultHighlight}>
             <HighlighterIcon size={24} />
           </Button>
         ) : (
           <div className="whl-flex whl-flex-col whl-gap-2 whl-p-2">
-            <Labels onChanged={setLabel} />
+            <Labels labels={labels} onChanged={setLabel} />
             <TagForm tags={tags} onChangeTags={setTags} />
           </div>
         )}
