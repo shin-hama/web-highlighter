@@ -1,4 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
+import { Button } from "@ui/components/ui/button";
+import { HighlighterIcon } from "lucide-react";
 
 import type { TagDTO } from "@whl/common-types";
 import {
@@ -63,10 +65,16 @@ const ContextMenu = () => {
           e.stopPropagation();
         }}
       >
-        <div className="whl-flex whl-flex-col whl-gap-2 whl-p-2">
-          <Labels onChanged={setLabel} />
-          {highlight && <TagForm tags={tags} onChangeTags={setTags} />}
-        </div>
+        {highlight === null ? (
+          <Button size="icon_sm">
+            <HighlighterIcon size={24} />
+          </Button>
+        ) : (
+          <div className="whl-flex whl-flex-col whl-gap-2 whl-p-2">
+            <Labels onChanged={setLabel} />
+            <TagForm tags={tags} onChangeTags={setTags} />
+          </div>
+        )}
       </PopoverContent>
     </Popover>
   );
