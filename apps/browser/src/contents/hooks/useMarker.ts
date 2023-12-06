@@ -29,7 +29,6 @@ export const useMarker = (): UseMarker => {
       }
 
       const { startNode, endNode } = nodes;
-      // body 要素から position.startTagName に一致するタグの中から、position.startIndex 番目の要素を探す
       const range = document.createRange();
       range.setStart(startNode, position.startOffset);
       range.setEnd(endNode, position.endOffset);
