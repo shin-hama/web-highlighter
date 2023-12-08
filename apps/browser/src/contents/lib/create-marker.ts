@@ -5,20 +5,7 @@ import {
   getTextNodesInRange,
 } from "./get-text-nodes";
 
-export function createMarker(
-  node: Node,
-  color: string,
-  position?: { start?: number; end?: number },
-) {
-  const range = document.createRange();
-  range.selectNodeContents(node);
-  if (position?.start) {
-    range.setStart(node, position.start);
-  }
-  if (position?.end) {
-    range.setEnd(node, position.end);
-  }
-
+function createMarker(range: Range, color: string) {
   const elm = document.createElement("span");
   elm.style.backgroundColor = color;
   elm.style.borderRadius = "2px";
@@ -52,6 +39,23 @@ export function createMarker(
   range.surroundContents(elm);
 }
 
+function createMarkerOnNode(
+  node: Node,
+  color: string,
+  position?: { start?: number; end?: number },
+) {
+  const range = document.createRange();
+  range.selectNodeContents(node);
+  if (position?.start) {
+    range.setStart(node, position.start);
+  }
+  if (position?.end) {
+    range.setEnd(node, position.end);
+  }
+
+  createMarker(range, color);
+}
+
 function processTextNodes(
   textNodes: Node[],
   color: string,
@@ -61,7 +65,7 @@ function processTextNodes(
   textNodes.reduce((count, textNode) => {
     const tempCount = count + (textNode.textContent?.length ?? 0);
     if (tempCount > startOffset && count < endOffset) {
-      createMarker(textNode, color, {
+      createMarkerOnNode(textNode, color, {
         start:
           count < startOffset
             ? (textNode.textContent?.length ?? 0) - (tempCount - startOffset)
