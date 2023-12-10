@@ -1,7 +1,7 @@
 {
   "name": "@whl/browser",
   "displayName": "Web Highlighter",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Highlighting web contents",
   "author": "coppla <htysivista@gmail.com>",
   "scripts": {
@@ -39,9 +39,7 @@
   },
   "manifest": {
     "permissions": [
-      "cookies",
-      "tabs",
-      "activeTab"
+      "cookies"
     ],
     "host_permissions": [
       "https://*/*"
