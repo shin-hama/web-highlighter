@@ -1,5 +1,3 @@
-import { sendToContentScript } from "@plasmohq/messaging";
-
 import {
   getTextNodesInOneElement,
   getTextNodesInRange,
@@ -7,34 +5,11 @@ import {
 
 function createMarker(range: Range, color: string) {
   const elm = document.createElement("span");
+  elm.className = "web-highlighter-marker";
   elm.style.backgroundColor = color;
   elm.style.borderRadius = "2px";
   elm.style.padding = "2px 2px";
   elm.style.margin = "0 1px";
-
-  elm.addEventListener("click", (event) => {
-    // Prevent the event from bubbling up
-    event.stopPropagation();
-
-    // Send the event to your extension
-    chrome.runtime
-      .sendMessage({
-        type: "WebHighlighter:MarkerClicked",
-        data: {
-          id: "chrome",
-        },
-      })
-      .then(console.log)
-      .catch(console.error);
-    sendToContentScript({
-      name: "plasmo:WebHighlighter:MarkerClicked",
-      body: {
-        id: "plasmo",
-      },
-    })
-      .then(console.log)
-      .catch(console.error);
-  });
 
   range.surroundContents(elm);
 }

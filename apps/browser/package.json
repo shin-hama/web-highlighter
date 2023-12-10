@@ -39,7 +39,9 @@
   },
   "manifest": {
     "permissions": [
-      "cookies"
+      "cookies",
+      "tabs",
+      "activeTab"
     ],
     "host_permissions": [
       "https://*/*"

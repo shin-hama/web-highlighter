@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { useMessage } from "@plasmohq/messaging/hook";
 import { Button } from "@ui/components/ui/button";
 import { HighlighterIcon } from "lucide-react";
 
@@ -18,11 +17,6 @@ import Labels from "./Labels";
 import TagForm from "./TagForm";
 
 const ContextMenu = () => {
-  const message = useMessage((req, res) => {
-    console.log(req);
-    res.send("responses");
-  });
-  console.log(message);
   const [highlight, { init, save, setLabel }] = useHighlight();
   const labels = useLabels();
   const { open, pos } = usePopover();
