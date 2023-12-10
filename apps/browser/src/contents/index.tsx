@@ -9,6 +9,7 @@ import type { PlasmoCSConfig, PlasmoGetStyle } from "plasmo";
 import { APP_HOST } from "~/lib/config";
 import ContextMenu from "./components/ContextMenu";
 import { HighlightsProvider } from "./components/contexts/HighlightsProvider";
+import EventListener from "./components/EventListener";
 
 export const config: PlasmoCSConfig = {
   matches: ["<all_urls>"],
@@ -25,6 +26,7 @@ export const getStyle: PlasmoGetStyle = () => {
 const PlasmoOverlay = () => {
   return (
     <HighlightsProvider>
+      <EventListener />
       <ContextMenu />
     </HighlightsProvider>
   );

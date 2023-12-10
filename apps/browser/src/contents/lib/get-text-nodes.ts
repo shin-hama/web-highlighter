@@ -20,3 +20,11 @@ export function getTextNodesInRange(range: Range) {
 
   return textNodes;
 }
+
+export function getTextNodesInOneElement(elm: Element) {
+  const range = document.createRange();
+  range.setStart(elm, 0);
+  range.setEnd(elm, elm.childNodes.length);
+
+  return getTextNodesInRange(range);
+}

@@ -2,8 +2,7 @@ import { useMemo } from "react";
 
 import type { Position } from "@whl/db";
 
-import { createMarker } from "../lib/create-marker";
-import { getTextNodesInRange } from "../lib/get-text-nodes";
+import { createMarkers } from "../lib/create-marker";
 import { findNodes } from "../lib/validate-position";
 
 interface UseMarker {
@@ -28,21 +27,14 @@ export const useMarker = (): UseMarker => {
         return;
       }
 
-      const { startNode, endNode } = nodes;
-      // body 要素から position.startTagName に一致するタグの中から、position.startIndex 番目の要素を探す
-      const range = document.createRange();
-      range.setStart(startNode, position.startOffset);
-      range.setEnd(endNode, position.endOffset);
-
-      const textNodes = getTextNodesInRange(range);
-
-      textNodes.forEach((textNode) => {
-        createMarker(textNode, color, {
-          start:
-            textNode === range.startContainer ? range.startOffset : undefined,
-          end: textNode === range.endContainer ? range.endOffset : undefined,
-        });
-      });
+      const { startElement, endElement } = nodes;
+      createMarkers(
+        startElement,
+        endElement,
+        color,
+        position.startOffset,
+        position.endOffset,
+      );
     };
 
     return {
