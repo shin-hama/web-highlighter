@@ -2,6 +2,8 @@ import { useMemo } from "react";
 
 import type { Position } from "@whl/db";
 
+import { getTextNodesInOneElement } from "../lib/get-text-nodes";
+
 type PositionDTO = Pick<
   Position,
   | "startIndex"
@@ -11,6 +13,21 @@ type PositionDTO = Pick<
   | "endOffset"
   | "endTagName"
 >;
+
+function findAllElementsByName(name: string): Element[] {
+  return Array.from(document.getElementsByTagName(name));
+}
+
+function calculateOffset(nodes: Node[], endNode: Node, endNodeOffset: number) {
+  return nodes
+    .slice(0, nodes.indexOf(endNode) + 1)
+    .reduce(
+      (count, node) =>
+        count +
+        (node === endNode ? endNodeOffset : node.textContent?.length ?? 0),
+      0,
+    );
+}
 
 interface PositionParser {
   /**
@@ -25,40 +42,32 @@ interface PositionParser {
 export const usePositionParser = (): PositionParser => {
   const parser = useMemo(() => {
     const parse = (elm: Selection): PositionDTO => {
-      const range = elm.getRangeAt(0);
+      const { startContainer, endContainer, startOffset, endOffset } =
+        elm.getRangeAt(0);
+      const { parentElement: startParent } = startContainer;
+      const { parentElement: endParent } = endContainer;
 
-      const startNode = range.startContainer;
-      const endNode = range.endContainer;
-
-      if (startNode.parentElement === null || endNode.parentElement === null) {
+      if (startParent === null || endParent === null) {
         throw new Error("invalid range");
       }
 
-      const startTagName = startNode.parentElement?.tagName;
-      const endTagName = endNode.parentElement?.tagName;
-
-      // このページに有る全ての startTagName の要素を取得して、その中で startNode が何番目の要素かを取得する
-      const startTagElements = Array.from(
-        document.getElementsByTagName(startTagName),
-      );
-      const startIndex = startTagElements.indexOf(startNode.parentElement);
-
-      // このページに有る全ての endTagName の要素を取得して、その中で endNode が何番目の要素かを取得する
-      const endTagElements = Array.from(
-        document.getElementsByTagName(endTagName),
-      );
-      const endIndex = endTagElements.indexOf(endNode.parentElement);
-
-      const startOffset = range.startOffset;
-      const endOffset = range.endOffset;
-
       return {
-        startIndex,
-        startOffset,
-        startTagName,
-        endIndex,
-        endOffset,
-        endTagName,
+        startIndex: findAllElementsByName(startParent.tagName).indexOf(
+          startParent,
+        ),
+        startOffset: calculateOffset(
+          getTextNodesInOneElement(startParent),
+          startContainer,
+          startOffset,
+        ),
+        startTagName: startParent.tagName,
+        endIndex: findAllElementsByName(endParent.tagName).indexOf(endParent),
+        endOffset: calculateOffset(
+          getTextNodesInOneElement(endParent),
+          endContainer,
+          endOffset,
+        ),
+        endTagName: endParent.tagName,
       };
     };
     return {

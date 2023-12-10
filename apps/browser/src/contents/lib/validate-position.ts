@@ -1,8 +1,8 @@
 import type { Position } from "@whl/db";
 
 interface PositionNode {
-  startNode: Node;
-  endNode: Node;
+  startElement: Element;
+  endElement: Element;
 }
 export function findNodes(
   position: Pick<
@@ -17,13 +17,10 @@ export function findNodes(
     position.endIndex
   ];
 
-  if (!startElement?.lastChild || !endElement?.lastChild) {
+  if (!startElement || !endElement) {
     console.warn("startContainer or endContainer is not found.");
     return null;
   }
 
-  return {
-    startNode: startElement.lastChild,
-    endNode: endElement.lastChild,
-  };
+  return { startElement, endElement };
 }
