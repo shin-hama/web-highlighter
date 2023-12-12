@@ -6,6 +6,7 @@ import type { Label } from "@whl/db";
 
 import { useMarker } from "./useMarker";
 import { usePositionParser } from "./usePositionParser";
+import { useTextFragments } from "./useTextFragments";
 
 interface Actions {
   init: () => void;
@@ -24,6 +25,7 @@ export const useHighlight = (): readonly [
   const [highlightElm, setHighlightElm] = useState<HTMLElement | null>(null);
   const { parse } = usePositionParser();
   const { mark } = useMarker();
+  const { build } = useTextFragments();
 
   const actions = useMemo<Actions>(() => {
     const init = () => {
@@ -42,7 +44,14 @@ export const useHighlight = (): readonly [
         return;
       }
 
-      setSelected({ content, labelId: label.id, position: parse(selection) });
+      setSelected({
+        content,
+        labelId: label.id,
+        position: parse(selection),
+        url: build(selection) ?? "",
+      });
+      const url = build(selection);
+      console.log(url);
 
       // 現在選択されているテキストをハイライトする
       mark(parse(selection), label.color);
@@ -75,6 +84,7 @@ export const useHighlight = (): readonly [
             content: highlight.content,
             labelId: highlight.labelId,
             position: highlight.position,
+            url: highlight.url,
           },
           tags: tags,
         },
@@ -97,7 +107,7 @@ export const useHighlight = (): readonly [
       setLabel,
       removeHighlight,
     };
-  }, [highlight, highlightElm, mark, parse]);
+  }, [build, highlight, highlightElm, mark, parse]);
 
   return useMemo(() => [highlight, actions] as const, [highlight, actions]);
 };

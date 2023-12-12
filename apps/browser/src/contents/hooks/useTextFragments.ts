@@ -30,6 +30,7 @@ export const useTextFragments = () => {
       : "";
 
     url += `#:~:text=${prefix}${start}${end}${suffix}`;
+    console.log(url);
 
     return url;
   };

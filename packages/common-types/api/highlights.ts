@@ -24,8 +24,9 @@ const PositionDTO = z.object({
 const HighlightDTO = z.object({
   content: z.string(),
   labelId: z.string(),
+  url: z.string(),
   position: PositionDTO,
-}) satisfies z.ZodType<Pick<Highlight, "content" | "labelId">>;
+}) satisfies z.ZodType<Pick<Highlight, "content" | "labelId" | "url">>;
 
 export const CreateHighlightRequestSchema = z.object({
   page: z.object({
