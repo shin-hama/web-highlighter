@@ -1,9 +1,15 @@
-import { useMemo, useState } from "react";
-import { useEvent } from "react-use";
+import { useEffect, useMemo, useState } from "react";
+import { useEvent, useWindowScroll } from "react-use";
 
 export const usePopover = () => {
   const [open, setOpen] = useState(false);
   const [pos, setPos] = useState({ x: 0, y: 0 });
+
+  const scroll = useWindowScroll();
+
+  useEffect(() => {
+    setOpen(false);
+  }, [scroll]);
 
   const onMouseUp = (event: React.MouseEvent) => {
     const selection = window.getSelection();
