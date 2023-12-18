@@ -68,6 +68,9 @@ importers:
       text-fragments-polyfill:
         specifier: ^5.5.0
         version: 5.5.0
+      zod:
+        specifier: ^3.22.2
+        version: 3.22.2
     devDependencies:
       '@types/chrome':
         specifier: 0.0.243
