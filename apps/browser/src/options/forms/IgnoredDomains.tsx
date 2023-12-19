@@ -1,5 +1,6 @@
 import { useCallback } from "react";
 import { useStorage } from "@plasmohq/storage/hook";
+import { Trash2Icon } from "lucide-react";
 import { z } from "zod";
 
 import { Button } from "@whl/ui/components/ui/button";
@@ -16,7 +17,13 @@ import { Input } from "@whl/ui/components/ui/input";
 import { ScrollArea } from "@whl/ui/components/ui/scroll-area";
 
 const IgnoredDomainsSchema = z.object({
-  domain: z.string(),
+  // ドメイン名
+  domain: z
+    .string()
+    .max(253)
+    .regex(
+      /(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z0-9][a-z0-9-]{0,61}[a-z0-9]/,
+    ),
 });
 type Domain = z.infer<typeof IgnoredDomainsSchema>["domain"];
 
@@ -35,6 +42,20 @@ const IgnoredDomains = () => {
           return [...v, data.domain];
         }
         return [data.domain];
+      })
+        .then(console.log)
+        .catch(console.error);
+    },
+    [setDomains],
+  );
+
+  const handleDelete = useCallback(
+    (domain: Domain) => {
+      setDomains((v) => {
+        if (v !== undefined) {
+          return v.filter((d) => d !== domain);
+        }
+        return [];
       })
         .then(console.log)
         .catch(console.error);
@@ -69,7 +90,28 @@ const IgnoredDomains = () => {
       </Form>
       <ScrollArea className="whl-max-h-32 whl-w-full">
         {domains.map((domain) => (
-          <p key={domain}>{domain}</p>
+          <div
+            className="whl-flex whl-flex-row whl-justify-between"
+            key={domain}
+          >
+            <div className="whl-flex whl-flex-row whl-gap-2">
+              <img
+                src={`https://www.google.com/s2/favicons?sz=64&domain=${domain}`}
+                alt={`Favicon for ${domain}`}
+                width={32}
+                height={32}
+                className="whl-flex-shrink-0"
+              />
+              <p key={domain}>{domain}</p>
+            </div>
+            <Button
+              size="icon_sm"
+              variant="ghost"
+              onClick={() => handleDelete(domain)}
+            >
+              <Trash2Icon />
+            </Button>
+          </div>
         ))}
       </ScrollArea>
     </div>
