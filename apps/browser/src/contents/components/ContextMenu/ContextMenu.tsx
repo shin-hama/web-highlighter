@@ -14,6 +14,7 @@ import { useLabels } from "~/contents/hooks/useLabels";
 import { usePopover } from "~/contents/hooks/usePopover";
 import { useSession } from "~/hooks/useSession";
 import Labels from "./Labels";
+import ShortcutHighlight from "./ShortcutHighlight";
 import TagForm from "./TagForm";
 
 const ContextMenu = () => {
@@ -37,10 +38,14 @@ const ContextMenu = () => {
   }, [save, tags]);
 
   const setDefaultHighlight = useCallback(() => {
+    if (highlight !== null) {
+      return;
+    }
+
     if (labels.length > 0 && labels[0]) {
       setLabel(labels[0]);
     }
-  }, [labels, setLabel]);
+  }, [highlight, labels, setLabel]);
 
   if (status !== "authenticated") {
     return <></>;
@@ -84,6 +89,7 @@ const ContextMenu = () => {
           </div>
         )}
       </PopoverContent>
+      <ShortcutHighlight onExecute={setDefaultHighlight} />
     </Popover>
   );
 };
