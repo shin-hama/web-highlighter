@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Button } from "@ui/components/ui/button";
-import { HighlighterIcon } from "lucide-react";
+import { HighlighterIcon, MoreVerticalIcon } from "lucide-react";
 
 import type { TagDTO } from "@whl/common-types";
 import {
@@ -42,6 +42,10 @@ const ContextMenu = () => {
     }
   }, [labels, setLabel]);
 
+  const handleOpenMore = useCallback(() => {
+    console.log("Open more");
+  }, []);
+
   if (status !== "authenticated") {
     return <></>;
   }
@@ -74,9 +78,15 @@ const ContextMenu = () => {
         }}
       >
         {highlight === null ? (
-          <Button size="icon_sm" onClick={setDefaultHighlight}>
-            <HighlighterIcon size={24} />
-          </Button>
+          <div className="whl-flex whl-flex-row whl-gap-2">
+            <Button size="icon_sm" onClick={setDefaultHighlight}>
+              <HighlighterIcon size={24} />
+              Mark!
+            </Button>
+            <Button size="icon_sm">
+              <MoreVerticalIcon size={24} onClick={handleOpenMore} />
+            </Button>
+          </div>
         ) : (
           <div className="whl-flex whl-flex-col whl-gap-2 whl-p-2">
             <Labels labels={labels} onChanged={setLabel} />
