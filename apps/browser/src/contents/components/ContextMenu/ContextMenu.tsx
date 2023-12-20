@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Button } from "@ui/components/ui/button";
-import { HighlighterIcon } from "lucide-react";
+import { HighlighterIcon, MoreVerticalIcon } from "lucide-react";
 
 import type { TagDTO } from "@whl/common-types";
 import {
@@ -53,6 +53,10 @@ const ContextMenu = () => {
     }
   }, [highlight, labels, setLabel]);
 
+  const handleOpenMore = useCallback(() => {
+    console.log("Open more");
+  }, []);
+
   if (status !== "authenticated") {
     return <></>;
   }
@@ -87,11 +91,17 @@ const ContextMenu = () => {
         {highlight === null ? (
           <TooltipProvider>
             <Tooltip delayDuration={400}>
-              <TooltipTrigger asChild>
-                <Button size="icon_sm" onClick={setDefaultHighlight}>
-                  <HighlighterIcon size={24} />
+              <div className="whl-flex whl-flex-row whl-gap-2">
+                <TooltipTrigger asChild>
+                  <Button size="icon_sm" onClick={setDefaultHighlight}>
+                    <HighlighterIcon size={24} />
+                    Mark!
+                  </Button>
+                </TooltipTrigger>
+                <Button size="icon_sm">
+                  <MoreVerticalIcon size={24} onClick={handleOpenMore} />
                 </Button>
-              </TooltipTrigger>
+              </div>
               <TooltipContent side="bottom">
                 <p className="whl-font-mono whl-text-xs">
                   Highlight Text (alt+c)
