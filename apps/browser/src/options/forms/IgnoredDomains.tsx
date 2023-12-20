@@ -1,5 +1,4 @@
 import { useCallback } from "react";
-import { useStorage } from "@plasmohq/storage/hook";
 import { Trash2Icon } from "lucide-react";
 import { z } from "zod";
 
@@ -16,6 +15,8 @@ import {
 import { Input } from "@whl/ui/components/ui/input";
 import { ScrollArea } from "@whl/ui/components/ui/scroll-area";
 
+import { useIgnoredDomains } from "~/hooks/useIgnoredDomain";
+
 const IgnoredDomainsSchema = z.object({
   // ドメイン名
   domain: z
@@ -28,7 +29,7 @@ const IgnoredDomainsSchema = z.object({
 type Domain = z.infer<typeof IgnoredDomainsSchema>["domain"];
 
 const IgnoredDomains = () => {
-  const [domains, setDomains] = useStorage<Domain[]>("ignoredDomains");
+  const [domains, { add, remove }] = useIgnoredDomains();
   const form = useForm<z.infer<typeof IgnoredDomainsSchema>>({
     resolver: zodResolver(IgnoredDomainsSchema),
     mode: "onSubmit",
@@ -36,31 +37,16 @@ const IgnoredDomains = () => {
 
   const handleSaveDomains = useCallback(
     (data: z.infer<typeof IgnoredDomainsSchema>) => {
-      setDomains((v) => {
-        console.log(v);
-        if (v !== undefined) {
-          return [...v, data.domain];
-        }
-        return [data.domain];
-      })
-        .then(console.log)
-        .catch(console.error);
+      add(data.domain).then(console.log).catch(console.error);
     },
-    [setDomains],
+    [add],
   );
 
   const handleDelete = useCallback(
     (domain: Domain) => {
-      setDomains((v) => {
-        if (v !== undefined) {
-          return v.filter((d) => d !== domain);
-        }
-        return [];
-      })
-        .then(console.log)
-        .catch(console.error);
+      remove(domain).then(console.log).catch(console.error);
     },
-    [setDomains],
+    [remove],
   );
 
   return (
