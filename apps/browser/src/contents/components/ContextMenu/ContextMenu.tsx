@@ -1,5 +1,12 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Button } from "@ui/components/ui/button";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@ui/components/ui/collapsible";
+import { Label } from "@ui/components/ui/label";
+import { Switch } from "@ui/components/ui/switch";
 import { HighlighterIcon, MoreVerticalIcon } from "lucide-react";
 
 import type { TagDTO } from "@whl/common-types";
@@ -18,6 +25,7 @@ import {
 import { useHighlight } from "~/contents/hooks/useLabel";
 import { useLabels } from "~/contents/hooks/useLabels";
 import { usePopover } from "~/contents/hooks/usePopover";
+import { useIgnoredDomains } from "~/hooks/useIgnoredDomain";
 import { useSession } from "~/hooks/useSession";
 import Labels from "./Labels";
 import ShortcutHighlight from "./ShortcutHighlight";
@@ -30,6 +38,7 @@ const ContextMenu = () => {
   const { status } = useSession();
   const [tags, setTags] = useState<TagDTO[]>([]);
   const anchor = useRef<HTMLDivElement>(null);
+  const [_, { add, remove }] = useIgnoredDomains();
 
   useEffect(() => {
     if (!open) {
@@ -53,9 +62,16 @@ const ContextMenu = () => {
     }
   }, [highlight, labels, setLabel]);
 
-  const handleOpenMore = useCallback(() => {
-    console.log("Open more");
-  }, []);
+  const handleToggleIgnored = useCallback(
+    (checked: boolean) => {
+      if (checked) {
+        add(window.location.hostname).then(console.log).catch(console.error);
+      } else {
+        remove(window.location.hostname).then(console.log).catch(console.error);
+      }
+    },
+    [add, remove],
+  );
 
   if (status !== "authenticated") {
     return <></>;
@@ -89,26 +105,49 @@ const ContextMenu = () => {
         }}
       >
         {highlight === null ? (
-          <TooltipProvider>
-            <Tooltip delayDuration={400}>
+          <div className="space-y-2">
+            <Collapsible>
               <div className="whl-flex whl-flex-row whl-gap-2">
-                <TooltipTrigger asChild>
-                  <Button size="icon_sm" onClick={setDefaultHighlight}>
-                    <HighlighterIcon size={24} />
-                    Mark!
+                <TooltipProvider>
+                  <Tooltip delayDuration={400}>
+                    <div className="whl-flex whl-flex-row whl-gap-2">
+                      <TooltipTrigger asChild>
+                        <Button size="icon_sm" onClick={setDefaultHighlight}>
+                          <HighlighterIcon size={24} />
+                          Mark!
+                        </Button>
+                      </TooltipTrigger>
+                      <Button size="icon_sm">
+                        <MoreVerticalIcon size={24} onClick={handleOpenMore} />
+                      </Button>
+                    </div>
+                    <TooltipContent side="bottom">
+                      <p className="whl-font-mono whl-text-xs">
+                        Highlight Text (alt+c)
+                      </p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+                <CollapsibleTrigger asChild>
+                  <Button size="icon_sm">
+                    <MoreVerticalIcon size={24} />
                   </Button>
-                </TooltipTrigger>
-                <Button size="icon_sm">
-                  <MoreVerticalIcon size={24} onClick={handleOpenMore} />
-                </Button>
+                </CollapsibleTrigger>
               </div>
-              <TooltipContent side="bottom">
-                <p className="whl-font-mono whl-text-xs">
-                  Highlight Text (alt+c)
-                </p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
+              <CollapsibleContent>
+                <div className="flex items-center space-x-2">
+                  <Switch
+                    id="enabled-on"
+                    defaultChecked={true}
+                    onCheckedChange={handleToggleIgnored}
+                  />
+                  <Label htmlFor="enabled-on">
+                    Enable on {window.location.hostname}
+                  </Label>
+                </div>
+              </CollapsibleContent>
+            </Collapsible>
+          </div>
         ) : (
           <div className="whl-flex whl-flex-col whl-gap-2 whl-p-2">
             <Labels labels={labels} onChanged={setLabel} />
