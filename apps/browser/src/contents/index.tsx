@@ -10,6 +10,7 @@ import { APP_HOST } from "~/lib/config";
 import ContextMenu from "./components/ContextMenu";
 import { HighlightsProvider } from "./components/contexts/HighlightsProvider";
 import EventListener from "./components/EventListener";
+import VerifyAvailable from "./components/VerifyAvailable";
 
 export const config: PlasmoCSConfig = {
   matches: ["<all_urls>"],
@@ -25,10 +26,12 @@ export const getStyle: PlasmoGetStyle = () => {
 
 const PlasmoOverlay = () => {
   return (
-    <HighlightsProvider>
-      <EventListener />
-      <ContextMenu />
-    </HighlightsProvider>
+    <VerifyAvailable>
+      <HighlightsProvider>
+        <EventListener />
+        <ContextMenu />
+      </HighlightsProvider>
+    </VerifyAvailable>
   );
 };
 export default PlasmoOverlay;
