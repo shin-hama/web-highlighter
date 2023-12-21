@@ -1,5 +1,6 @@
 import type { HighlightWithLabelAndTag } from "@whl/common-types";
 
+import { useSetHighlightDetail } from "../../_context/HighlightDetailContext";
 import TagBadge from "../TagBadge";
 import { Actions } from "./Actions";
 
@@ -10,8 +11,12 @@ const Highlight = ({
   pageId,
   HighlightOnTag,
 }: HighlightWithLabelAndTag) => {
+  const setHighlightId = useSetHighlightDetail();
   return (
-    <div className="whl-group/highlight whl-relative whl-flex whl-flex-row whl-items-stretch whl-gap-x-2 ">
+    <div
+      onClick={() => setHighlightId(id)}
+      className="whl-group/highlight whl-relative whl-flex whl-flex-row whl-items-stretch whl-gap-x-2 "
+    >
       <div
         className="whl-w-4 whl-flex-shrink-0"
         style={{ backgroundColor: label.color }}
