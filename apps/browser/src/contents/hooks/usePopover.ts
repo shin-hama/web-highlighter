@@ -11,6 +11,22 @@ export const usePopover = () => {
     setOpen(false);
   }, [scroll]);
 
+  useEffect(() => {
+    const onSelectionChange = () => {
+      const selection = window.getSelection();
+      const selectedText = selection?.toString().trim();
+
+      if (selectedText?.length === 0) {
+        setOpen(false);
+      }
+    };
+    // useEvent で selectionchange イベントを listen できないので直接登録する
+    document.addEventListener("selectionchange", onSelectionChange);
+    return () => {
+      document.removeEventListener("selectionchange", onSelectionChange);
+    };
+  }, []);
+
   const onMouseUp = (event: React.MouseEvent) => {
     const selection = window.getSelection();
     const selectedText = selection?.toString().trim();
@@ -25,13 +41,9 @@ export const usePopover = () => {
       return;
     }
 
-    // TODO: 選択した要素が input などの場合は表示しない
-    // FIXME: 選択した要素がからでも表示されてしまうことがある
     if (selectedText && selectedText.length > 0) {
       setOpen(true);
       setPos({ x: event.pageX, y: event.pageY });
-    } else {
-      setOpen(false);
     }
   };
   useEvent("mouseup", onMouseUp);
