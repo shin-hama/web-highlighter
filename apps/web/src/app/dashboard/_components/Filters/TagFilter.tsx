@@ -1,10 +1,9 @@
 "use client";
 
-import { Badge } from "@ui/components/ui/badge";
-import { Button } from "@ui/components/ui/button";
-import { HashIcon, XIcon } from "lucide-react";
+import { HashIcon } from "lucide-react";
 
 import { useTagFilter } from "../../_context/TagFilterContext";
+import TagBadge from "../TagBadge";
 
 const FilteredTags = () => {
   const [selectedTags, setSelectedTags] = useTagFilter();
@@ -20,16 +19,12 @@ const FilteredTags = () => {
         tags:
       </div>
       {selectedTags.map((tag) => (
-        <Badge key={tag.id} className="whl-items-center whl-gap-1 whl-text-xs">
-          <HashIcon size={12} /> {tag.name}
-          <Button
-            variant="ghost"
-            size="icon_xs"
-            onClick={() => setSelectedTags.removeAt(selectedTags.indexOf(tag))}
-          >
-            <XIcon size={12} />
-          </Button>
-        </Badge>
+        <TagBadge
+          key={tag.id}
+          tag={tag}
+          removable
+          onRemove={() => setSelectedTags.removeAt(selectedTags.indexOf(tag))}
+        />
       ))}
     </div>
   );
