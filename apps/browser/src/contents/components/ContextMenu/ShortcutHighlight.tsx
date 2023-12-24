@@ -6,9 +6,9 @@ interface Props {
 const ShortcutHighlight = ({ onExecute }: Props) => {
   // alt + c を押したら、ハイライトを開始する
   useKeyPressEvent(
-    (e) => e.altKey && e.key === "c",
+    (e) =>
+      e.altKey && e.code === "KeyC" && !e.shiftKey && !e.ctrlKey && !e.metaKey,
     () => {
-      console.log("Save Highlight");
       onExecute();
     },
   );

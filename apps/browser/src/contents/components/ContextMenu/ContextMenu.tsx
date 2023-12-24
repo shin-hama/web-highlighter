@@ -8,6 +8,12 @@ import {
   PopoverAnchor,
   PopoverContent,
 } from "@whl/ui/components/ui/popover";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@whl/ui/components/ui/tooltip";
 
 import { useHighlight } from "~/contents/hooks/useLabel";
 import { useLabels } from "~/contents/hooks/useLabels";
@@ -79,9 +85,20 @@ const ContextMenu = () => {
         }}
       >
         {highlight === null ? (
-          <Button size="icon_sm" onClick={setDefaultHighlight}>
-            <HighlighterIcon size={24} />
-          </Button>
+          <TooltipProvider>
+            <Tooltip delayDuration={400}>
+              <TooltipTrigger asChild>
+                <Button size="icon_sm" onClick={setDefaultHighlight}>
+                  <HighlighterIcon size={24} />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent side="bottom">
+                <p className="whl-font-mono whl-text-xs">
+                  Highlight Text (alt+c)
+                </p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         ) : (
           <div className="whl-flex whl-flex-col whl-gap-2 whl-p-2">
             <Labels labels={labels} onChanged={setLabel} />
