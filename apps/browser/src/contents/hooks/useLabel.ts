@@ -50,8 +50,6 @@ export const useHighlight = (): readonly [
         position: parse(selection),
         url: build(selection) ?? "",
       });
-      const url = build(selection);
-      console.log(url);
 
       // 現在選択されているテキストをハイライトする
       mark(parse(selection), label.color);
