@@ -101,12 +101,14 @@ export async function POST(req: Request) {
     },
   });
 
+  const { position, labelId, ...rest } = highlight;
+
   const result = await prisma.highlight.create({
     data: {
-      content: highlight.content,
+      ...rest,
       position: {
         create: {
-          ...highlight.position,
+          ...position,
           text: highlight.content,
         },
       },
@@ -117,7 +119,7 @@ export async function POST(req: Request) {
       },
       label: {
         connect: {
-          id: highlight.labelId,
+          id: labelId,
         },
       },
       user: {

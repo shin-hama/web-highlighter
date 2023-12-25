@@ -10,6 +10,7 @@ const Highlight = ({
   label,
   content,
   pageId,
+  url,
   HighlightOnTag,
 }: HighlightWithLabelAndTag) => {
   return (
@@ -29,7 +30,7 @@ const Highlight = ({
         </div>
       </div>
       <div className="whl-invisible whl-absolute whl-right-2 whl-top-1 group-hover/highlight:whl-visible">
-        <Actions id={id} pageId={pageId} />
+        <Actions id={id} pageId={pageId} url={url} />
       </div>
     </div>
   );

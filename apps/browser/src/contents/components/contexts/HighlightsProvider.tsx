@@ -27,6 +27,7 @@ export const HighlightsProvider = ({ children }: PropsWithChildren) => {
   const { mark } = useMarker();
 
   useEffect(() => {
+    console.log("highlights", highlights);
     highlights.forEach((marker) => {
       if (marker.position) {
         mark(marker.position, marker.label.color);
