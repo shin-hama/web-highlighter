@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { ExternalLink, Trash2 } from "lucide-react";
 import { useSWRConfig } from "swr";
 
@@ -20,17 +21,15 @@ export const Actions = ({ id, pageId, url }: Props) => {
     void mutate(`/api/highlights?pageId=${pageId}`);
   };
 
+  console.log("Actions", id, pageId, url);
+
   return (
     <div className="whl-flex whl-border-spacing-2 whl-flex-row">
       {url && (
-        <Button
-          variant="ghost"
-          size="icon_sm"
-          onClick={() => {
-            window.open(url, "_blank");
-          }}
-        >
-          <ExternalLink />
+        <Button variant="ghost" size="icon_sm" asChild>
+          <Link href={url} target="_blank" rel="noopener noreferrer">
+            <ExternalLink />
+          </Link>
         </Button>
       )}
       <Button size="icon_sm" variant="ghost" onClick={handleRemove}>
