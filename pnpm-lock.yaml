@@ -123,6 +123,9 @@ importers:
       browser:
         specifier: ^0.2.6
         version: 0.2.6
+      dayjs:
+        specifier: ^1.11.10
+        version: 1.11.10
       lucide-react:
         specifier: ^0.274.0
         version: 0.274.0(react@18.2.0)
@@ -5643,6 +5646,10 @@ packages:
     engines: {node: '>=0.11'}
     dependencies:
       '@babel/runtime': 7.23.1
+    dev: false
+
+  /dayjs@1.11.10:
+    resolution: {integrity: sha512-vjAczensTgRcqDERK0SR2XMwsF/tSvnvlv6VcF2GIhg6Sx4yOIt/irsr1RDJsKiIyBzJDpCoXiWWq28MqH2cnQ==}
     dev: false
 
   /debug@3.2.7:

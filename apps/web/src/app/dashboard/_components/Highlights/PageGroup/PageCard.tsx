@@ -17,14 +17,18 @@ import {
   CardTitle,
 } from "@whl/ui/components/ui/card";
 
+import { useSetPageDetail } from "~/app/dashboard/_context/PageDetailContext";
 import { useTagFilter } from "../../../_context/TagFilterContext";
 import Highlights from "../Highlights";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
-const PageCard = ({ id, title, url, _count }: PageWithCountOfHighlights) => {
+const PageCard = (props: PageWithCountOfHighlights) => {
+  console.log(props);
+  const { id, title, url, _count } = props;
   const [open, setOpen] = useState(false);
   const [tags] = useTagFilter();
+  const setPageDetail = useSetPageDetail();
 
   const { data } = useSWR<HighlightWithLabelAndPageAndTag[]>(
     `/api/highlights?pageId=${id}`,
@@ -42,7 +46,10 @@ const PageCard = ({ id, title, url, _count }: PageWithCountOfHighlights) => {
   return (
     <div className="whl-group/page whl-w-full whl-overflow-hidden">
       <Card
-        onClick={() => setOpen((prev) => !prev)}
+        onClick={() => {
+          setOpen((prev) => !prev);
+          setPageDetail(props);
+        }}
         className="whl-w-full whl-overflow-hidden whl-rounded-none"
       >
         <CardHeader className="whl-w-full whl-overflow-hidden whl-p-2">

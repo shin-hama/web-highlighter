@@ -1,13 +1,13 @@
 import { DashboardSettingsProvider } from "../_hooks/useDashboardSettings";
-import { HighlightDetailProvider } from "./HighlightDetailContext";
+import { DetailProvider } from "./PageDetailContext";
 import { TagFilterProvider } from "./TagFilterContext";
 
 export const DashboardProvider = ({ children }: { children: JSX.Element }) => {
   return (
     <TagFilterProvider>
-      <HighlightDetailProvider>
+      <DetailProvider>
         <DashboardSettingsProvider>{children}</DashboardSettingsProvider>
-      </HighlightDetailProvider>
+      </DetailProvider>
     </TagFilterProvider>
   );
 };
