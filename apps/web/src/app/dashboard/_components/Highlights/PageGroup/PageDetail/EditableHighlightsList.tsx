@@ -3,6 +3,8 @@ import useSWR from "swr";
 import type { HighlightWithLabelAndPageAndTag } from "@whl/common-types";
 import { Separator } from "@whl/ui/components/ui/separator";
 
+import EditableHighlight from "./EditableHighlight";
+
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 interface Props {
@@ -26,8 +28,8 @@ const EditableHighlights = ({ pageId }: Props) => {
     <div className="whl-space-y-4">
       {data.map((highlight, i) => (
         <>
-          {i !== 0 && <Separator />}
-          <div key={highlight.id}>{highlight.content}</div>
+          {i !== 0 && <Separator key={`separator-${highlight.id}`} />}
+          <EditableHighlight key={highlight.id} {...highlight} />
         </>
       ))}
     </div>

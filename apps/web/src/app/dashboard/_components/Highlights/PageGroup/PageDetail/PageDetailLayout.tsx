@@ -3,7 +3,7 @@ import dayjs from "dayjs";
 
 import type { Page } from "@whl/db";
 
-import EditableHighlights from "./EditableHighlights";
+import EditableHighlights from "./EditableHighlightsList";
 
 type Props = Page;
 const PageDetailLayout = ({ id, title, url, updatedAt }: Props) => {
