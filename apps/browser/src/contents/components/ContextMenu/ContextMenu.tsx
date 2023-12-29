@@ -148,9 +148,9 @@ const ContextMenu = () => {
                       {window.location.hostname}
                     </Label>
                     {enabled ? (
-                      <PowerOffIcon size={20} />
+                      <PowerOffIcon size={16} />
                     ) : (
-                      <PowerIcon size={20} />
+                      <PowerIcon size={16} />
                     )}
                   </Button>
                 </div>
