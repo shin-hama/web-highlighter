@@ -1,6 +1,4 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Button } from "@ui/components/ui/button";
-import { HighlighterIcon } from "lucide-react";
 
 import type { TagDTO } from "@whl/common-types";
 import {
@@ -8,17 +6,12 @@ import {
   PopoverAnchor,
   PopoverContent,
 } from "@whl/ui/components/ui/popover";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@whl/ui/components/ui/tooltip";
 
 import { useHighlight } from "~/contents/hooks/useLabel";
 import { useLabels } from "~/contents/hooks/useLabels";
 import { usePopover } from "~/contents/hooks/usePopover";
 import { useSession } from "~/hooks/useSession";
+import Actions from "./Actions";
 import Labels from "./Labels";
 import ShortcutHighlight from "./ShortcutHighlight";
 import TagForm from "./TagForm";
@@ -78,6 +71,8 @@ const ContextMenu = () => {
         />
       </PopoverAnchor>
       <PopoverContent
+        // eslint-disable-next-line jsx-a11y/no-autofocus
+        autoFocus={false}
         className="whl-w-auto whl-max-w-xs whl-p-0"
         onMouseUp={(e) => {
           e.preventDefault();
@@ -85,20 +80,7 @@ const ContextMenu = () => {
         }}
       >
         {highlight === null ? (
-          <TooltipProvider>
-            <Tooltip delayDuration={400}>
-              <TooltipTrigger asChild>
-                <Button size="icon_sm" onClick={setDefaultHighlight}>
-                  <HighlighterIcon size={24} />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent side="bottom">
-                <p className="whl-font-mono whl-text-xs">
-                  Highlight Text (alt+c)
-                </p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
+          <Actions handleHighlight={setDefaultHighlight} />
         ) : (
           <div className="whl-flex whl-flex-col whl-gap-2 whl-p-2">
             <Labels labels={labels} onChanged={setLabel} />
