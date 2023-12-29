@@ -40,10 +40,7 @@ const Actions = ({ handleHighlight }: Props) => {
             <Tooltip delayDuration={400} defaultOpen={false}>
               <div className="whl-flex whl-flex-row whl-gap-2">
                 <TooltipTrigger asChild>
-                  <Button
-                    size="icon_sm"
-                    onClick={handleHighlight}
-                  >
+                  <Button size="icon_sm" onClick={handleHighlight}>
                     <HighlighterIcon size={20} />
                   </Button>
                 </TooltipTrigger>

@@ -1,6 +1,13 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { Button } from "@ui/components/ui/button";
 import { PowerIcon, PowerOffIcon } from "lucide-react";
+
+import { Button } from "@whl/ui/components/ui/button";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@whl/ui/components/ui/tooltip";
 
 import { useIgnoredDomains } from "~/hooks/useIgnoredDomain";
 import { APP_HOST } from "~/lib/config";
@@ -48,9 +55,20 @@ const Header = () => {
           Highlighter
         </h1>
       </a>
-      <Button size="icon" onClick={handleToggle}>
-        {enabled ? <PowerIcon size={20} /> : <PowerOffIcon size={20} />}
-      </Button>
+      <TooltipProvider>
+        <Tooltip delayDuration={400}>
+          <TooltipTrigger asChild>
+            <Button size="icon" onClick={handleToggle}>
+              {enabled ? <PowerIcon size={20} /> : <PowerOffIcon size={20} />}
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>
+            <p className="whl-font-mono whl-text-xs">
+              {enabled ? "Disable" : "Enable"} extension on {url?.hostname}
+            </p>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
     </div>
   );
 };
