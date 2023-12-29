@@ -1,19 +1,19 @@
-import { useCallback, useEffect, useRef, useState } from "react";
-import { Button } from "@ui/components/ui/button";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@ui/components/ui/collapsible";
-import { Label } from "@ui/components/ui/label";
-import { Switch } from "@ui/components/ui/switch";
-import { HighlighterIcon, MoreVerticalIcon } from "lucide-react";
+  HighlighterIcon,
+  MoreVerticalIcon,
+  PowerIcon,
+  PowerOffIcon,
+} from "lucide-react";
 
 import type { TagDTO } from "@whl/common-types";
+import { Button } from "@whl/ui/components/ui/button";
+import { Label } from "@whl/ui/components/ui/label";
 import {
   Popover,
   PopoverAnchor,
   PopoverContent,
+  PopoverTrigger,
 } from "@whl/ui/components/ui/popover";
 import {
   Tooltip,
@@ -38,7 +38,12 @@ const ContextMenu = () => {
   const { status } = useSession();
   const [tags, setTags] = useState<TagDTO[]>([]);
   const anchor = useRef<HTMLDivElement>(null);
-  const [_, { add, remove }] = useIgnoredDomains();
+  const [ignoredDomains, { toggle }] = useIgnoredDomains();
+
+  const enabled = useMemo<boolean>(
+    () => ignoredDomains.includes(window.location.hostname) === false,
+    [ignoredDomains],
+  );
 
   useEffect(() => {
     if (!open) {
@@ -61,17 +66,6 @@ const ContextMenu = () => {
       setLabel(labels[0]);
     }
   }, [highlight, labels, setLabel]);
-
-  const handleToggleIgnored = useCallback(
-    (checked: boolean) => {
-      if (checked) {
-        add(window.location.hostname).then(console.log).catch(console.error);
-      } else {
-        remove(window.location.hostname).then(console.log).catch(console.error);
-      }
-    },
-    [add, remove],
-  );
 
   if (status !== "authenticated") {
     return <></>;
@@ -105,8 +99,8 @@ const ContextMenu = () => {
         }}
       >
         {highlight === null ? (
-          <div className="space-y-2">
-            <Collapsible>
+          <Popover>
+            <div className="whl-rounded whl-bg-primary whl-px-2 whl-py-1">
               <div className="whl-flex whl-flex-row whl-gap-2">
                 <TooltipProvider>
                   <Tooltip delayDuration={400}>
@@ -128,26 +122,41 @@ const ContextMenu = () => {
                     </TooltipContent>
                   </Tooltip>
                 </TooltipProvider>
-                <CollapsibleTrigger asChild>
+                <Button size="icon_sm" onClick={setDefaultHighlight}>
+                  <HighlighterIcon size={20} />
+                </Button>
+                <PopoverTrigger asChild>
                   <Button size="icon_sm">
-                    <MoreVerticalIcon size={24} />
+                    <MoreVerticalIcon size={20} />
                   </Button>
-                </CollapsibleTrigger>
+                </PopoverTrigger>
               </div>
-              <CollapsibleContent>
-                <div className="flex items-center space-x-2">
-                  <Switch
-                    id="enabled-on"
-                    defaultChecked={true}
-                    onCheckedChange={handleToggleIgnored}
-                  />
-                  <Label htmlFor="enabled-on">
-                    Enable on {window.location.hostname}
-                  </Label>
+              <PopoverContent
+                align="start"
+                className="whl-w-auto whl-bg-primary whl-p-0"
+              >
+                <div className="whl-flex whl-flex-col whl-gap-0.5">
+                  <Button
+                    onClick={() => toggle(window.location.hostname)}
+                    className="whl-gap-1"
+                  >
+                    <Label
+                      htmlFor="enabled-on"
+                      className="whl-text-primary-foreground"
+                    >
+                      {enabled ? "Disable" : "Enable"} on{" "}
+                      {window.location.hostname}
+                    </Label>
+                    {enabled ? (
+                      <PowerOffIcon size={20} />
+                    ) : (
+                      <PowerIcon size={20} />
+                    )}
+                  </Button>
                 </div>
-              </CollapsibleContent>
-            </Collapsible>
-          </div>
+              </PopoverContent>
+            </div>
+          </Popover>
         ) : (
           <div className="whl-flex whl-flex-col whl-gap-2 whl-p-2">
             <Labels labels={labels} onChanged={setLabel} />

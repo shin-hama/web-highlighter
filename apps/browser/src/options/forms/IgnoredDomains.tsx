@@ -51,7 +51,7 @@ const IgnoredDomains = () => {
 
   return (
     <div className="whl-space-y-2">
-      <h2>Ignored Domains</h2>
+      <h2 className="font-mono whl-text-lg whl-font-bold">Ignored Domains</h2>
       <p className="whl-text-muted-foreground">
         Extensions does not launch on below domains.
       </p>
@@ -80,7 +80,7 @@ const IgnoredDomains = () => {
             className="whl-flex whl-flex-row whl-justify-between"
             key={domain}
           >
-            <div className="whl-flex whl-flex-row whl-gap-2">
+            <div className="whl-flex whl-flex-row whl-items-center whl-gap-2">
               <img
                 src={`https://www.google.com/s2/favicons?sz=64&domain=${domain}`}
                 alt={`Favicon for ${domain}`}

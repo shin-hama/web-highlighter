@@ -16,10 +16,11 @@ type Domain = z.infer<typeof IgnoredDomainsSchema>["domain"];
 interface UseIgnoredDomainsActions {
   add(domain: Domain): Promise<void>;
   remove(domain: Domain): Promise<void>;
+  toggle(domain: Domain): Promise<void>;
 }
 
 export const useIgnoredDomains = () => {
-  const [domains, setDomains] = useStorage<Domain[]>("ignoredDomains");
+  const [domains, setDomains] = useStorage<Domain[]>("ignoredDomains", []);
 
   const actions = useMemo<UseIgnoredDomainsActions>(() => {
     const a = {
@@ -30,6 +31,15 @@ export const useIgnoredDomains = () => {
       },
       remove: async (domain: Domain) => {
         await setDomains((prev) => (prev ?? []).filter((d) => d !== domain));
+      },
+      toggle: async (domain: Domain) => {
+        await setDomains((prev) => {
+          if (prev?.includes(domain)) {
+            return prev.filter((d) => d !== domain);
+          } else {
+            return [...(prev ?? []), domain];
+          }
+        });
       },
     };
 
