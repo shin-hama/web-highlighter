@@ -1,5 +1,6 @@
 "use client";
 
+import Masonry from "@mui/lab/Masonry";
 import useSWR from "swr";
 
 import type { HighlightWithLabelAndPageAndTag } from "@whl/common-types";
@@ -14,13 +15,11 @@ const HighlightGallery = () => {
   );
   return (
     <div className="whl-container whl-py-4">
-      <div className="whl-columns-2 md:whl-columns-3 lg:whl-columns-4">
-        {data?.map((highlight) => (
-          <div key={highlight.id} className="whl-pb-4">
-            <HighlightCard {...highlight} />
-          </div>
+      <Masonry columns={3} spacing={2}>
+        {(data ?? []).map((highlight) => (
+          <HighlightCard key={highlight.id} {...highlight} />
         ))}
-      </div>
+      </Masonry>
     </div>
   );
 };
