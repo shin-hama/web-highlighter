@@ -15,7 +15,14 @@ const HighlightGallery = () => {
   );
   return (
     <div className="whl-container whl-py-4">
-      <Masonry columns={3} spacing={2}>
+      <Masonry
+        columns={{
+          sm: 2,
+          md: 3,
+          lg: 4,
+        }}
+        spacing={2}
+      >
         {(data ?? []).map((highlight) => (
           <HighlightCard key={highlight.id} {...highlight} />
         ))}

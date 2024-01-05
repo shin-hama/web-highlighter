@@ -30,17 +30,19 @@ const HighlightCard = ({
           <p className="">{content}</p>
         </div>
       </CardHeader>
-      <CardContent>
-        <div className="whl-flex whl-flex-row whl-items-center whl-gap-x-1">
-          {HighlightOnTag.map(({ tag }) => (
-            <Badge key={tag.id}>
-              <HashIcon size={12} /> {tag.name}
-            </Badge>
-          ))}
-        </div>
-      </CardContent>
+      {HighlightOnTag.length > 0 && (
+        <CardContent>
+          <div className="whl-flex whl-flex-row whl-items-center whl-gap-x-1">
+            {HighlightOnTag.map(({ tag }) => (
+              <Badge key={tag.id}>
+                <HashIcon size={12} /> {tag.name}
+              </Badge>
+            ))}
+          </div>
+        </CardContent>
+      )}
       <CardFooter>
-        <div className="whl-invisible whl-absolute whl-right-2 whl-top-1 group-hover/highlight:whl-visible">
+        <div className="whl-invisible group-hover/highlight:whl-visible">
           <Actions id={id} pageId={pageId} url={url} />
         </div>
       </CardFooter>
