@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { ScrollArea } from "@ui/components/ui/scroll-area";
 
 import { GROUPING_TYPE } from "~/types";
 import { useDashboardSettings } from "../../_hooks/useDashboardSettings";
@@ -21,11 +20,7 @@ const HighlightsGroupBy = () => {
     }
   }, [settings]);
 
-  return (
-    <ScrollArea className="whl-box-border whl-h-full whl-w-full">
-      {component && component}
-    </ScrollArea>
-  );
+  return <>{component && component}</>;
 };
 
 export default HighlightsGroupBy;
