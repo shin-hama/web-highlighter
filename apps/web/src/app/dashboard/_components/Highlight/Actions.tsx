@@ -2,7 +2,12 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { ClipboardCopyIcon, ExternalLink, Trash2 } from "lucide-react";
+import {
+  ClipboardCopyIcon,
+  ExternalLink,
+  MoreVerticalIcon,
+  Trash2,
+} from "lucide-react";
 import { useSWRConfig } from "swr";
 
 import { Button } from "@whl/ui/components/ui/button";
@@ -85,6 +90,9 @@ export const Actions = ({ id, pageId, url }: Props) => {
           </TooltipTrigger>
           <TooltipContent className="whl-text-xs">Remove</TooltipContent>
         </Tooltip>
+        <Button size="icon_sm" variant="ghost" onClick={handleRemove}>
+          <MoreVerticalIcon size={ActionIconSize} />
+        </Button>
       </div>
     </TooltipProvider>
   );
