@@ -26,7 +26,7 @@ const TagCard = ({ tag }: Props) => {
   const [open, setOpen] = useState(false);
 
   const { data } = useSWR<HighlightWithLabelAndPageAndTag[]>(
-    `/api/highlights?tagId=${tag.id}`,
+    `/api/highlights?tags=${tag.id}`,
     fetcher,
   );
 

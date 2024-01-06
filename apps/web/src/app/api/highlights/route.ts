@@ -9,7 +9,14 @@ import { prisma } from "@whl/db";
 
 const GetHighlightsRequestSchema = z.object({
   pageId: z.string().optional(),
-  tagId: z.string().optional(),
+  tags: z
+    .preprocess((v) => {
+      if (typeof v === "string") {
+        return v.split(",");
+      }
+      return v;
+    }, z.array(z.string()))
+    .optional(),
   labels: z
     .preprocess((v) => {
       if (typeof v === "string") {
@@ -33,7 +40,7 @@ export async function GET(req: Request) {
   }
 
   const { searchParams } = new URL(req.url);
-  const { pageId, tagId, labels } = GetHighlightsRequestSchema.parse(
+  const { pageId, tags, labels } = GetHighlightsRequestSchema.parse(
     Object.fromEntries(searchParams),
   );
 
@@ -45,14 +52,13 @@ export async function GET(req: Request) {
         labelId: labels && {
           in: labels,
         },
-        HighlightOnTag:
-          tagId !== undefined
-            ? {
-                some: {
-                  tagId,
-                },
-              }
-            : undefined,
+        HighlightOnTag: tags && {
+          some: {
+            tagId: {
+              in: tags,
+            },
+          },
+        },
       },
       include: {
         label: true,
