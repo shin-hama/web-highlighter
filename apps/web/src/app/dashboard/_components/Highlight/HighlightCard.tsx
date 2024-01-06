@@ -1,6 +1,7 @@
+import Image from "next/image";
 import { HashIcon } from "lucide-react";
 
-import type { HighlightWithLabelAndTag } from "@whl/common-types";
+import type { HighlightWithLabelAndPageAndTag } from "@whl/common-types";
 import { Badge } from "@whl/ui/components/ui/badge";
 import {
   Card,
@@ -18,7 +19,8 @@ const HighlightCard = ({
   pageId,
   url,
   HighlightOnTag,
-}: HighlightWithLabelAndTag) => {
+  page,
+}: HighlightWithLabelAndPageAndTag) => {
   return (
     <Card
       className="whl-group/highlight"
@@ -48,6 +50,25 @@ const HighlightCard = ({
           <Actions id={id} pageId={pageId} url={url} />
         </div>
       </CardFooter>
+      <div className="whl-bg-gray-100 whl-px-2 whl-py-1">
+        <div className="whl-flex whl-w-full whl-flex-row whl-items-center whl-space-x-4">
+          <Image
+            src={`https://www.google.com/s2/favicons?sz=64&domain=${
+              new URL(page.url).hostname
+            }`}
+            alt={`Favicon for ${page.title}`}
+            width={32}
+            height={32}
+            className="whl-flex-shrink-0"
+          />
+          <div className="whl-flex whl-w-full whl-flex-1 whl-flex-col whl-overflow-hidden">
+            <span className="whl-truncate">{page.title}</span>
+            <span className="whl-truncate whl-text-xs whl-font-light">
+              {new URL(page.url).hostname}
+            </span>
+          </div>
+        </div>
+      </div>
     </Card>
   );
 };
