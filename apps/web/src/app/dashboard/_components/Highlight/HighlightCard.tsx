@@ -20,14 +20,16 @@ const HighlightCard = ({
   HighlightOnTag,
 }: HighlightWithLabelAndTag) => {
   return (
-    <Card className="whl-group/highlight">
+    <Card
+      className="whl-group/highlight"
+      style={{
+        backgroundColor: label.color,
+      }}
+    >
       <CardHeader>
         <div className="whl-flex whl-flex-row whl-gap-2">
-          <div
-            className="whl-w-2 whl-flex-shrink-0"
-            style={{ backgroundColor: label.color }}
-          />
-          <p className="">{content}</p>
+          <div className="whl-w-2 whl-flex-shrink-0 whl-bg-gray-100" />
+          <p className="whl-text-gray-700">{content}</p>
         </div>
       </CardHeader>
       {HighlightOnTag.length > 0 && (
