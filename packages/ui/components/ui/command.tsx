@@ -4,7 +4,7 @@ import * as React from "react";
 import type { DialogProps } from "@radix-ui/react-dialog";
 import { Dialog, DialogContent } from "@ui/components/ui/dialog";
 import { cn } from "@ui/lib/utils";
-import { Command as CommandPrimitive } from "cmdk";
+import { Command as CommandPrimitive, useCommandState } from "cmdk";
 import { Search } from "lucide-react";
 
 const Command = React.forwardRef<
@@ -158,4 +158,5 @@ export {
   CommandItem,
   CommandShortcut,
   CommandSeparator,
+  useCommandState,
 };

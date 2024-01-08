@@ -23,6 +23,8 @@ import {
   TooltipTrigger,
 } from "@whl/ui/components/ui/tooltip";
 
+import AddTagsForm from "./AddTagsForm";
+
 const ActionIconSize = 20;
 interface Props {
   id: string;
@@ -39,6 +41,14 @@ export const Actions = ({ id, url }: Props) => {
     void mutate(
       (key) => typeof key === "string" && key.startsWith("/api/highlights?"),
     );
+  };
+
+  const [popoverContent, setPopoverContent] = useState<JSX.Element | null>(
+    null,
+  );
+
+  const openAddTagForm = () => {
+    setPopoverContent(<AddTagsForm />);
   };
 
   const [clipboardTooltip, setClipboardTooltip] = useState("Copy to clipboard");
@@ -97,7 +107,11 @@ export const Actions = ({ id, url }: Props) => {
           </TooltipTrigger>
           <TooltipContent className="whl-text-xs">Remove</TooltipContent>
         </Tooltip>
-        <Popover>
+        <Popover
+          onOpenChange={() => {
+            setPopoverContent(null);
+          }}
+        >
           <PopoverTrigger asChild>
             <Button size="icon_sm" variant="ghost">
               <MoreVerticalIcon size={ActionIconSize} />
@@ -108,11 +122,20 @@ export const Actions = ({ id, url }: Props) => {
             align="start"
             className="whl-w-auto whl-px-0 whl-py-1"
           >
-            <div className="whl-flex whl-flex-col">
-              <Button variant="ghost" size="sm" className="whl-justify-start">
-                Add Tags
-              </Button>
-            </div>
+            {popoverContent ? (
+              popoverContent
+            ) : (
+              <div className="whl-flex whl-flex-col">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="whl-justify-start"
+                  onClick={openAddTagForm}
+                >
+                  Add Tags
+                </Button>
+              </div>
+            )}
           </PopoverContent>
         </Popover>
       </div>
