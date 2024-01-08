@@ -12,6 +12,11 @@ import { useSWRConfig } from "swr";
 
 import { Button } from "@whl/ui/components/ui/button";
 import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@whl/ui/components/ui/popover";
+import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
@@ -92,9 +97,24 @@ export const Actions = ({ id, url }: Props) => {
           </TooltipTrigger>
           <TooltipContent className="whl-text-xs">Remove</TooltipContent>
         </Tooltip>
-        <Button size="icon_sm" variant="ghost" onClick={handleRemove}>
-          <MoreVerticalIcon size={ActionIconSize} />
-        </Button>
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button size="icon_sm" variant="ghost">
+              <MoreVerticalIcon size={ActionIconSize} />
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent
+            side="bottom"
+            align="start"
+            className="whl-w-auto whl-px-0 whl-py-1"
+          >
+            <div className="whl-flex whl-flex-col">
+              <Button variant="ghost" size="sm" className="whl-justify-start">
+                Add Tags
+              </Button>
+            </div>
+          </PopoverContent>
+        </Popover>
       </div>
     </TooltipProvider>
   );
