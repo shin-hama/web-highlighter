@@ -24,14 +24,16 @@ interface Props {
   pageId: string;
   url: string;
 }
-export const Actions = ({ id, pageId, url }: Props) => {
+export const Actions = ({ id, url }: Props) => {
   const { mutate } = useSWRConfig();
   const handleRemove = async () => {
     await fetch(`/api/highlights/${id}`, {
       method: "DELETE",
     });
 
-    void mutate(`/api/highlights?pageId=${pageId}`);
+    void mutate(
+      (key) => typeof key === "string" && key.startsWith("/api/highlights?"),
+    );
   };
 
   const [clipboardTooltip, setClipboardTooltip] = useState("Copy to clipboard");

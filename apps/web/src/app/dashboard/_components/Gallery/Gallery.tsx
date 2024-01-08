@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback } from "react";
+import { useMemo } from "react";
 import Masonry from "@mui/lab/Masonry";
 import useSWR from "swr";
 
@@ -15,7 +15,7 @@ const HighlightGallery = () => {
   const labels = useLabelsFilter();
   const [tags] = useTagFilter();
 
-  const getKey = useCallback(() => {
+  const key = useMemo<string>(() => {
     const params = new URLSearchParams();
     if (labels && labels.length > 0) {
       params.append("labels", labels.join(","));
@@ -26,7 +26,7 @@ const HighlightGallery = () => {
     return `/api/highlights?${params.toString()}`;
   }, [labels, tags]);
 
-  const { data } = useSWR<HighlightWithLabelAndPageAndTag[]>(getKey, fetcher);
+  const { data } = useSWR<HighlightWithLabelAndPageAndTag[]>(key, fetcher);
   return (
     <div className="whl-container whl-py-4">
       <Masonry
