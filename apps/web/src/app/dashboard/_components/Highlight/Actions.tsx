@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import { useSWRConfig } from "swr";
 
+import type { HighlightWithLabelAndPageAndTag } from "@whl/common-types";
 import { Button } from "@whl/ui/components/ui/button";
 import {
   Popover,
@@ -26,12 +27,12 @@ import {
 import AddTagsForm from "./AddTagsForm";
 
 const ActionIconSize = 20;
-interface Props {
-  id: string;
-  pageId: string;
-  url: string;
-}
-export const Actions = ({ id, url }: Props) => {
+
+export const Actions = ({
+  id,
+  url,
+  HighlightOnTag,
+}: HighlightWithLabelAndPageAndTag) => {
   const { mutate } = useSWRConfig();
   const handleRemove = async () => {
     await fetch(`/api/highlights/${id}`, {
@@ -48,7 +49,11 @@ export const Actions = ({ id, url }: Props) => {
   );
 
   const openAddTagForm = () => {
-    setPopoverContent(<AddTagsForm />);
+    setPopoverContent(
+      <AddTagsForm
+        addedTags={HighlightOnTag.map((relation) => relation.tag)}
+      />,
+    );
   };
 
   const [clipboardTooltip, setClipboardTooltip] = useState("Copy to clipboard");

@@ -27,6 +27,7 @@ const HighlightGallery = () => {
   }, [labels, tags]);
 
   const { data } = useSWR<HighlightWithLabelAndPageAndTag[]>(key, fetcher);
+
   return (
     <div className="whl-container whl-py-4">
       <Masonry

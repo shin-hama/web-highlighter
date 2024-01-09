@@ -5,10 +5,11 @@ import { useState } from "react";
 import "@ui/components/ui/button";
 
 import { Skeleton } from "@ui/components/ui/skeleton";
-import { PlusIcon } from "lucide-react";
+import { CheckSquareIcon, PlusIcon, SquareIcon } from "lucide-react";
 import useSWR from "swr";
 
 import type { GetTagsResponse } from "@whl/common-types";
+import type { Tag } from "@whl/db";
 import {
   Command,
   CommandGroup,
@@ -20,7 +21,13 @@ import {
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
-const AddTagsForm = () => {
+interface Props {
+  /**
+   * Tags already added on Highlight
+   */
+  addedTags: Tag[];
+}
+const AddTagsForm = ({ addedTags }: Props) => {
   const [value, setValue] = useState("");
   const { data: tags, isLoading } = useSWR<GetTagsResponse>(
     "/api/tags",
@@ -45,7 +52,16 @@ const AddTagsForm = () => {
               </>
             )}
             {tags?.map((tag) => (
-              <CommandItem key={tag.id} onSelect={console.log}>
+              <CommandItem
+                key={tag.id}
+                onSelect={console.log}
+                className="whl-gap-2"
+              >
+                {addedTags.some((addedTag) => addedTag.id === tag.id) ? (
+                  <CheckSquareIcon />
+                ) : (
+                  <SquareIcon />
+                )}
                 {tag.name}
               </CommandItem>
             ))}

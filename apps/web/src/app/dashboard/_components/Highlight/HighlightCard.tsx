@@ -14,15 +14,9 @@ import {
 
 import { Actions } from "./Actions";
 
-const HighlightCard = ({
-  id,
-  label,
-  content,
-  pageId,
-  url,
-  HighlightOnTag,
-  page,
-}: HighlightWithLabelAndPageAndTag) => {
+const HighlightCard = (props: HighlightWithLabelAndPageAndTag) => {
+  const { label, content, HighlightOnTag, page } = props;
+
   return (
     <Card
       className="whl-group/highlight"
@@ -49,7 +43,7 @@ const HighlightCard = ({
       )}
       <CardFooter>
         <div className="whl-invisible group-hover/highlight:whl-visible">
-          <Actions id={id} pageId={pageId} url={url} />
+          <Actions {...props} />
         </div>
       </CardFooter>
       <div className="whl-relative whl-bg-gray-100 whl-px-2 whl-py-1">
