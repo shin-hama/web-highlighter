@@ -1,7 +1,10 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@ui/components/ui/button";
 import { ExternalLinkIcon, HashIcon } from "lucide-react";
+import useSWR from "swr";
 
 import type { HighlightWithLabelAndPageAndTag } from "@whl/common-types";
 import { Badge } from "@whl/ui/components/ui/badge";
@@ -14,8 +17,24 @@ import {
 
 import { Actions } from "./Actions";
 
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
 const HighlightCard = (props: HighlightWithLabelAndPageAndTag) => {
-  const { label, content, HighlightOnTag, page } = props;
+  const { data: revalidatedHighlight } =
+    useSWR<HighlightWithLabelAndPageAndTag>(
+      `/api/highlights/${props.id}`,
+      fetcher,
+      {
+        revalidateOnMount: false,
+        revalidateOnFocus: false,
+        revalidateOnReconnect: false,
+        shouldRetryOnError: false,
+        refreshWhenOffline: false,
+        refreshWhenHidden: false,
+        refreshInterval: 0,
+      },
+    );
+  const { label, content, HighlightOnTag, page } =
+    revalidatedHighlight ?? props;
 
   return (
     <Card

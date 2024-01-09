@@ -7,6 +7,7 @@ import "@ui/components/ui/button";
 import { Skeleton } from "@ui/components/ui/skeleton";
 import { CheckSquareIcon, PlusIcon, SquareIcon } from "lucide-react";
 import useSWR from "swr";
+import useSWRMutation from "swr/mutation";
 
 import type { GetTagsResponse } from "@whl/common-types";
 import type { Tag } from "@whl/db";
@@ -20,6 +21,17 @@ import {
 } from "@whl/ui/components/ui/command";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
+
+const updateHighlight = async (url: string, { arg }: { arg: string }) => {
+  await fetch(url, {
+    method: "PUT",
+    body: JSON.stringify({
+      tag: {
+        name: arg,
+      },
+    }),
+  });
+};
 
 interface Props {
   /**
@@ -36,16 +48,13 @@ const AddTagsForm = ({ addedTags, highlightId }: Props) => {
     mutate,
   } = useSWR<GetTagsResponse>("/api/tags", fetcher);
 
-  const handleAddTag = async (newTag: string) => {
-    await fetch(`/api/highlights/${highlightId}`, {
-      method: "PUT",
-      body: JSON.stringify({
-        tag: {
-          name: newTag,
-        },
-      }),
-    });
+  const { trigger } = useSWRMutation(
+    `/api/highlights/${highlightId}`,
+    updateHighlight,
+  );
 
+  const handleAddTag = (newTag: string) => {
+    void trigger(newTag);
     void mutate();
   };
 
