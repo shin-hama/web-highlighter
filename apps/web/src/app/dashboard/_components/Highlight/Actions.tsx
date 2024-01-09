@@ -51,6 +51,7 @@ export const Actions = ({
   const openAddTagForm = () => {
     setPopoverContent(
       <AddTagsForm
+        highlightId={id}
         addedTags={HighlightOnTag.map((relation) => relation.tag)}
       />,
     );

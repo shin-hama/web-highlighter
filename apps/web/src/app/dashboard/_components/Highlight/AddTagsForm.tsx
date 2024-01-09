@@ -26,13 +26,28 @@ interface Props {
    * Tags already added on Highlight
    */
   addedTags: Tag[];
+  highlightId: string;
 }
-const AddTagsForm = ({ addedTags }: Props) => {
+const AddTagsForm = ({ addedTags, highlightId }: Props) => {
   const [value, setValue] = useState("");
-  const { data: tags, isLoading } = useSWR<GetTagsResponse>(
-    "/api/tags",
-    fetcher,
-  );
+  const {
+    data: tags,
+    isLoading,
+    mutate,
+  } = useSWR<GetTagsResponse>("/api/tags", fetcher);
+
+  const handleAddTag = async (newTag: string) => {
+    await fetch(`/api/highlights/${highlightId}`, {
+      method: "PUT",
+      body: JSON.stringify({
+        tag: {
+          name: newTag,
+        },
+      }),
+    });
+
+    void mutate();
+  };
 
   return (
     <div>
@@ -54,7 +69,7 @@ const AddTagsForm = ({ addedTags }: Props) => {
             {tags?.map((tag) => (
               <CommandItem
                 key={tag.id}
-                onSelect={console.log}
+                onSelect={handleAddTag}
                 className="whl-gap-2"
               >
                 {addedTags.some((addedTag) => addedTag.id === tag.id) ? (
@@ -68,7 +83,12 @@ const AddTagsForm = ({ addedTags }: Props) => {
             {value && tags?.some((tag) => tag.name === value) === false && (
               <>
                 <CommandSeparator />
-                <CommandItem key="whl-add-new-tag-button" className="whl-gap-2">
+                <CommandItem
+                  key="whl-add-new-tag-button"
+                  className="whl-gap-2"
+                  onSelect={handleAddTag}
+                  value={value}
+                >
                   <>
                     <PlusIcon size={14} />
                     {`Create "${value}"`}
