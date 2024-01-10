@@ -1,9 +1,6 @@
 "use client";
 
 import { useCallback, useState } from "react";
-
-import "@ui/components/ui/button";
-
 import { PlusIcon } from "lucide-react";
 import useSWR from "swr";
 import useSWRMutation from "swr/mutation";
@@ -28,7 +25,7 @@ const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 const updateHighlight = (url: string, { arg }: { arg: string }) =>
   fetch(url, {
-    method: "PUT",
+    method: "POST",
     body: JSON.stringify({
       tag: {
         name: arg,
@@ -52,7 +49,7 @@ const AddTagsForm = ({ addedTags, highlightId }: Props) => {
   } = useSWR<GetTagsResponse>("/api/tags", fetcher);
 
   const { trigger } = useSWRMutation(
-    `/api/highlights/${highlightId}`,
+    `/api/highlights/${highlightId}/tags`,
     updateHighlight,
   );
 
