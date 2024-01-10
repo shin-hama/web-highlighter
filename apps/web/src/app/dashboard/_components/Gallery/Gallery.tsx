@@ -8,7 +8,7 @@ import type { HighlightWithLabelAndPageAndTag } from "@whl/common-types";
 
 import { useLabelsFilter } from "~/app/dashboard/_hooks/useLabelsFilter";
 import { useTagFilter } from "../../_context/TagFilterContext";
-import HighlightCard from "../Highlight/HighlightCard";
+import { HighlightCard } from "../Highlight";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 const HighlightGallery = () => {
