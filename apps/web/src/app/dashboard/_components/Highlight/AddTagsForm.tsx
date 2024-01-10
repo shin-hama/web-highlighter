@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
 import "@ui/components/ui/button";
 
@@ -8,7 +8,10 @@ import { PlusIcon } from "lucide-react";
 import useSWR from "swr";
 import useSWRMutation from "swr/mutation";
 
-import type { GetTagsResponse } from "@whl/common-types";
+import type {
+  GetTagsResponse,
+  HighlightWithLabelAndPositionAndTag,
+} from "@whl/common-types";
 import type { Tag } from "@whl/db";
 import { Checkbox } from "@whl/ui/components/ui/checkbox";
 import {
@@ -23,16 +26,15 @@ import { Skeleton } from "@whl/ui/components/ui/skeleton";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
-const updateHighlight = async (url: string, { arg }: { arg: string }) => {
-  await fetch(url, {
+const updateHighlight = (url: string, { arg }: { arg: string }) =>
+  fetch(url, {
     method: "PUT",
     body: JSON.stringify({
       tag: {
         name: arg,
       },
     }),
-  });
-};
+  }).then((res) => res.json() as Promise<HighlightWithLabelAndPositionAndTag>);
 
 interface Props {
   /**
@@ -54,11 +56,11 @@ const AddTagsForm = ({ addedTags, highlightId }: Props) => {
     updateHighlight,
   );
 
-  const handleAddTag = (newTag: string) => {
-    void trigger(newTag);
+  const handleAddTag = useCallback(async (newTag: string) => {
+    await trigger(newTag);
     void mutate();
     setValue("");
-  };
+  }, []);
 
   return (
     <div>

@@ -54,7 +54,7 @@ const HighlightCard = (props: HighlightWithLabelAndPageAndTag) => {
       </CardHeader>
       {highlight.HighlightOnTag.length > 0 && (
         <CardContent>
-          <div className="whl-flex whl-flex-row whl-items-center whl-gap-x-1">
+          <div className="whl-flex whl-flex-row whl-flex-wrap whl-items-center whl-gap-1">
             {highlight.HighlightOnTag.map(({ tag }) => (
               <Badge key={tag.id}>
                 <HashIcon size={12} /> {tag.name}
