@@ -4,13 +4,13 @@ import { useState } from "react";
 
 import "@ui/components/ui/button";
 
-import { Skeleton } from "@ui/components/ui/skeleton";
-import { CheckSquareIcon, PlusIcon, SquareIcon } from "lucide-react";
+import { PlusIcon } from "lucide-react";
 import useSWR from "swr";
 import useSWRMutation from "swr/mutation";
 
 import type { GetTagsResponse } from "@whl/common-types";
 import type { Tag } from "@whl/db";
+import { Checkbox } from "@whl/ui/components/ui/checkbox";
 import {
   Command,
   CommandGroup,
@@ -19,6 +19,7 @@ import {
   CommandList,
   CommandSeparator,
 } from "@whl/ui/components/ui/command";
+import { Skeleton } from "@whl/ui/components/ui/skeleton";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
@@ -56,6 +57,7 @@ const AddTagsForm = ({ addedTags, highlightId }: Props) => {
   const handleAddTag = (newTag: string) => {
     void trigger(newTag);
     void mutate();
+    setValue("");
   };
 
   return (
@@ -81,11 +83,9 @@ const AddTagsForm = ({ addedTags, highlightId }: Props) => {
                 onSelect={handleAddTag}
                 className="whl-gap-2"
               >
-                {addedTags.some((addedTag) => addedTag.id === tag.id) ? (
-                  <CheckSquareIcon />
-                ) : (
-                  <SquareIcon />
-                )}
+                <Checkbox
+                  checked={addedTags.some((addedTag) => addedTag.id === tag.id)}
+                />
                 {tag.name}
               </CommandItem>
             ))}

@@ -28,6 +28,8 @@ import AddTagsForm from "./AddTagsForm";
 
 const ActionIconSize = 20;
 
+type PopoverContentType = "menu" | "add-tag";
+
 export const Actions = ({
   id,
   url,
@@ -44,17 +46,11 @@ export const Actions = ({
     );
   };
 
-  const [popoverContent, setPopoverContent] = useState<JSX.Element | null>(
-    null,
-  );
+  const [popoverContent, setPopoverContent] =
+    useState<PopoverContentType>("menu");
 
   const openAddTagForm = () => {
-    setPopoverContent(
-      <AddTagsForm
-        highlightId={id}
-        addedTags={HighlightOnTag.map((relation) => relation.tag)}
-      />,
-    );
+    setPopoverContent("add-tag");
   };
 
   const [clipboardTooltip, setClipboardTooltip] = useState("Copy to clipboard");
@@ -115,7 +111,7 @@ export const Actions = ({
         </Tooltip>
         <Popover
           onOpenChange={() => {
-            setPopoverContent(null);
+            setPopoverContent("menu");
           }}
         >
           <PopoverTrigger asChild>
@@ -128,8 +124,11 @@ export const Actions = ({
             align="start"
             className="whl-w-auto whl-px-0 whl-py-1"
           >
-            {popoverContent ? (
-              popoverContent
+            {popoverContent === "add-tag" ? (
+              <AddTagsForm
+                highlightId={id}
+                addedTags={HighlightOnTag.map((relation) => relation.tag)}
+              />
             ) : (
               <div className="whl-flex whl-flex-col">
                 <Button
