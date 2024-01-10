@@ -4,7 +4,7 @@ import { useMemo } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@ui/components/ui/button";
-import { ExternalLinkIcon, HashIcon } from "lucide-react";
+import { ExternalLinkIcon, HashIcon, XIcon } from "lucide-react";
 import useSWR from "swr";
 
 import type { HighlightWithLabelAndPageAndTag } from "@whl/common-types";
@@ -56,8 +56,27 @@ const HighlightCard = (props: HighlightWithLabelAndPageAndTag) => {
         <CardContent>
           <div className="whl-flex whl-flex-row whl-flex-wrap whl-items-center whl-gap-1">
             {highlight.HighlightOnTag.map(({ tag }) => (
-              <Badge key={tag.id}>
-                <HashIcon size={12} /> {tag.name}
+              // <Badge key={tag.id} className="whl-relative">
+              //   <HashIcon size={12} />
+              //   {tag.name}
+              //   <XIcon size={12} className="whl-absolute whl-right-1" />
+              // </Badge>
+              <Badge
+                key={tag.id}
+                className="whl-group/tag whl-relative whl-gap-0.5"
+              >
+                <HashIcon
+                  size={12}
+                  className="whl-visible group-hover/tag:whl-hidden"
+                />
+                {tag.name}
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="whl-hidden whl-h-3 whl-w-3 group-hover/tag:whl-block"
+                >
+                  <XIcon size={12} />
+                </Button>
               </Badge>
             ))}
           </div>
