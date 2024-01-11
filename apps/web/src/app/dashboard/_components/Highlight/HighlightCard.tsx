@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { useCallback, useMemo } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@ui/components/ui/button";
@@ -20,7 +20,7 @@ import { Actions } from "./Actions";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 const HighlightCard = (props: HighlightWithLabelAndPageAndTag) => {
-  const { data: revalidatedHighlight } =
+  const { data: revalidatedHighlight, mutate } =
     useSWR<HighlightWithLabelAndPageAndTag>(
       `/api/highlights/${props.id}`,
       fetcher,
@@ -37,6 +37,19 @@ const HighlightCard = (props: HighlightWithLabelAndPageAndTag) => {
   const highlight = useMemo(
     () => revalidatedHighlight ?? props,
     [revalidatedHighlight, props],
+  );
+
+  const handleRemoveTag = useCallback(
+    (highlightId: string, tagId: string) => {
+      fetch(`/api/highlights/${highlightId}/tags/${tagId}`, {
+        method: "DELETE",
+      })
+        .then(() => {
+          void mutate();
+        })
+        .catch(console.error);
+    },
+    [mutate],
   );
 
   return (
@@ -69,6 +82,7 @@ const HighlightCard = (props: HighlightWithLabelAndPageAndTag) => {
                   variant="ghost"
                   size="icon"
                   className="whl-hidden whl-h-3 whl-w-3 group-hover/tag:whl-block"
+                  onClick={() => handleRemoveTag(highlight.id, tag.id)}
                 >
                   <XIcon size={12} />
                 </Button>
