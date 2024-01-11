@@ -59,6 +59,8 @@ const TagExplore = ({ tags }: Props) => {
         <div className="whl-flex whl-flex-col whl-gap-1">
           {(revalidatedTags ?? tags)
             .filter((tag) => tag.name.includes(query))
+            .filter((tag) => tag._count.HighlightOnTag > 0)
+            .sort((a, b) => a.name.localeCompare(b.name))
             .map((tag) => (
               <Toggle
                 key={tag.id}

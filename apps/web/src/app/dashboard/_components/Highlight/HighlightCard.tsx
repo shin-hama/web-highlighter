@@ -17,6 +17,7 @@ import {
 } from "@whl/ui/components/ui/card";
 
 import { Actions } from "./Actions";
+import { useTagOnHighlight } from "./hooks/useTag";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 const HighlightCard = (props: HighlightWithLabelAndPageAndTag) => {
@@ -38,18 +39,19 @@ const HighlightCard = (props: HighlightWithLabelAndPageAndTag) => {
     () => revalidatedHighlight ?? props,
     [revalidatedHighlight, props],
   );
+  const { removeTag } = useTagOnHighlight(highlight.id);
 
   const handleRemoveTag = useCallback(
-    (highlightId: string, tagId: string) => {
-      fetch(`/api/highlights/${highlightId}/tags/${tagId}`, {
-        method: "DELETE",
-      })
-        .then(() => {
-          void mutate();
-        })
-        .catch(console.error);
+    async (tagId: string) => {
+      void mutate({
+        ...highlight,
+        HighlightOnTag: highlight.HighlightOnTag.filter(
+          ({ tag }) => tag.id !== tagId,
+        ),
+      });
+      await removeTag(tagId);
     },
-    [mutate],
+    [removeTag, mutate, highlight.id],
   );
 
   return (
@@ -82,7 +84,7 @@ const HighlightCard = (props: HighlightWithLabelAndPageAndTag) => {
                   variant="ghost"
                   size="icon"
                   className="whl-hidden whl-h-3 whl-w-3 group-hover/tag:whl-block"
-                  onClick={() => handleRemoveTag(highlight.id, tag.id)}
+                  onClick={() => handleRemoveTag(tag.id)}
                 >
                   <XIcon size={12} />
                 </Button>

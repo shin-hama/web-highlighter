@@ -3,12 +3,8 @@
 import { useCallback, useState } from "react";
 import { PlusIcon } from "lucide-react";
 import useSWR from "swr";
-import useSWRMutation from "swr/mutation";
 
-import type {
-  GetTagsResponse,
-  HighlightWithLabelAndPositionAndTag,
-} from "@whl/common-types";
+import type { GetTagsResponse } from "@whl/common-types";
 import type { Tag } from "@whl/db";
 import { Checkbox } from "@whl/ui/components/ui/checkbox";
 import {
@@ -21,22 +17,9 @@ import {
 } from "@whl/ui/components/ui/command";
 import { Skeleton } from "@whl/ui/components/ui/skeleton";
 
+import { useTagOnHighlight } from "./hooks/useTag";
+
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
-
-const updateHighlight = (url: string, { arg: tag }: { arg: string }) =>
-  fetch(`${url}/tags`, {
-    method: "POST",
-    body: JSON.stringify({
-      tag: {
-        name: tag,
-      },
-    }),
-  }).then((res) => res.json() as Promise<HighlightWithLabelAndPositionAndTag>);
-
-const removeHighlight = (url: string, { arg: tagId }: { arg: string }) =>
-  fetch(`${url}/tags/${tagId}`, {
-    method: "DELETE",
-  }).then((res) => res.json() as Promise<HighlightWithLabelAndPositionAndTag>);
 
 interface Props {
   /**
@@ -47,38 +30,27 @@ interface Props {
 }
 const AddTagsForm = ({ addedTags, highlightId }: Props) => {
   const [value, setValue] = useState("");
-  const {
-    data: tags,
-    isLoading,
-    mutate,
-  } = useSWR<GetTagsResponse>("/api/tags", fetcher);
-
-  const { trigger } = useSWRMutation(
-    `/api/highlights/${highlightId}`,
-    updateHighlight,
+  const { data: tags, isLoading } = useSWR<GetTagsResponse>(
+    "/api/tags",
+    fetcher,
   );
-  const { trigger: triggerRemove } = useSWRMutation(
-    `/api/highlights/${highlightId}`,
-    removeHighlight,
-  );
+  const { addTag, removeTag } = useTagOnHighlight(highlightId);
 
   const handleSelectTag = useCallback((tag: Tag) => {
     if (addedTags.some((addedTag) => addedTag.id === tag.id)) {
-      void handleRemoveTag(tag.id);
+      handleRemoveTag(tag.id);
     } else {
-      void handleAddTag(tag.name);
+      handleAddTag(tag.name);
     }
   }, []);
 
-  const handleAddTag = useCallback(async (newTag: string) => {
-    await trigger(newTag);
-    void mutate();
+  const handleAddTag = useCallback((newTag: string) => {
+    void addTag(newTag);
     setValue("");
   }, []);
 
-  const handleRemoveTag = useCallback(async (tagId: string) => {
-    await triggerRemove(tagId);
-    void mutate();
+  const handleRemoveTag = useCallback((tagId: string) => {
+    void removeTag(tagId);
     setValue("");
   }, []);
 
