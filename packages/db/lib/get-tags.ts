@@ -14,7 +14,7 @@ export const getTags = async (
         equals: userId,
       },
       HighlightOnTag: {
-        some: {
+        some: filter?.labels && {
           highlight: {
             labelId: {
               in: filter?.labels,

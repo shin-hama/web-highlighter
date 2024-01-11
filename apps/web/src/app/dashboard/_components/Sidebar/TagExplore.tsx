@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { Badge } from "@ui/components/ui/badge";
 import { ScrollArea } from "@ui/components/ui/scroll-area";
 import { SearchIcon } from "lucide-react";
+import useSWR from "swr";
 
 import type { TagWithCountOfHighlights } from "@whl/common-types";
 import type { Tag } from "@whl/db";
@@ -15,10 +16,25 @@ import { useTagFilter } from "../../_context/TagFilterContext";
 interface Props {
   tags: TagWithCountOfHighlights[];
 }
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 const TagExplore = ({ tags }: Props) => {
   const [query, setQuery] = useState("");
   const [selectedTags, setSelectedTags] = useTagFilter();
+  // mutate されたときのみ更新する
+  const { data: revalidatedTags } = useSWR<TagWithCountOfHighlights[]>(
+    "/api/tags",
+    fetcher,
+    {
+      revalidateOnMount: false,
+      revalidateOnFocus: false,
+      revalidateOnReconnect: false,
+      shouldRetryOnError: false,
+      refreshWhenOffline: false,
+      refreshWhenHidden: false,
+      refreshInterval: 0,
+    },
+  );
 
   const handleChanged = (tag: Tag) => (selected: boolean) => {
     if (selected) {
@@ -41,8 +57,10 @@ const TagExplore = ({ tags }: Props) => {
       </div>
       <ScrollArea>
         <div className="whl-flex whl-flex-col whl-gap-1">
-          {tags
+          {(revalidatedTags ?? tags)
             .filter((tag) => tag.name.includes(query))
+            .filter((tag) => tag._count.HighlightOnTag > 0)
+            .sort((a, b) => a.name.localeCompare(b.name))
             .map((tag) => (
               <Toggle
                 key={tag.id}

@@ -1,6 +1,6 @@
 import { getServerAuthSession } from "@whl/auth";
+import { getTags } from "@whl/db/lib/get-tags";
 
-import { getTags } from "~/lib/get-tags";
 import Grouping from "./Grouping";
 import TagExplore from "./TagExplore";
 

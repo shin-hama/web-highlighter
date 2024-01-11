@@ -53,3 +53,11 @@ export const SpecifiedHighlightRouteParamSchema = z.object({
 export type SpecifiedHighlightRouteParam = z.infer<
   typeof SpecifiedHighlightRouteParamSchema
 >;
+
+export const SpecifiedHighlightOnTagRouteParamSchema = z.object({
+  id: z.string(),
+  tagId: z.string(),
+});
+export type SpecifiedHighlightOnTagRouteParam = z.infer<
+  typeof SpecifiedHighlightOnTagRouteParamSchema
+>;
