@@ -24,7 +24,7 @@ import { Skeleton } from "@whl/ui/components/ui/skeleton";
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 const updateHighlight = (url: string, { arg }: { arg: string }) =>
-  fetch(url, {
+  fetch(`${url}/tags`, {
     method: "POST",
     body: JSON.stringify({
       tag: {
@@ -49,7 +49,7 @@ const AddTagsForm = ({ addedTags, highlightId }: Props) => {
   } = useSWR<GetTagsResponse>("/api/tags", fetcher);
 
   const { trigger } = useSWRMutation(
-    `/api/highlights/${highlightId}/tags`,
+    `/api/highlights/${highlightId}`,
     updateHighlight,
   );
 
