@@ -23,14 +23,19 @@ import { Skeleton } from "@whl/ui/components/ui/skeleton";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
-const updateHighlight = (url: string, { arg }: { arg: string }) =>
+const updateHighlight = (url: string, { arg: tag }: { arg: string }) =>
   fetch(`${url}/tags`, {
     method: "POST",
     body: JSON.stringify({
       tag: {
-        name: arg,
+        name: tag,
       },
     }),
+  }).then((res) => res.json() as Promise<HighlightWithLabelAndPositionAndTag>);
+
+const removeHighlight = (url: string, { arg: tagId }: { arg: string }) =>
+  fetch(`${url}/tags/${tagId}`, {
+    method: "DELETE",
   }).then((res) => res.json() as Promise<HighlightWithLabelAndPositionAndTag>);
 
 interface Props {
@@ -52,9 +57,27 @@ const AddTagsForm = ({ addedTags, highlightId }: Props) => {
     `/api/highlights/${highlightId}`,
     updateHighlight,
   );
+  const { trigger: triggerRemove } = useSWRMutation(
+    `/api/highlights/${highlightId}`,
+    removeHighlight,
+  );
+
+  const handleSelectTag = useCallback((tag: Tag) => {
+    if (addedTags.some((addedTag) => addedTag.id === tag.id)) {
+      void handleRemoveTag(tag.id);
+    } else {
+      void handleAddTag(tag.name);
+    }
+  }, []);
 
   const handleAddTag = useCallback(async (newTag: string) => {
     await trigger(newTag);
+    void mutate();
+    setValue("");
+  }, []);
+
+  const handleRemoveTag = useCallback(async (tagId: string) => {
+    await triggerRemove(tagId);
     void mutate();
     setValue("");
   }, []);
@@ -79,7 +102,7 @@ const AddTagsForm = ({ addedTags, highlightId }: Props) => {
             {tags?.map((tag) => (
               <CommandItem
                 key={tag.id}
-                onSelect={handleAddTag}
+                onSelect={() => handleSelectTag(tag)}
                 className="whl-gap-2"
               >
                 <Checkbox
