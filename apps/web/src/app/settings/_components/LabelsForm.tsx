@@ -40,13 +40,9 @@ const LabelsFormSchema = z.object({
 });
 type LabelsForm = z.infer<typeof LabelsFormSchema>;
 
-const fetcher = (url: string) => fetch(url).then((res) => res.json());
-
 const LabelsForm = () => {
-  const { data, error, isLoading, mutate } = useSWR<LabelsForm["labels"]>(
-    "/api/labels",
-    fetcher,
-  );
+  const { data, error, isLoading, mutate } =
+    useSWR<LabelsForm["labels"]>("/api/labels");
 
   const form = useForm<LabelsForm>({
     resolver: zodResolver(LabelsFormSchema),
