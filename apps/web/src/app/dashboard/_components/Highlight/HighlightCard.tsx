@@ -19,22 +19,17 @@ import {
 import { Actions } from "./Actions";
 import { useTagOnHighlight } from "./hooks/useTag";
 
-const fetcher = (url: string) => fetch(url).then((res) => res.json());
 const HighlightCard = (props: HighlightWithLabelAndPageAndTag) => {
   const { data: revalidatedHighlight, mutate } =
-    useSWR<HighlightWithLabelAndPageAndTag>(
-      `/api/highlights/${props.id}`,
-      fetcher,
-      {
-        revalidateOnMount: false,
-        revalidateOnFocus: false,
-        revalidateOnReconnect: false,
-        shouldRetryOnError: false,
-        refreshWhenOffline: false,
-        refreshWhenHidden: false,
-        refreshInterval: 0,
-      },
-    );
+    useSWR<HighlightWithLabelAndPageAndTag>(`/api/highlights/${props.id}`, {
+      revalidateOnMount: false,
+      revalidateOnFocus: false,
+      revalidateOnReconnect: false,
+      shouldRetryOnError: false,
+      refreshWhenOffline: false,
+      refreshWhenHidden: false,
+      refreshInterval: 0,
+    });
   const highlight = useMemo(
     () => revalidatedHighlight ?? props,
     [revalidatedHighlight, props],

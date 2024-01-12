@@ -16,7 +16,6 @@ import { useTagFilter } from "../../_context/TagFilterContext";
 interface Props {
   tags: TagWithCountOfHighlights[];
 }
-const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 const TagExplore = ({ tags }: Props) => {
   const [query, setQuery] = useState("");
@@ -24,7 +23,6 @@ const TagExplore = ({ tags }: Props) => {
   // mutate されたときのみ更新する
   const { data: revalidatedTags } = useSWR<TagWithCountOfHighlights[]>(
     "/api/tags",
-    fetcher,
     {
       revalidateOnMount: false,
       revalidateOnFocus: false,

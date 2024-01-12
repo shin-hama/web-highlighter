@@ -19,8 +19,6 @@ import { Skeleton } from "@whl/ui/components/ui/skeleton";
 
 import { useTagOnHighlight } from "./hooks/useTag";
 
-const fetcher = (url: string) => fetch(url).then((res) => res.json());
-
 interface Props {
   /**
    * Tags already added on Highlight
@@ -30,10 +28,7 @@ interface Props {
 }
 const AddTagsForm = ({ addedTags, highlightId }: Props) => {
   const [value, setValue] = useState("");
-  const { data: tags, isLoading } = useSWR<GetTagsResponse>(
-    "/api/tags",
-    fetcher,
-  );
+  const { data: tags, isLoading } = useSWR<GetTagsResponse>("/api/tags");
   const { addTag, removeTag } = useTagOnHighlight(highlightId);
 
   const handleSelectTag = useCallback((tag: Tag) => {

@@ -12,12 +12,10 @@ import { Button } from "@whl/ui/components/ui/button";
 import { useLabelsFilter } from "../../_hooks/useLabelsFilter";
 import FilterPopover from "./FilterPopup";
 
-const fetcher = (url: string) => fetch(url).then((res) => res.json());
-
 const LabelFilter = () => {
   const router = useRouter();
   const selected = useLabelsFilter();
-  const { data } = useSWR<Label[]>("/api/labels", fetcher);
+  const { data } = useSWR<Label[]>("/api/labels");
   const items = useMemo(
     () =>
       (data ?? []).map((label) => ({

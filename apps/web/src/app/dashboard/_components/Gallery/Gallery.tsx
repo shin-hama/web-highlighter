@@ -10,7 +10,6 @@ import { useLabelsFilter } from "~/app/dashboard/_hooks/useLabelsFilter";
 import { useTagFilter } from "../../_context/TagFilterContext";
 import { HighlightCard } from "../Highlight";
 
-const fetcher = (url: string) => fetch(url).then((res) => res.json());
 const HighlightGallery = () => {
   const labels = useLabelsFilter();
   const [tags] = useTagFilter();
@@ -26,7 +25,7 @@ const HighlightGallery = () => {
     return `/api/highlights?${params.toString()}`;
   }, [labels, tags]);
 
-  const { data } = useSWR<HighlightWithLabelAndPageAndTag[]>(key, fetcher);
+  const { data } = useSWR<HighlightWithLabelAndPageAndTag[]>(key);
 
   return (
     <div className="whl-container whl-py-4">

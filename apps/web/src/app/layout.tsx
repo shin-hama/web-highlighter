@@ -8,7 +8,7 @@ import { cn } from "@whl/ui/lib/utils";
 
 import Sidebar from "./_layout/Sidebar";
 import Auth from "./_root/Auth";
-import NextAuthProvider from "./_root/providers/NextAuth";
+import { RootProvider } from "./_root/RootProvider";
 
 export const metadata: Metadata = {
   title: "Home",
@@ -29,7 +29,7 @@ export default function RootLayout({
           fontMono.variable,
         )}
       >
-        <NextAuthProvider>
+        <RootProvider>
           <Auth>
             <div className="whl-relative whl-flex whl-h-screen whl-flex-row">
               <nav className="whl-h-full">
@@ -42,7 +42,7 @@ export default function RootLayout({
               </div>
             </div>
           </Auth>
-        </NextAuthProvider>
+        </RootProvider>
       </body>
     </html>
   );
