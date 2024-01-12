@@ -42,7 +42,9 @@ export const useTagOnHighlight = (highlightId: string) => {
   const addTag = useCallback(
     async (newTag: string) => {
       await triggerAdd(newTag);
-      void mutate("/api/tags");
+      void mutate(
+        (key) => typeof key === "string" && key.startsWith("/api/tags"),
+      );
     },
     [mutate, triggerAdd],
   );
@@ -50,7 +52,9 @@ export const useTagOnHighlight = (highlightId: string) => {
   const removeTag = useCallback(
     async (tagId: string) => {
       await triggerRemove(tagId);
-      void mutate("/api/tags");
+      void mutate(
+        (key) => typeof key === "string" && key.startsWith("/api/tags"),
+      );
     },
     [mutate, triggerRemove],
   );

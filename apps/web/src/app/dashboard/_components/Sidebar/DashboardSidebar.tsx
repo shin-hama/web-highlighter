@@ -10,7 +10,7 @@ const DashboardSidebar = async () => {
     return <div>Not logged in</div>;
   }
 
-  const tags = await getTags(session.user.id);
+  const tags = await getTags(session.user.id, { hasHighlights: true });
 
   return (
     <div className="whl-h-full whl-w-60 whl-bg-primary-950 whl-px-4 whl-pb-4 whl-pt-4 whl-text-primary-foreground">

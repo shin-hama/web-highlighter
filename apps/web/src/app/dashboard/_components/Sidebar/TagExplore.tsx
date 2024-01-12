@@ -22,7 +22,7 @@ const TagExplore = ({ tags }: Props) => {
   const [selectedTags, setSelectedTags] = useTagFilter();
   // mutate されたときのみ更新する
   const { data: revalidatedTags } = useSWR<TagWithCountOfHighlights[]>(
-    "/api/tags",
+    "/api/tags?hasHighlights=true",
     {
       revalidateOnMount: false,
       revalidateOnFocus: false,
@@ -57,7 +57,7 @@ const TagExplore = ({ tags }: Props) => {
         <div className="whl-flex whl-flex-col whl-gap-1">
           {(revalidatedTags ?? tags)
             .filter((tag) => tag.name.includes(query))
-            .filter((tag) => tag._count.HighlightOnTag > 0)
+            // .filter((tag) => tag._count.HighlightOnTag > 0)
             .sort((a, b) => a.name.localeCompare(b.name))
             .map((tag) => (
               <Toggle

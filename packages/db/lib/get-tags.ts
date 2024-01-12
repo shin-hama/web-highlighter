@@ -6,21 +6,24 @@ import { prisma } from "../";
 
 export const getTags = async (
   userId: string,
-  filter?: { labels?: string[] },
+  filter?: {
+    /**
+     * タグがハイライトに紐づいているかどうか
+     */
+    hasHighlights?: boolean;
+  },
 ) => {
   return await prisma.tag.findMany({
     where: {
       userId: {
         equals: userId,
       },
-      HighlightOnTag: {
-        some: filter?.labels && {
-          highlight: {
-            labelId: {
-              in: filter?.labels,
-            },
-          },
-        },
+      NOT: {
+        HighlightOnTag: filter?.hasHighlights
+          ? {
+              none: {},
+            }
+          : undefined,
       },
     },
     include: {

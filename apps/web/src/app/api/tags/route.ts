@@ -16,12 +16,12 @@ export async function GET(req: Request) {
   }
 
   const { searchParams } = new URL(req.url);
-  const { labels } = GetTagsRequestScheme.parse(
+  const { hasHighlights } = GetTagsRequestScheme.parse(
     Object.fromEntries(searchParams),
   );
 
   // tag の一覧と、タグに紐づく記事の数を返す
-  const result = await getTags(session.user.id, { labels });
+  const result = await getTags(session.user.id, { hasHighlights });
 
   return Response.json(result satisfies GetTagsResponse);
 }

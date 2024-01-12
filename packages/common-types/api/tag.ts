@@ -21,13 +21,10 @@ export type CreateHighlightOnTagRequest = z.infer<
 
 export const GetTagsRequestScheme = z.object({
   cursor: z.string().optional(),
-  labels: z
-    .preprocess((v) => {
-      if (typeof v === "string") {
-        return v.split(",");
-      }
-      return v;
-    }, z.array(z.string()))
+  hasHighlights: z
+    .enum(["true", "false"])
+    .transform((value) => value === "true")
+    .catch(false)
     .optional(),
 });
 export type GetTagsResponse = TagWithCountOfHighlights[];
