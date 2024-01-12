@@ -31,23 +31,32 @@ const AddTagsForm = ({ addedTags, highlightId }: Props) => {
   const { data: tags, isLoading } = useSWR<GetTagsResponse>("/api/tags");
   const { addTag, removeTag } = useTagOnHighlight(highlightId);
 
-  const handleSelectTag = useCallback((tag: Tag) => {
-    if (addedTags.some((addedTag) => addedTag.id === tag.id)) {
-      handleRemoveTag(tag.id);
-    } else {
-      handleAddTag(tag.name);
-    }
-  }, []);
+  const handleAddTag = useCallback(
+    (newTag: string) => {
+      void addTag(newTag);
+      setValue("");
+    },
+    [addTag],
+  );
 
-  const handleAddTag = useCallback((newTag: string) => {
-    void addTag(newTag);
-    setValue("");
-  }, []);
+  const handleRemoveTag = useCallback(
+    (tagId: string) => {
+      void removeTag(tagId);
+      setValue("");
+    },
+    [removeTag],
+  );
 
-  const handleRemoveTag = useCallback((tagId: string) => {
-    void removeTag(tagId);
-    setValue("");
-  }, []);
+  const handleSelectTag = useCallback(
+    (tag: Tag) => {
+      if (addedTags.some((addedTag) => addedTag.id === tag.id)) {
+        handleRemoveTag(tag.id);
+      } else {
+        handleAddTag(tag.name);
+      }
+    },
+    [addedTags, handleAddTag, handleRemoveTag],
+  );
 
   return (
     <div>
