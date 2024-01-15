@@ -35,12 +35,8 @@ const TagExplore = () => {
     },
     [],
   );
-  const { data, size, setSize, isLoading } = useSWRInfinite<GetTagsResponse>(
-    getKey,
-    {
-      revalidateFirstPage: false,
-    },
-  );
+  const { data, size, setSize, isLoading } =
+    useSWRInfinite<GetTagsResponse>(getKey);
 
   const handleChanged = (tag: Tag) => (selected: boolean) => {
     if (selected) {

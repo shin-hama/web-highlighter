@@ -46,6 +46,19 @@ export async function POST(
       },
     });
 
+    // Update the updatedAt field of the connected tag
+    await prisma.tag.update({
+      where: {
+        userId_name: {
+          userId: session.user.id,
+          name: tag.name,
+        },
+      },
+      data: {
+        updatedAt: new Date(),
+      },
+    });
+
     return NextResponse.json(result);
   } catch (e) {
     return NextResponse.json(

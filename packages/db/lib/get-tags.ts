@@ -2,6 +2,7 @@
  * ユーザーが定義したタグをすべて取得する
  */
 
+import type { Tag } from "../";
 import { prisma } from "../";
 
 export const getTags = async (
@@ -11,9 +12,14 @@ export const getTags = async (
      * タグがハイライトに紐づいているかどうか
      */
     hasHighlights?: boolean;
+    /**
+     * タグ名でフィルタリングする
+     */
+    name?: string;
   },
   cursor?: string,
   limit = 10,
+  orderBy: keyof Tag = "name",
 ) => {
   const takeCount = limit + 1;
   const tags = await prisma.tag.findMany({
@@ -21,6 +27,11 @@ export const getTags = async (
       userId: {
         equals: userId,
       },
+      name: filter?.name
+        ? {
+            contains: filter.name,
+          }
+        : undefined,
       NOT: {
         HighlightOnTag: filter?.hasHighlights
           ? {
@@ -43,7 +54,7 @@ export const getTags = async (
       },
     },
     orderBy: {
-      name: "asc",
+      [orderBy]: orderBy === "updatedAt" ? "desc" : "asc",
     },
   });
 

@@ -28,7 +28,17 @@ interface Props {
 }
 const AddTagsForm = ({ addedTags, highlightId }: Props) => {
   const [value, setValue] = useState("");
-  const { data, isLoading } = useSWR<GetTagsResponse>("/api/tags");
+  const getKey = useCallback(() => {
+    const params = new URLSearchParams();
+    params.append("orderBy", "updatedAt");
+    if (value) {
+      params.append("name", value);
+    }
+
+    return `/api/tags?${params.toString()}`;
+  }, [value]);
+
+  const { data, isLoading } = useSWR<GetTagsResponse>(getKey);
   const { addTag, removeTag } = useTagOnHighlight(highlightId);
 
   const handleAddTag = useCallback(
@@ -60,14 +70,14 @@ const AddTagsForm = ({ addedTags, highlightId }: Props) => {
 
   return (
     <div>
-      <Command>
+      <Command shouldFilter={false}>
         <CommandInput
           placeholder="Enter tag..."
           value={value}
           onValueChange={setValue}
         />
         <CommandList>
-          <CommandGroup>
+          <CommandGroup heading="Recently used">
             {isLoading && (
               <>
                 <Skeleton className="whl-my-1 whl-h-8" />

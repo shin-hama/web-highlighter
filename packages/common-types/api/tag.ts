@@ -30,6 +30,11 @@ export const GetTagsRequestQueryScheme = z.object({
     .transform((value) => value === "true")
     .catch(false)
     .optional(),
+  name: z.string().optional(),
+  /**
+   * Tag のどの項目でソートするか
+   */
+  orderBy: z.enum(["name", "updatedAt", "createdAt"]).default("name"),
 });
 export interface GetTagsResponse {
   tags: TagWithCountOfHighlights[];
