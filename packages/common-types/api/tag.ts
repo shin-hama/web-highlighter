@@ -19,12 +19,19 @@ export type CreateHighlightOnTagRequest = z.infer<
   typeof CreateHighlightOnTagRequestScheme
 >;
 
-export const GetTagsRequestScheme = z.object({
+export const GetTagsRequestQueryScheme = z.object({
   cursor: z.string().optional(),
+  limit: z
+    .string()
+    .default("10")
+    .transform((value) => Number(value)),
   hasHighlights: z
     .enum(["true", "false"])
     .transform((value) => value === "true")
     .catch(false)
     .optional(),
 });
-export type GetTagsResponse = TagWithCountOfHighlights[];
+export interface GetTagsResponse {
+  tags: TagWithCountOfHighlights[];
+  nextCursor: string | null;
+}

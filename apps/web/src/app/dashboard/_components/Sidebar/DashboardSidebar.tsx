@@ -1,5 +1,4 @@
 import { getServerAuthSession } from "@whl/auth";
-import { getTags } from "@whl/db/lib/get-tags";
 
 import Grouping from "./Grouping";
 import TagExplore from "./TagExplore";
@@ -10,8 +9,6 @@ const DashboardSidebar = async () => {
     return <div>Not logged in</div>;
   }
 
-  const tags = await getTags(session.user.id, { hasHighlights: true });
-
   return (
     <div className="whl-h-full whl-w-60 whl-bg-primary-950 whl-px-4 whl-pb-4 whl-pt-4 whl-text-primary-foreground">
       <div className="whl-flex whl-h-full whl-flex-col whl-items-center whl-space-y-6 whl-overflow-y-hidden">
@@ -19,7 +16,7 @@ const DashboardSidebar = async () => {
           Dashboard
         </h1>
         <Grouping />
-        <TagExplore tags={tags} />
+        <TagExplore />
       </div>
     </div>
   );

@@ -12,8 +12,11 @@ export const getTags = async (
      */
     hasHighlights?: boolean;
   },
+  cursor?: string,
+  limit = 10,
 ) => {
-  return await prisma.tag.findMany({
+  const takeCount = limit + 1;
+  const tags = await prisma.tag.findMany({
     where: {
       userId: {
         equals: userId,
@@ -26,6 +29,12 @@ export const getTags = async (
           : undefined,
       },
     },
+    cursor: cursor
+      ? {
+          id: cursor,
+        }
+      : undefined,
+    take: takeCount,
     include: {
       _count: {
         select: {
@@ -33,5 +42,13 @@ export const getTags = async (
         },
       },
     },
+    orderBy: {
+      name: "asc",
+    },
   });
+
+  return {
+    tags: tags.slice(0, limit),
+    nextCursor: tags.length === takeCount ? tags[takeCount - 1]!.id : null,
+  };
 };

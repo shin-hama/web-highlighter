@@ -1,5 +1,5 @@
 import { getServerAuthSession } from "@whl/auth";
-import { GetTagsRequestScheme } from "@whl/common-types";
+import { GetTagsRequestQueryScheme } from "@whl/common-types";
 import type { GetTagsResponse } from "@whl/common-types";
 import { getTags } from "@whl/db/lib/get-tags";
 
@@ -16,12 +16,17 @@ export async function GET(req: Request) {
   }
 
   const { searchParams } = new URL(req.url);
-  const { hasHighlights } = GetTagsRequestScheme.parse(
+  const { hasHighlights, cursor, limit } = GetTagsRequestQueryScheme.parse(
     Object.fromEntries(searchParams),
   );
 
   // tag の一覧と、タグに紐づく記事の数を返す
-  const result = await getTags(session.user.id, { hasHighlights });
+  const result = await getTags(
+    session.user.id,
+    { hasHighlights },
+    cursor,
+    limit,
+  );
 
   return Response.json(result satisfies GetTagsResponse);
 }

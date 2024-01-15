@@ -28,7 +28,7 @@ interface Props {
 }
 const AddTagsForm = ({ addedTags, highlightId }: Props) => {
   const [value, setValue] = useState("");
-  const { data: tags, isLoading } = useSWR<GetTagsResponse>("/api/tags");
+  const { data, isLoading } = useSWR<GetTagsResponse>("/api/tags");
   const { addTag, removeTag } = useTagOnHighlight(highlightId);
 
   const handleAddTag = useCallback(
@@ -75,7 +75,7 @@ const AddTagsForm = ({ addedTags, highlightId }: Props) => {
                 <Skeleton className="whl-my-1 whl-h-8" />
               </>
             )}
-            {tags?.map((tag) => (
+            {data?.tags?.map((tag) => (
               <CommandItem
                 key={tag.id}
                 onSelect={() => handleSelectTag(tag)}
@@ -87,22 +87,23 @@ const AddTagsForm = ({ addedTags, highlightId }: Props) => {
                 {tag.name}
               </CommandItem>
             ))}
-            {value && tags?.some((tag) => tag.name === value) === false && (
-              <>
-                <CommandSeparator />
-                <CommandItem
-                  key="whl-add-new-tag-button"
-                  className="whl-gap-2"
-                  onSelect={handleAddTag}
-                  value={value}
-                >
-                  <>
-                    <PlusIcon size={14} />
-                    {`Create "${value}"`}
-                  </>
-                </CommandItem>
-              </>
-            )}
+            {value &&
+              data?.tags?.some((tag) => tag.name === value) === false && (
+                <>
+                  <CommandSeparator />
+                  <CommandItem
+                    key="whl-add-new-tag-button"
+                    className="whl-gap-2"
+                    onSelect={handleAddTag}
+                    value={value}
+                  >
+                    <>
+                      <PlusIcon size={14} />
+                      {`Create "${value}"`}
+                    </>
+                  </CommandItem>
+                </>
+              )}
           </CommandGroup>
         </CommandList>
       </Command>
