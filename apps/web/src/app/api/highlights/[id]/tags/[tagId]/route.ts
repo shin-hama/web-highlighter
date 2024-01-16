@@ -26,6 +26,14 @@ export async function DELETE(
         },
       },
     });
+    await prisma.tag.update({
+      where: {
+        id: tagId,
+      },
+      data: {
+        updatedAt: new Date(),
+      },
+    });
 
     return NextResponse.json(result);
   } catch (e) {

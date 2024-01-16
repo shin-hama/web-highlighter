@@ -1,8 +1,8 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { PlusIcon } from "lucide-react";
-import useSWR from "swr";
+import useSWRInfinite from "swr/infinite";
 
 import type { GetTagsResponse } from "@whl/common-types";
 import type { Tag } from "@whl/db";
@@ -16,9 +16,11 @@ import {
   CommandSeparator,
 } from "@whl/ui/components/ui/command";
 import { Skeleton } from "@whl/ui/components/ui/skeleton";
+import { useInfinityScroll } from "@whl/ui/hooks/useInfinityScroll";
 
 import { useTagOnHighlight } from "./hooks/useTag";
 
+const PAGE_SIZE = 5;
 interface Props {
   /**
    * Tags already added on Highlight
@@ -28,37 +30,83 @@ interface Props {
 }
 const AddTagsForm = ({ addedTags, highlightId }: Props) => {
   const [value, setValue] = useState("");
-  const { data: tags, isLoading } = useSWR<GetTagsResponse>("/api/tags");
   const { addTag, removeTag } = useTagOnHighlight(highlightId);
 
-  const handleSelectTag = useCallback((tag: Tag) => {
-    if (addedTags.some((addedTag) => addedTag.id === tag.id)) {
-      handleRemoveTag(tag.id);
-    } else {
-      handleAddTag(tag.name);
-    }
-  }, []);
+  const getKeyInf = useCallback(
+    (pageIndex: number, previousPageData: GetTagsResponse | null) => {
+      const params = new URLSearchParams();
+      params.append("limit", PAGE_SIZE.toString());
+      params.append("orderBy", "updatedAt");
+      if (value) {
+        params.append("name", value);
+      }
+      if (previousPageData?.nextCursor) {
+        params.append("cursor", previousPageData.nextCursor);
+      } else if (pageIndex !== 0) {
+        return null;
+      }
+      return `/api/tags?${params.toString()}`;
+    },
+    [value],
+  );
+  const { data, setSize, isLoading } = useSWRInfinite<GetTagsResponse>(
+    getKeyInf,
+    {
+      revalidateOnFocus: false,
+      revalidateOnReconnect: false,
+      revalidateOnMount: false,
+    },
+  );
 
-  const handleAddTag = useCallback((newTag: string) => {
-    void addTag(newTag);
-    setValue("");
-  }, []);
+  const hasMore = useMemo(
+    () => !!data && data?.[data.length - 1]?.nextCursor !== null,
+    [data],
+  );
 
-  const handleRemoveTag = useCallback((tagId: string) => {
-    void removeTag(tagId);
-    setValue("");
-  }, []);
+  const handleScroll = useCallback(() => {
+    void setSize((prev) => prev + 1);
+  }, [setSize]);
+  const observeTarget = useInfinityScroll(handleScroll);
+
+  const handleAddTag = useCallback(
+    (newTag: string) => {
+      void addTag(newTag);
+      setValue("");
+    },
+    [addTag],
+  );
+
+  const handleRemoveTag = useCallback(
+    (tagId: string) => {
+      void removeTag(tagId);
+      setValue("");
+    },
+    [removeTag],
+  );
+
+  const handleSelectTag = useCallback(
+    (tag: Tag) => {
+      if (addedTags.some((addedTag) => addedTag.id === tag.id)) {
+        handleRemoveTag(tag.id);
+      } else {
+        handleAddTag(tag.name);
+      }
+    },
+    [addedTags, handleAddTag, handleRemoveTag],
+  );
+
+  const tags = useMemo(() => data?.map((res) => res.tags).flat(), [data]);
 
   return (
     <div>
-      <Command>
+      <Command shouldFilter={false}>
         <CommandInput
           placeholder="Enter tag..."
           value={value}
           onValueChange={setValue}
         />
         <CommandList>
-          <CommandGroup>
+          <CommandGroup heading="Select tag or Create">
             {isLoading && (
               <>
                 <Skeleton className="whl-my-1 whl-h-8" />
@@ -78,6 +126,11 @@ const AddTagsForm = ({ addedTags, highlightId }: Props) => {
                 {tag.name}
               </CommandItem>
             ))}
+            <div ref={observeTarget}>
+              {hasMore && !isLoading && (
+                <Skeleton className="whl-my-1 whl-h-8" />
+              )}
+            </div>
             {value && tags?.some((tag) => tag.name === value) === false && (
               <>
                 <CommandSeparator />

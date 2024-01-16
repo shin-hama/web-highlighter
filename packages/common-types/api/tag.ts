@@ -19,15 +19,24 @@ export type CreateHighlightOnTagRequest = z.infer<
   typeof CreateHighlightOnTagRequestScheme
 >;
 
-export const GetTagsRequestScheme = z.object({
+export const GetTagsRequestQueryScheme = z.object({
   cursor: z.string().optional(),
-  labels: z
-    .preprocess((v) => {
-      if (typeof v === "string") {
-        return v.split(",");
-      }
-      return v;
-    }, z.array(z.string()))
+  limit: z
+    .string()
+    .default("10")
+    .transform((value) => Number(value)),
+  hasHighlights: z
+    .enum(["true", "false"])
+    .transform((value) => value === "true")
+    .catch(false)
     .optional(),
+  name: z.string().optional(),
+  /**
+   * Tag のどの項目でソートするか
+   */
+  orderBy: z.enum(["name", "updatedAt", "createdAt"]).default("name"),
 });
-export type GetTagsResponse = TagWithCountOfHighlights[];
+export interface GetTagsResponse {
+  tags: TagWithCountOfHighlights[];
+  nextCursor: string | null;
+}

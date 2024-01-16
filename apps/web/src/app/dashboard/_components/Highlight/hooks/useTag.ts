@@ -28,7 +28,7 @@ const removeHighlight = (url: string, { arg: tagId }: { arg: string }) =>
  * @returns
  */
 export const useTagOnHighlight = (highlightId: string) => {
-  const { mutate } = useSWRConfig();
+  const { mutate, cache } = useSWRConfig();
 
   const { trigger: triggerAdd } = useSWRMutation(
     `/api/highlights/${highlightId}`,
@@ -42,7 +42,11 @@ export const useTagOnHighlight = (highlightId: string) => {
   const addTag = useCallback(
     async (newTag: string) => {
       await triggerAdd(newTag);
-      void mutate("/api/tags");
+      for (const key of cache.keys()) {
+        if (key.includes("api/tags")) {
+          void mutate(key); // With this you can revalidate whatever the key is. (with @, $inf$ or whatever)
+        }
+      }
     },
     [mutate, triggerAdd],
   );
@@ -50,7 +54,11 @@ export const useTagOnHighlight = (highlightId: string) => {
   const removeTag = useCallback(
     async (tagId: string) => {
       await triggerRemove(tagId);
-      void mutate("/api/tags");
+      for (const key of cache.keys()) {
+        if (key.includes("api/tags")) {
+          void mutate(key); // With this you can revalidate whatever the key is. (with @, $inf$ or whatever)
+        }
+      }
     },
     [mutate, triggerRemove],
   );
