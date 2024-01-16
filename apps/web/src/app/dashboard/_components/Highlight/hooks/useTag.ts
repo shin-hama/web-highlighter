@@ -44,7 +44,6 @@ export const useTagOnHighlight = (highlightId: string) => {
       await triggerAdd(newTag);
       for (const key of cache.keys()) {
         if (key.includes("api/tags")) {
-          console.log(key);
           void mutate(key); // With this you can revalidate whatever the key is. (with @, $inf$ or whatever)
         }
       }
@@ -57,7 +56,6 @@ export const useTagOnHighlight = (highlightId: string) => {
       await triggerRemove(tagId);
       for (const key of cache.keys()) {
         if (key.includes("api/tags")) {
-          console.log(key);
           void mutate(key); // With this you can revalidate whatever the key is. (with @, $inf$ or whatever)
         }
       }

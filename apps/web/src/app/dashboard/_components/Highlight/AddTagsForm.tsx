@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { PlusIcon } from "lucide-react";
 import useSWRInfinite from "swr/infinite";
 
@@ -16,6 +16,7 @@ import {
   CommandSeparator,
 } from "@whl/ui/components/ui/command";
 import { Skeleton } from "@whl/ui/components/ui/skeleton";
+import { useInfinityScroll } from "@whl/ui/hooks/useInfinityScroll";
 
 import { useTagOnHighlight } from "./hooks/useTag";
 
@@ -62,26 +63,10 @@ const AddTagsForm = ({ addedTags, highlightId }: Props) => {
     [data],
   );
 
-  const observeTarget = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries.some((entry) => entry.isIntersecting)) {
-          void setSize((prev) => prev + 1);
-        }
-      },
-      { threshold: 1.0 },
-    );
-    if (observeTarget.current) {
-      observer.observe(observeTarget.current);
-    }
-    return () => {
-      if (observeTarget.current) {
-        observer.unobserve(observeTarget.current);
-      }
-    };
+  const handleScroll = useCallback(() => {
+    void setSize((prev) => prev + 1);
   }, [setSize]);
+  const observeTarget = useInfinityScroll(handleScroll);
 
   const handleAddTag = useCallback(
     (newTag: string) => {
@@ -121,7 +106,7 @@ const AddTagsForm = ({ addedTags, highlightId }: Props) => {
           onValueChange={setValue}
         />
         <CommandList>
-          <CommandGroup heading="Recently used">
+          <CommandGroup heading="Select tag or Create">
             {isLoading && (
               <>
                 <Skeleton className="whl-my-1 whl-h-8" />
