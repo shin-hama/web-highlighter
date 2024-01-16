@@ -15,7 +15,7 @@ import { Toggle } from "@whl/ui/components/ui/toggle";
 
 import { useTagFilter } from "../../_context/TagFilterContext";
 
-const PAGE_SIZE = 20;
+const PAGE_SIZE = 10;
 
 const TagExplore = () => {
   const [query, setQuery] = useState("");
@@ -38,6 +38,11 @@ const TagExplore = () => {
   const { data, size, setSize, isLoading } =
     useSWRInfinite<GetTagsResponse>(getKey);
 
+  const hasMore = useMemo(
+    () => !!data && data?.[data.length - 1]?.nextCursor !== null,
+    [data],
+  );
+
   const handleChanged = (tag: Tag) => (selected: boolean) => {
     if (selected) {
       setSelectedTags.push(tag);
@@ -45,10 +50,6 @@ const TagExplore = () => {
       setSelectedTags.removeAt(selectedTags.indexOf(tag));
     }
   };
-
-  const isEmpty = data?.[0]?.tags.length === 0;
-  const isReachingEnd =
-    isEmpty || (data?.[data.length - 1]?.tags.length ?? 0) < PAGE_SIZE;
 
   const tags = useMemo(
     () =>
@@ -90,7 +91,7 @@ const TagExplore = () => {
                   </Badge>
                 </Toggle>
               ))}
-          {!isReachingEnd && (
+          {hasMore && (
             <Button onClick={() => void setSize(size + 1)}>Load more</Button>
           )}
         </div>
