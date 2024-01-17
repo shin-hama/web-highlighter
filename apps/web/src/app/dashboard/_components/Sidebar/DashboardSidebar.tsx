@@ -1,6 +1,5 @@
 import { getServerAuthSession } from "@whl/auth";
 
-import Grouping from "./Grouping";
 import TagExplore from "./TagExplore";
 
 const DashboardSidebar = async () => {
@@ -15,7 +14,6 @@ const DashboardSidebar = async () => {
         <h1 className="whl-w-full whl-font-mono whl-text-2xl whl-font-bold">
           Dashboard
         </h1>
-        <Grouping />
         <TagExplore />
       </div>
     </div>
