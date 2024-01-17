@@ -151,6 +151,7 @@ model Tag {
     user           User             @relation(fields: [userId], references: [id], onDelete: Cascade)
     HighlightOnTag HighlightOnTag[]
 
+    @@unique([userId, name])
     @@index([userId])
     @@index([name])
 }

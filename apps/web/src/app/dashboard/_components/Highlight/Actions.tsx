@@ -2,10 +2,21 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { ClipboardCopyIcon, ExternalLink, Trash2 } from "lucide-react";
+import {
+  ClipboardCopyIcon,
+  ExternalLink,
+  MoreVerticalIcon,
+  Trash2,
+} from "lucide-react";
 import { useSWRConfig } from "swr";
 
+import type { HighlightWithLabelAndPageAndTag } from "@whl/common-types";
 import { Button } from "@whl/ui/components/ui/button";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@whl/ui/components/ui/popover";
 import {
   Tooltip,
   TooltipContent,
@@ -13,20 +24,33 @@ import {
   TooltipTrigger,
 } from "@whl/ui/components/ui/tooltip";
 
+import AddTagsForm from "./AddTagsForm";
+
 const ActionIconSize = 20;
-interface Props {
-  id: string;
-  pageId: string;
-  url: string;
-}
-export const Actions = ({ id, pageId, url }: Props) => {
+
+type PopoverContentType = "menu" | "add-tag";
+
+export const Actions = ({
+  id,
+  url,
+  HighlightOnTag,
+}: HighlightWithLabelAndPageAndTag) => {
   const { mutate } = useSWRConfig();
   const handleRemove = async () => {
     await fetch(`/api/highlights/${id}`, {
       method: "DELETE",
     });
 
-    void mutate(`/api/highlights?pageId=${pageId}`);
+    void mutate(
+      (key) => typeof key === "string" && key.startsWith("/api/highlights?"),
+    );
+  };
+
+  const [popoverContent, setPopoverContent] =
+    useState<PopoverContentType>("menu");
+
+  const openAddTagForm = () => {
+    setPopoverContent("add-tag");
   };
 
   const [clipboardTooltip, setClipboardTooltip] = useState("Copy to clipboard");
@@ -85,6 +109,40 @@ export const Actions = ({ id, pageId, url }: Props) => {
           </TooltipTrigger>
           <TooltipContent className="whl-text-xs">Remove</TooltipContent>
         </Tooltip>
+        <Popover
+          onOpenChange={() => {
+            setPopoverContent("menu");
+          }}
+        >
+          <PopoverTrigger asChild>
+            <Button size="icon_sm" variant="ghost">
+              <MoreVerticalIcon size={ActionIconSize} />
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent
+            side="bottom"
+            align="start"
+            className="whl-w-auto whl-px-0 whl-py-1"
+          >
+            {popoverContent === "add-tag" ? (
+              <AddTagsForm
+                highlightId={id}
+                addedTags={HighlightOnTag.map((relation) => relation.tag)}
+              />
+            ) : (
+              <div className="whl-flex whl-flex-col">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="whl-justify-start"
+                  onClick={openAddTagForm}
+                >
+                  Add Tags
+                </Button>
+              </div>
+            )}
+          </PopoverContent>
+        </Popover>
       </div>
     </TooltipProvider>
   );

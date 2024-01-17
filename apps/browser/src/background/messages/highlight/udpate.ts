@@ -22,8 +22,8 @@ const handler: PlasmoMessaging.MessageHandler<
 
   const { id, tag } = req.body;
 
-  const result = await fetch(`${APP_HOST}/api/highlights/${id}`, {
-    method: "PUT",
+  const result = await fetch(`${APP_HOST}/api/highlights/${id}/tags`, {
+    method: "POST",
     body: JSON.stringify({
       tag,
     }),
