@@ -1,64 +1,26 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useRef } from "react";
 
-import type { TagDTO } from "@whl/common-types";
 import {
   Popover,
   PopoverAnchor,
   PopoverContent,
 } from "@whl/ui/components/ui/popover";
 
-import { useHighlight } from "~/contents/hooks/useLabel";
-import { useLabels } from "~/contents/hooks/useLabels";
 import { usePopover } from "~/contents/hooks/usePopover";
 import { useSession } from "~/hooks/useSession";
 import Actions from "./Actions";
-import Labels from "./Labels";
-import ShortcutHighlight from "./ShortcutHighlight";
-import TagForm from "./TagForm";
 
 const ContextMenu = () => {
-  const [highlight, { init, save, setLabel }] = useHighlight();
-  const labels = useLabels();
   const { open, pos } = usePopover();
   const { status } = useSession();
-  const [tags, setTags] = useState<TagDTO[]>([]);
   const anchor = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (!open) {
-      setTags([]);
-      init();
-    }
-  }, [init, open]);
-
-  const handleClose = useCallback(() => {
-    setTags([]);
-    save(tags);
-  }, [save, tags]);
-
-  const setDefaultHighlight = useCallback(() => {
-    if (highlight !== null) {
-      return;
-    }
-
-    if (labels.length > 0 && labels[0]) {
-      setLabel(labels[0]);
-    }
-  }, [highlight, labels, setLabel]);
 
   if (status !== "authenticated") {
     return <></>;
   }
 
   return (
-    <Popover
-      open={open}
-      onOpenChange={(open) => {
-        if (!open) {
-          handleClose();
-        }
-      }}
-    >
+    <Popover open={open}>
       <PopoverAnchor asChild>
         <div
           ref={anchor}
@@ -79,16 +41,8 @@ const ContextMenu = () => {
           e.stopPropagation();
         }}
       >
-        {highlight === null ? (
-          <Actions handleHighlight={setDefaultHighlight} />
-        ) : (
-          <div className="whl-flex whl-flex-col whl-gap-2 whl-p-2">
-            <Labels labels={labels} onChanged={setLabel} />
-            <TagForm tags={tags} onChangeTags={setTags} />
-          </div>
-        )}
+        <Actions />
       </PopoverContent>
-      <ShortcutHighlight onExecute={setDefaultHighlight} />
     </Popover>
   );
 };
