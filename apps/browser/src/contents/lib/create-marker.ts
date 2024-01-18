@@ -1,3 +1,4 @@
+import { MARKER_CLASS_NAME } from "~/core/resources";
 import {
   getTextNodesInOneElement,
   getTextNodesInRange,
@@ -5,7 +6,7 @@ import {
 
 function createMarker(range: Range, color: string) {
   const elm = document.createElement("span");
-  elm.className = "web-highlighter-marker";
+  elm.className = MARKER_CLASS_NAME;
   elm.style.backgroundColor = color;
   elm.style.borderRadius = "2px";
   elm.style.padding = "2px 2px";
