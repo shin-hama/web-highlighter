@@ -2,7 +2,7 @@ import z from "zod";
 
 import type { Highlight, Position } from "@whl/db";
 
-const PositionDTO = z.object({
+export const PositionDTOSchema = z.object({
   startTagName: z.string().min(1),
   startIndex: z.number().min(0),
   startOffset: z.number().min(0),
@@ -20,13 +20,15 @@ const PositionDTO = z.object({
     | "endOffset"
   >
 >;
+export type PositionDTO = z.infer<typeof PositionDTOSchema>;
 
-const HighlightDTO = z.object({
+export const HighlightDTOSchema = z.object({
   content: z.string(),
   labelId: z.string(),
   url: z.string(),
-  position: PositionDTO,
+  position: PositionDTOSchema,
 }) satisfies z.ZodType<Pick<Highlight, "content" | "labelId" | "url">>;
+export type HighlightDTO = z.infer<typeof HighlightDTOSchema>;
 
 export const CreateHighlightRequestSchema = z.object({
   page: z.object({
@@ -40,7 +42,7 @@ export const CreateHighlightRequestSchema = z.object({
       }),
     )
     .optional(),
-  highlight: HighlightDTO,
+  highlight: HighlightDTOSchema,
 });
 
 export type CreateHighlightRequest = z.infer<

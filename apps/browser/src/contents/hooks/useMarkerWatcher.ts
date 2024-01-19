@@ -3,7 +3,7 @@ import { useEvent } from "react-use";
 import { MARKER_CLASS_NAME } from "~/core/resources";
 
 interface Props {
-  onClicked: (e: PointerEvent) => void;
+  onClicked: (e: PointerEvent, id: string) => void;
 }
 export const useMarkerWatcher = ({ onClicked }: Props) => {
   useEvent("click", (e: PointerEvent) => {
@@ -11,9 +11,8 @@ export const useMarkerWatcher = ({ onClicked }: Props) => {
       e.target instanceof HTMLElement &&
       e.target?.matches(`.${MARKER_CLASS_NAME}`)
     ) {
-      e.preventDefault();
       console.log("click marker");
-      onClicked(e);
+      onClicked(e, e.target.id);
     }
   });
 };

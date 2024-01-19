@@ -25,36 +25,37 @@ import {
 
 import { useHighlight } from "~/contents/hooks/useLabel";
 import { useLabels } from "~/contents/hooks/useLabels";
+import type { MaybeHighlight } from "~/contents/types";
 import { useIgnoredDomains } from "~/hooks/useIgnoredDomain";
 import Labels from "./Labels";
 import ShortcutHighlight from "./ShortcutHighlight";
 import TagForm from "./TagForm";
 
-const Actions = () => {
+interface Props {
+  highlight: MaybeHighlight;
+}
+const Actions = ({ highlight }: Props) => {
   const [ignoredDomains, { toggle }] = useIgnoredDomains();
   const enabled = useMemo<boolean>(
     () => ignoredDomains.includes(window.location.hostname) === false,
     [ignoredDomains],
   );
   const [tags, setTags] = useState<TagDTO[]>([]);
-  const [highlight, { init, save, setLabel }] = useHighlight();
+  const { save, setLabel } = useHighlight(highlight);
   const labels = useLabels();
-
-  const isHighlighting = useMemo<boolean>(() => !!highlight, [highlight]);
 
   const handleCloseTagForm = useCallback(
     (open: boolean) => {
       if (!open) {
         setTags([]);
         save(tags);
-        init();
       }
     },
-    [init, save, tags],
+    [save, tags],
   );
 
   const setDefaultHighlight = useCallback(() => {
-    if (highlight !== null) {
+    if (highlight !== null && "position" in highlight === false) {
       return;
     }
 
@@ -67,7 +68,7 @@ const Actions = () => {
     <div className="whl-rounded whl-bg-primary whl-px-2 whl-py-1">
       <ShortcutHighlight onExecute={setDefaultHighlight} />
       <div className="whl-flex whl-flex-row whl-gap-2">
-        {isHighlighting ? (
+        {!highlight.id ? (
           <TooltipProvider>
             <Tooltip delayDuration={400} defaultOpen={false}>
               <div className="whl-flex whl-flex-row whl-gap-2">

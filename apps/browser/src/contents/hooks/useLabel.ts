@@ -4,35 +4,26 @@ import { sendToBackground } from "@plasmohq/messaging";
 import type { CreateHighlightRequest } from "@whl/common-types";
 import type { Label } from "@whl/db";
 
+import type { IncompleteHighlight, MaybeHighlight } from "../types";
 import { useMarker } from "./useMarker";
-import { usePositionParser } from "./usePositionParser";
-import { useTextFragments } from "./useTextFragments";
 
 interface Actions {
-  init: () => void;
   setLabel: (label: Label) => void;
   save: (tags: { name: string }[]) => void;
-  removeHighlight: () => void;
 }
 
-export const useHighlight = (): readonly [
-  CreateHighlightRequest["highlight"] | null,
-  Actions,
-] => {
-  const [highlight, setSelected] = useState<
-    CreateHighlightRequest["highlight"] | null
-  >(null);
-  const [highlightElm, setHighlightElm] = useState<HTMLElement | null>(null);
-  const { parse } = usePositionParser();
+export const useHighlight = (highlight: MaybeHighlight): Actions => {
+  const [HighlightDTO, setHighlightDTO] = useState<IncompleteHighlight>({
+    content: highlight.content,
+    url: highlight.url,
+    position: highlight.position!,
+    labelId: highlight.labelId,
+    id: highlight.id,
+  });
+
   const { mark } = useMarker();
-  const { build } = useTextFragments();
 
   const actions = useMemo<Actions>(() => {
-    const init = () => {
-      setSelected(null);
-      setHighlightElm(null);
-    };
-
     const setLabel = (label: Label) => {
       const selection = window.getSelection();
       if (!selection) {
@@ -44,29 +35,17 @@ export const useHighlight = (): readonly [
         return;
       }
 
-      setSelected({
-        content,
-        labelId: label.id,
-        position: parse(selection),
-        url: build(selection) ?? "",
-      });
-
       // 現在選択されているテキストをハイライトする
-      mark(parse(selection), label.color);
-    };
-
-    const removeHighlight = () => {
-      if (!highlightElm) {
-        return;
-      }
-
-      highlightElm.remove();
-      setHighlightElm(null);
+      mark(HighlightDTO.position, label.color);
+      setHighlightDTO((prev) => ({
+        ...prev,
+        labelId: label.id,
+      }));
     };
 
     const save = (tags: { name: string }[]) => {
       // Label と Tag を作成する
-      if (!highlight) {
+      if (!HighlightDTO.labelId) {
         return;
       }
 
@@ -79,33 +58,27 @@ export const useHighlight = (): readonly [
             title: document.title,
           },
           highlight: {
-            content: highlight.content,
-            labelId: highlight.labelId,
-            position: highlight.position,
-            url: highlight.url,
+            content: HighlightDTO.content,
+            labelId: HighlightDTO.labelId,
+            position: HighlightDTO.position,
+            url: HighlightDTO.url,
           },
           tags: tags,
         },
       })
         .then((result) => {
-          if (!result) {
-            removeHighlight();
-          }
+          console.log(result);
         })
         .catch((error) => {
           console.error(error);
-          // ハイライトを削除する
-          removeHighlight();
         });
     };
 
     return {
-      init,
       save,
       setLabel,
-      removeHighlight,
     };
-  }, [build, highlight, highlightElm, mark, parse]);
+  }, [HighlightDTO, mark]);
 
-  return useMemo(() => [highlight, actions] as const, [highlight, actions]);
+  return actions;
 };
