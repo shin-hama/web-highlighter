@@ -1,9 +1,21 @@
 import { useEffect, useMemo, useState } from "react";
 import { useEvent, useWindowScroll } from "react-use";
 
+import { useMarkerWatcher } from "~/contents/hooks/useMarkerWatcher";
+
 export const usePopover = () => {
   const [open, setOpen] = useState(false);
   const [pos, setPos] = useState({ x: 0, y: 0 });
+
+  // すでに表示されている Highlight をクリックしたときに ContextMenu を開く
+  useMarkerWatcher({
+    onClicked: (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      setOpen(true);
+      setPos({ x: e.pageX, y: e.pageY });
+    },
+  });
 
   const scroll = useWindowScroll();
 
