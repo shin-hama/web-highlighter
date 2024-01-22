@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useMemo } from "react";
 import {
   HashIcon,
   HighlighterIcon,
@@ -8,8 +8,8 @@ import {
   PowerOffIcon,
   Trash2Icon,
 } from "lucide-react";
+import { useKeyPressEvent, useUnmount } from "react-use";
 
-import type { TagDTO } from "@whl/common-types";
 import { Button } from "@whl/ui/components/ui/button";
 import {
   Popover,
@@ -23,12 +23,11 @@ import {
   TooltipTrigger,
 } from "@whl/ui/components/ui/tooltip";
 
-import { useHighlight } from "~/contents/hooks/useLabel";
+import { useHighlight } from "~/contents/hooks/useHighlight";
 import { useLabels } from "~/contents/hooks/useLabels";
 import type { MaybeHighlight } from "~/contents/types";
 import { useIgnoredDomains } from "~/hooks/useIgnoredDomain";
 import Labels from "./Labels";
-import ShortcutHighlight from "./ShortcutHighlight";
 import TagForm from "./TagForm";
 
 interface Props {
@@ -40,19 +39,12 @@ const Actions = ({ highlight }: Props) => {
     () => ignoredDomains.includes(window.location.hostname) === false,
     [ignoredDomains],
   );
-  const [tags, setTags] = useState<TagDTO[]>([]);
-  const { save, setLabel } = useHighlight(highlight);
+
+  const [{ labelId, tags }, { save, setLabel, addTag, removeTag }] =
+    useHighlight(highlight);
   const labels = useLabels();
 
-  const handleCloseTagForm = useCallback(
-    (open: boolean) => {
-      if (!open) {
-        setTags([]);
-        save(tags);
-      }
-    },
-    [save, tags],
-  );
+  useUnmount(save);
 
   const setDefaultHighlight = useCallback(() => {
     if (highlight !== null && "position" in highlight === false) {
@@ -64,11 +56,16 @@ const Actions = ({ highlight }: Props) => {
     }
   }, [highlight, labels, setLabel]);
 
+  useKeyPressEvent(
+    (e) =>
+      e.altKey && e.code === "KeyC" && !e.shiftKey && !e.ctrlKey && !e.metaKey,
+    setDefaultHighlight,
+  );
+
   return (
     <div className="whl-rounded whl-bg-primary whl-px-2 whl-py-1">
-      <ShortcutHighlight onExecute={setDefaultHighlight} />
       <div className="whl-flex whl-flex-row whl-gap-2">
-        {!highlight.id ? (
+        {!labelId ? (
           <TooltipProvider>
             <Tooltip delayDuration={400} defaultOpen={false}>
               <div className="whl-flex whl-flex-row whl-gap-2">
@@ -102,7 +99,7 @@ const Actions = ({ highlight }: Props) => {
                 </div>
               </PopoverContent>
             </Popover>
-            <Popover onOpenChange={handleCloseTagForm}>
+            <Popover>
               <PopoverTrigger asChild>
                 <Button size="icon_sm">
                   <HashIcon size={20} />
@@ -113,7 +110,11 @@ const Actions = ({ highlight }: Props) => {
                 className="whl-w-auto whl-bg-primary whl-p-0"
               >
                 <div className="whl-flex whl-flex-col whl-gap-0.5">
-                  <TagForm tags={tags} onChangeTags={setTags} />
+                  <TagForm
+                    tags={tags}
+                    onTagAdded={addTag}
+                    onTagRemoved={removeTag}
+                  />
                 </div>
               </PopoverContent>
             </Popover>
