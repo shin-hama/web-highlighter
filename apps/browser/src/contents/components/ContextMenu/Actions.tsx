@@ -40,7 +40,7 @@ const Actions = ({ highlight }: Props) => {
     [ignoredDomains],
   );
 
-  const [{ labelId, tags }, { save, setLabel, addTag, removeTag }] =
+  const [{ labelId, tags }, { save, remove, setLabel, addTag, removeTag }] =
     useHighlight(highlight);
   const labels = useLabels();
 
@@ -118,7 +118,7 @@ const Actions = ({ highlight }: Props) => {
                 </div>
               </PopoverContent>
             </Popover>
-            <Button size="icon_sm">
+            <Button size="icon_sm" onClick={remove}>
               <Trash2Icon size={20} />
             </Button>
           </>

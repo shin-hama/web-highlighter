@@ -21,7 +21,7 @@ export const usePopover = () => {
       e.stopPropagation();
       console.log(e);
       setPos({ x: e.pageX, y: e.pageY });
-      setHighlight(highlights.find((h) => h.id === id) ?? null);
+      setHighlight(highlights.find((h) => id.startsWith(h.id)) ?? null);
     },
   });
 

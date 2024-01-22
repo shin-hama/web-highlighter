@@ -27,9 +27,12 @@ export const HighlightsProvider = ({ children }: PropsWithChildren) => {
   const { mark } = useMarker();
 
   useEffect(() => {
-    highlights.forEach((marker) => {
-      if (marker.position) {
-        mark(marker.position, marker.label.color);
+    highlights.forEach((highlight) => {
+      if (highlight.position) {
+        mark(highlight.position, highlight.label.color).forEach((marker, i) => {
+          marker.id = `${highlight.id}-${i}`;
+          marker.className = marker.className + ` ${highlight.id}`;
+        });
       }
     });
   }, [mark, highlights]);

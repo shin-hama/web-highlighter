@@ -16,6 +16,7 @@ interface Actions {
   addTag: (tag: TagDTO) => void;
   removeTag: (tag: TagDTO) => void;
   save: () => void;
+  remove: () => void;
 }
 
 export const useHighlight = (
@@ -27,6 +28,13 @@ export const useHighlight = (
   const [tags, setTags] = useState<TagDTO[]>(() => {
     if (highlight && "HighlightOnTag" in highlight) {
       return highlight.HighlightOnTag.map((item) => item.tag);
+    }
+    return [];
+  });
+
+  const [marker, setMarker] = useState<Element[]>(() => {
+    if (highlight.id) {
+      return Array.from(document.getElementsByClassName(highlight.id));
     }
     return [];
   });
@@ -46,7 +54,7 @@ export const useHighlight = (
       }
 
       // 現在選択されているテキストをハイライトする
-      mark(highlight.position!, label.color);
+      setMarker(mark(highlight.position!, label.color));
       setCurrentLabel(label.id);
     };
 
@@ -89,18 +97,49 @@ export const useHighlight = (
         });
     };
 
+    const remove = () => {
+      if (!highlight.id) {
+        if (marker.length > 0) {
+          // 未保存だがハイライトされている場合はここで削除する
+          marker.forEach((element) => {
+            element.remove();
+          });
+        }
+        return;
+      }
+
+      sendToBackground({
+        name: "highlight/remove",
+        body: {
+          id: highlight.id,
+        },
+      })
+        .then((result) => {
+          console.log(result);
+          marker.forEach((element) => {
+            element.remove();
+          });
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    };
+
     return {
       save,
+      remove,
       addTag,
       removeTag,
       setLabel,
     };
   }, [
     highlight.content,
+    highlight.id,
     highlight.position,
     highlight.url,
     labelId,
     mark,
+    marker,
     tags,
   ]);
 

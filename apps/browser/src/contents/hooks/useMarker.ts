@@ -17,18 +17,18 @@ interface UseMarker {
       | "startTagName"
     >,
     color: string,
-  ) => void;
+  ) => HTMLElement[];
 }
 export const useMarker = (): UseMarker => {
   const actions = useMemo<UseMarker>(() => {
     const mark: UseMarker["mark"] = (position, color) => {
       const nodes = findNodes(position);
       if (nodes === null) {
-        return;
+        return [];
       }
 
       const { startElement, endElement } = nodes;
-      createMarkers(
+      return createMarkers(
         startElement,
         endElement,
         color,
