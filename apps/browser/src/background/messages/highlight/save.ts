@@ -1,16 +1,26 @@
 import type { PlasmoMessaging } from "@plasmohq/messaging";
 
-import type { CreateHighlightRequest } from "@whl/common-types";
-import type { Highlight } from "@whl/db";
+import type {
+  CreateHighlightRequest,
+  HighlightWithLabelAndPositionAndTag,
+} from "@whl/common-types";
 
+import type { CommonMessageResponse } from "~/contents/types/background";
 import { APP_HOST } from "~/lib/config";
 
+export type SaveHighlightResponse =
+  CommonMessageResponse<HighlightWithLabelAndPositionAndTag>;
 const handler: PlasmoMessaging.MessageHandler<
   CreateHighlightRequest,
-  Highlight
+  SaveHighlightResponse
 > = async (req, res) => {
   if (!req.body) {
     console.warn("No body found in request");
+    res.send({
+      message: "No body found in request",
+      status: 400,
+      ok: false,
+    });
     return;
   }
 
@@ -27,9 +37,19 @@ const handler: PlasmoMessaging.MessageHandler<
 
   if (result.status >= 400) {
     console.error(await result.json());
+    res.send({
+      message: "Failed to save highlight",
+      status: result.status,
+      ok: false,
+    });
     return;
   }
-  res.send((await result.json()) as Highlight);
+  res.send({
+    message: "Successfully saved highlight",
+    status: result.status,
+    ok: true,
+    data: (await result.json()) as HighlightWithLabelAndPositionAndTag,
+  });
 };
 
 export default handler;

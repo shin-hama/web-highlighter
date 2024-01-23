@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useEvent, useWindowScroll } from "react-use";
 
 import { useMarkerWatcher } from "~/contents/hooks/useMarkerWatcher";
@@ -27,9 +27,13 @@ export const usePopover = () => {
 
   const scroll = useWindowScroll();
 
-  useEffect(() => {
+  const close = useCallback(() => {
     setHighlight(null);
-  }, [scroll]);
+  }, []);
+
+  useEffect(() => {
+    close();
+  }, [scroll, close]);
 
   useEffect(() => {
     const onSelectionChange = () => {
@@ -37,7 +41,7 @@ export const usePopover = () => {
       const selectedText = selection?.toString().trim();
 
       if (selectedText?.length === 0) {
-        setHighlight(null);
+        close();
       }
     };
     // useEvent で selectionchange イベントを listen できないので直接登録する
@@ -60,7 +64,7 @@ export const usePopover = () => {
     ).some((node) => ["INPUT", "TEXTAREA"].includes(node.nodeName));
 
     if (isInsideInputOrTextarea) {
-      setHighlight(null);
+      close();
       return;
     }
 
@@ -78,7 +82,7 @@ export const usePopover = () => {
   useEvent("mouseup", onMouseUp);
 
   return useMemo(
-    () => ({ open: highlight !== null, pos, highlight }),
-    [highlight, pos],
+    () => ({ open: highlight !== null, pos, highlight, close }),
+    [highlight, pos, close],
   );
 };

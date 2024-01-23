@@ -32,8 +32,9 @@ import TagForm from "./TagForm";
 
 interface Props {
   highlight: MaybeHighlight;
+  onClose: () => void;
 }
-const Actions = ({ highlight }: Props) => {
+const Actions = ({ highlight, onClose }: Props) => {
   const [ignoredDomains, { toggle }] = useIgnoredDomains();
   const enabled = useMemo<boolean>(
     () => ignoredDomains.includes(window.location.hostname) === false,
@@ -55,6 +56,11 @@ const Actions = ({ highlight }: Props) => {
       setLabel(labels[0]);
     }
   }, [highlight, labels, setLabel]);
+
+  const handleRemove = useCallback(async () => {
+    await remove();
+    onClose();
+  }, [remove, onClose]);
 
   useKeyPressEvent(
     (e) =>
@@ -122,7 +128,7 @@ const Actions = ({ highlight }: Props) => {
                 </div>
               </PopoverContent>
             </Popover>
-            <Button size="icon_sm" variant="ghost" onClick={remove}>
+            <Button size="icon_sm" variant="ghost" onClick={handleRemove}>
               <Trash2Icon size={20} />
             </Button>
           </>

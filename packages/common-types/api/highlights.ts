@@ -23,6 +23,7 @@ export const PositionDTOSchema = z.object({
 export type PositionDTO = z.infer<typeof PositionDTOSchema>;
 
 export const HighlightDTOSchema = z.object({
+  id: z.string().optional(),
   content: z.string(),
   labelId: z.string(),
   url: z.string(),
@@ -42,7 +43,7 @@ export const CreateHighlightRequestSchema = z.object({
       }),
     )
     .optional(),
-  highlight: HighlightDTOSchema,
+  highlight: HighlightDTOSchema.omit({ id: true }),
 });
 
 export type CreateHighlightRequest = z.infer<

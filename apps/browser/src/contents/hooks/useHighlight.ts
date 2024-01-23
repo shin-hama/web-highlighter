@@ -1,10 +1,17 @@
 import { useMemo, useState } from "react";
 import { sendToBackground } from "@plasmohq/messaging";
 
-import type { CreateHighlightRequest, TagDTO } from "@whl/common-types";
-import type { Label } from "@whl/db";
+import type {
+  CreateHighlightRequest,
+  SpecifiedHighlightRouteParam,
+  TagDTO,
+} from "@whl/common-types";
+import type { Highlight, Label } from "@whl/db";
 
+import type { SaveHighlightResponse } from "~/background/messages/highlight/save";
+import { useSetHighlightsContext } from "../components/contexts/HighlightsProvider";
 import type { MaybeHighlight } from "../types";
+import type { CommonMessageResponse } from "../types/background";
 import { useMarker } from "./useMarker";
 
 interface HighlightHookModel {
@@ -15,13 +22,14 @@ interface Actions {
   setLabel: (label: Label) => void;
   addTag: (tag: TagDTO) => void;
   removeTag: (tag: TagDTO) => void;
-  save: () => void;
-  remove: () => void;
+  save: () => Promise<void>;
+  remove: () => Promise<void>;
 }
 
 export const useHighlight = (
   highlight: MaybeHighlight,
 ): readonly [HighlightHookModel, Actions] => {
+  const setHighlights = useSetHighlightsContext();
   const [labelId, setCurrentLabel] = useState<string | null>(
     highlight.labelId ?? null,
   );
@@ -66,13 +74,16 @@ export const useHighlight = (
       setTags((prev) => prev.filter((item) => item.name !== tag.name));
     };
 
-    const save = () => {
+    const save = async () => {
       // Label と Tag を作成する
       if (!labelId || !highlight.position) {
         return;
       }
 
-      sendToBackground<CreateHighlightRequest>({
+      const result = await sendToBackground<
+        CreateHighlightRequest,
+        SaveHighlightResponse
+      >({
         name: "highlight/save",
         body: {
           page: {
@@ -88,16 +99,19 @@ export const useHighlight = (
           },
           tags: tags,
         },
-      })
-        .then((result) => {
-          console.log(result);
-        })
-        .catch((error) => {
-          console.error(error);
+      });
+
+      if (result.ok && result.data) {
+        // マーカーに id を付与する
+        setCurrentLabel(result.data.labelId);
+        marker.forEach((element, i) => {
+          element.id = `${result.data!.id}-${i}`;
         });
+        setHighlights((prev) => [...prev, result.data]);
+      }
     };
 
-    const remove = () => {
+    const remove = async () => {
       if (!highlight.id) {
         if (marker.length > 0) {
           // 未保存だがハイライトされている場合はここで削除する
@@ -113,26 +127,27 @@ export const useHighlight = (
         return;
       }
 
-      sendToBackground({
+      const result = await sendToBackground<
+        SpecifiedHighlightRouteParam,
+        CommonMessageResponse
+      >({
         name: "highlight/remove",
         body: {
           id: highlight.id,
         },
-      })
-        .then((result) => {
-          console.log(result);
-          marker.forEach((element) => {
-            while (element.firstChild) {
-              // insert 後に element.firstChild は削除される
-              // https://developer.mozilla.org/ja/docs/Web/API/Node/insertBefore
-              element.parentNode?.insertBefore(element.firstChild, element);
-            }
-            element.parentNode?.removeChild(element);
-          });
-        })
-        .catch((error) => {
-          console.error(error);
+      });
+
+      if (result.ok) {
+        setCurrentLabel(null);
+        marker.forEach((element) => {
+          while (element.firstChild) {
+            // insert 後に element.firstChild は削除される
+            // https://developer.mozilla.org/ja/docs/Web/API/Node/insertBefore
+            element.parentNode?.insertBefore(element.firstChild, element);
+          }
+          element.parentNode?.removeChild(element);
         });
+      }
     };
 
     return {
@@ -150,6 +165,7 @@ export const useHighlight = (
     labelId,
     mark,
     marker,
+    setHighlights,
     tags,
   ]);
 

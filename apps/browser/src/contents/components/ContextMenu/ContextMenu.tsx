@@ -11,7 +11,7 @@ import { useSession } from "~/hooks/useSession";
 import Actions from "./Actions";
 
 const ContextMenu = () => {
-  const { open, pos, highlight } = usePopover();
+  const { open, pos, highlight, close } = usePopover();
   const { status } = useSession();
   const anchor = useRef<HTMLDivElement>(null);
 
@@ -41,7 +41,7 @@ const ContextMenu = () => {
           e.stopPropagation();
         }}
       >
-        {highlight && <Actions highlight={highlight} />}
+        {highlight && <Actions highlight={highlight} onClose={close} />}
       </PopoverContent>
     </Popover>
   );
