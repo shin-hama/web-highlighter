@@ -102,7 +102,12 @@ export const useHighlight = (
         if (marker.length > 0) {
           // 未保存だがハイライトされている場合はここで削除する
           marker.forEach((element) => {
-            element.remove();
+            while (element.firstChild) {
+              // insert 後に element.firstChild は削除される
+              // https://developer.mozilla.org/ja/docs/Web/API/Node/insertBefore
+              element.parentNode?.insertBefore(element.firstChild, element);
+            }
+            element.parentNode?.removeChild(element);
           });
         }
         return;
@@ -117,7 +122,12 @@ export const useHighlight = (
         .then((result) => {
           console.log(result);
           marker.forEach((element) => {
-            element.remove();
+            while (element.firstChild) {
+              // insert 後に element.firstChild は削除される
+              // https://developer.mozilla.org/ja/docs/Web/API/Node/insertBefore
+              element.parentNode?.insertBefore(element.firstChild, element);
+            }
+            element.parentNode?.removeChild(element);
           });
         })
         .catch((error) => {

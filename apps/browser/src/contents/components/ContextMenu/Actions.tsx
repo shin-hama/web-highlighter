@@ -70,7 +70,11 @@ const Actions = ({ highlight }: Props) => {
             <Tooltip delayDuration={400} defaultOpen={false}>
               <div className="whl-flex whl-flex-row whl-gap-2">
                 <TooltipTrigger asChild>
-                  <Button size="icon_sm" onClick={setDefaultHighlight}>
+                  <Button
+                    size="icon_sm"
+                    variant="ghost"
+                    onClick={setDefaultHighlight}
+                  >
                     <HighlighterIcon size={20} />
                   </Button>
                 </TooltipTrigger>
@@ -86,7 +90,7 @@ const Actions = ({ highlight }: Props) => {
           <>
             <Popover>
               <PopoverTrigger asChild>
-                <Button size="icon_sm">
+                <Button size="icon_sm" variant="ghost">
                   <PaletteIcon size={20} />
                 </Button>
               </PopoverTrigger>
@@ -101,7 +105,7 @@ const Actions = ({ highlight }: Props) => {
             </Popover>
             <Popover>
               <PopoverTrigger asChild>
-                <Button size="icon_sm">
+                <Button size="icon_sm" variant="ghost">
                   <HashIcon size={20} />
                 </Button>
               </PopoverTrigger>
@@ -118,14 +122,14 @@ const Actions = ({ highlight }: Props) => {
                 </div>
               </PopoverContent>
             </Popover>
-            <Button size="icon_sm" onClick={remove}>
+            <Button size="icon_sm" variant="ghost" onClick={remove}>
               <Trash2Icon size={20} />
             </Button>
           </>
         )}
         <Popover>
           <PopoverTrigger asChild>
-            <Button size="icon_sm">
+            <Button size="icon_sm" variant="ghost">
               <MoreVerticalIcon size={20} />
             </Button>
           </PopoverTrigger>
