@@ -6,7 +6,7 @@ import type {
   SpecifiedHighlightRouteParam,
   TagDTO,
 } from "@whl/common-types";
-import type { Highlight, Label } from "@whl/db";
+import type { Label } from "@whl/db";
 
 import type { SaveHighlightResponse } from "~/background/messages/highlight/save";
 import { useSetHighlightsContext } from "../components/contexts/HighlightsProvider";
@@ -101,13 +101,13 @@ export const useHighlight = (
         },
       });
 
-      if (result.ok && result.data) {
+      if (result.ok && result.data !== undefined) {
         // マーカーに id を付与する
         setCurrentLabel(result.data.labelId);
         marker.forEach((element, i) => {
           element.id = `${result.data!.id}-${i}`;
         });
-        setHighlights((prev) => [...prev, result.data]);
+        setHighlights((prev) => [...prev, result.data!]);
       }
     };
 

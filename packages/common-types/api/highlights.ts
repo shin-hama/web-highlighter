@@ -45,9 +45,23 @@ export const CreateHighlightRequestSchema = z.object({
     .optional(),
   highlight: HighlightDTOSchema.omit({ id: true }),
 });
-
 export type CreateHighlightRequest = z.infer<
   typeof CreateHighlightRequestSchema
+>;
+
+export const UpdateHighlightRequestSchema = z.object({
+  highlight: HighlightDTOSchema.partial(),
+  tags: z
+    .array(
+      z.object({
+        id: z.string().optional(),
+        name: z.string(),
+      }),
+    )
+    .optional(),
+});
+export type UpdateHighlightRequest = z.infer<
+  typeof UpdateHighlightRequestSchema
 >;
 
 export const SpecifiedHighlightRouteParamSchema = z.object({
