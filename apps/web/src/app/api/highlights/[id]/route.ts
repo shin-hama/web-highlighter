@@ -1,7 +1,10 @@
 import { NextResponse } from "next/server";
 
 import { getServerAuthSession } from "@whl/auth";
-import type { SpecifiedHighlightRouteParam } from "@whl/common-types";
+import type {
+  HighlightWithLabelAndPositionAndTag,
+  SpecifiedHighlightRouteParam,
+} from "@whl/common-types";
 import {
   SpecifiedHighlightRouteParamSchema,
   UpdateHighlightRequestSchema,
@@ -115,6 +118,15 @@ export async function PUT(
         id,
         userId: session.user.id,
       },
+      include: {
+        HighlightOnTag: {
+          include: {
+            tag: true,
+          },
+        },
+        label: true,
+        position: true,
+      },
       data: {
         ...rest,
         position: {
@@ -152,7 +164,9 @@ export async function PUT(
       },
     });
 
-    return NextResponse.json(result);
+    return NextResponse.json(
+      result satisfies HighlightWithLabelAndPositionAndTag,
+    );
   } catch (e) {
     return NextResponse.json(
       { message: "Failed to update highlight" },

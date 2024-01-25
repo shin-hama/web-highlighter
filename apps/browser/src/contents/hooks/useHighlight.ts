@@ -9,6 +9,10 @@ import type {
 import type { Label } from "@whl/db";
 
 import type { SaveHighlightResponse } from "~/background/messages/highlight/save";
+import type {
+  UpdateHighlightMessageRequest,
+  UpdateHighlightResponse,
+} from "~/background/messages/highlight/udpate";
 import { useSetHighlightsContext } from "../components/contexts/HighlightsProvider";
 import type { MaybeHighlight } from "../types";
 import type { CommonMessageResponse } from "../types/background";
@@ -80,6 +84,11 @@ export const useHighlight = (
         return;
       }
 
+      if (highlight.id) {
+        await update();
+        return;
+      }
+
       const result = await sendToBackground<
         CreateHighlightRequest,
         SaveHighlightResponse
@@ -108,6 +117,36 @@ export const useHighlight = (
           element.id = `${result.data!.id}-${i}`;
         });
         setHighlights((prev) => [...prev, result.data!]);
+      }
+    };
+
+    const update = async () => {
+      if (!labelId || !highlight.id || !highlight.position) {
+        return;
+      }
+
+      const result = await sendToBackground<
+        UpdateHighlightMessageRequest,
+        UpdateHighlightResponse
+      >({
+        name: "highlight/update",
+        body: {
+          id: highlight.id,
+          highlight: {
+            content: highlight.content,
+            labelId: labelId,
+            position: highlight.position,
+            url: highlight.url,
+          },
+          tags: tags,
+        },
+      });
+
+      if (result.ok && result.data !== undefined) {
+        setHighlights((prev) => [
+          ...prev.filter((item) => item.id !== highlight.id),
+          result.data!,
+        ]);
       }
     };
 
