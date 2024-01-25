@@ -118,3 +118,11 @@ export function createMarkers(
     );
   }
 }
+
+export function changeMarkerColor(
+  marker: HTMLElement,
+  color: string,
+): HTMLElement {
+  marker.style.backgroundColor = color;
+  return marker;
+}

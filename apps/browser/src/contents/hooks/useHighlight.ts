@@ -44,14 +44,16 @@ export const useHighlight = (
     return [];
   });
 
-  const [marker, setMarker] = useState<Element[]>(() => {
+  const [marker, setMarker] = useState<HTMLElement[]>(() => {
     if (highlight.id) {
-      return Array.from(document.getElementsByClassName(highlight.id));
+      return Array.from(document.getElementsByClassName(highlight.id)).filter(
+        (elm): elm is HTMLElement => elm instanceof HTMLElement,
+      );
     }
     return [];
   });
 
-  const { mark } = useMarker();
+  const { mark, changeColor } = useMarker();
 
   const actions = useMemo<Actions>(() => {
     const setLabel = (label: Label) => {
@@ -65,9 +67,14 @@ export const useHighlight = (
         return;
       }
 
-      // 現在選択されているテキストをハイライトする
-      setMarker(mark(highlight.position!, label.color));
       setCurrentLabel(label.id);
+      if (marker.length > 0) {
+        // 既にハイライトされている場合は色を変える
+        setMarker((prev) => prev.map((m) => changeColor(m, label.color)));
+      } else {
+        // 現在選択されているテキストをハイライトする
+        setMarker(mark(highlight.position!, label.color));
+      }
     };
 
     const addTag = (tag: TagDTO) => {
@@ -197,6 +204,7 @@ export const useHighlight = (
       setLabel,
     };
   }, [
+    changeColor,
     highlight.content,
     highlight.id,
     highlight.position,
