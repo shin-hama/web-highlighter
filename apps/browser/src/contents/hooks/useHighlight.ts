@@ -12,7 +12,7 @@ import type { SaveHighlightResponse } from "~/background/messages/highlight/save
 import type {
   UpdateHighlightMessageRequest,
   UpdateHighlightResponse,
-} from "~/background/messages/highlight/udpate";
+} from "~/background/messages/highlight/update";
 import { useSetHighlightsContext } from "../components/contexts/HighlightsProvider";
 import type { MaybeHighlight } from "../types";
 import type { CommonMessageResponse } from "../types/background";
@@ -57,17 +57,8 @@ export const useHighlight = (
 
   const actions = useMemo<Actions>(() => {
     const setLabel = (label: Label) => {
-      const selection = window.getSelection();
-      if (!selection) {
-        return;
-      }
-
-      const content = selection?.toString().trim();
-      if (content.length === 0) {
-        return;
-      }
-
       setCurrentLabel(label.id);
+
       if (marker.length > 0) {
         // 既にハイライトされている場合は色を変える
         setMarker((prev) => prev.map((m) => changeColor(m, label.color)));
@@ -131,6 +122,21 @@ export const useHighlight = (
       if (!labelId || !highlight.id || !highlight.position) {
         return;
       }
+
+      if (
+        highlight.labelId === labelId &&
+        "HighlightOnTag" in highlight &&
+        highlight.HighlightOnTag.map((item) => item.tag.name)
+          .sort()
+          .join(",") ===
+          tags
+            .map((item) => item.name)
+            .sort()
+            .join(",")
+      ) {
+        return;
+      }
+      console.log("update");
 
       const result = await sendToBackground<
         UpdateHighlightMessageRequest,
@@ -203,18 +209,7 @@ export const useHighlight = (
       removeTag,
       setLabel,
     };
-  }, [
-    changeColor,
-    highlight.content,
-    highlight.id,
-    highlight.position,
-    highlight.url,
-    labelId,
-    mark,
-    marker,
-    setHighlights,
-    tags,
-  ]);
+  }, [changeColor, highlight, labelId, mark, marker, setHighlights, tags]);
 
   return useMemo(
     () =>
