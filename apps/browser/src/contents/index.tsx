@@ -9,7 +9,6 @@ import type { PlasmoCSConfig, PlasmoGetStyle } from "plasmo";
 import { APP_HOST } from "~/lib/config";
 import ContextMenu from "./components/ContextMenu";
 import { HighlightsProvider } from "./components/contexts/HighlightsProvider";
-import EventListener from "./components/EventListener";
 import VerifyAvailable from "./components/VerifyAvailable";
 
 export const config: PlasmoCSConfig = {
@@ -28,7 +27,6 @@ const PlasmoOverlay = () => {
   return (
     <VerifyAvailable>
       <HighlightsProvider>
-        <EventListener />
         <ContextMenu />
       </HighlightsProvider>
     </VerifyAvailable>

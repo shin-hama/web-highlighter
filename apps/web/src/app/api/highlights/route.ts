@@ -164,6 +164,15 @@ export async function POST(req: Request) {
         })),
       },
     },
+    include: {
+      label: true,
+      position: true,
+      HighlightOnTag: {
+        include: {
+          tag: true,
+        },
+      },
+    },
   });
   return NextResponse.json(result);
 }

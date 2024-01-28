@@ -2,7 +2,7 @@ import { useMemo } from "react";
 
 import type { Position } from "@whl/db";
 
-import { createMarkers } from "../lib/create-marker";
+import { changeMarkerColor, createMarkers } from "../lib/create-marker";
 import { findNodes } from "../lib/validate-position";
 
 interface UseMarker {
@@ -17,18 +17,22 @@ interface UseMarker {
       | "startTagName"
     >,
     color: string,
-  ) => void;
+  ) => HTMLElement[];
+  /**
+   * マーカーの色を変える
+   */
+  changeColor: (marker: HTMLElement, color: string) => HTMLElement;
 }
 export const useMarker = (): UseMarker => {
   const actions = useMemo<UseMarker>(() => {
     const mark: UseMarker["mark"] = (position, color) => {
       const nodes = findNodes(position);
       if (nodes === null) {
-        return;
+        return [];
       }
 
       const { startElement, endElement } = nodes;
-      createMarkers(
+      return createMarkers(
         startElement,
         endElement,
         color,
@@ -37,8 +41,13 @@ export const useMarker = (): UseMarker => {
       );
     };
 
+    const changeColor: UseMarker["changeColor"] = (marker, color) => {
+      return changeMarkerColor(marker, color);
+    };
+
     return {
       mark,
+      changeColor,
     };
   }, []);
 

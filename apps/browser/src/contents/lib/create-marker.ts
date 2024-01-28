@@ -1,24 +1,27 @@
+import { MARKER_CLASS_NAME } from "~/core/resources";
 import {
   getTextNodesInOneElement,
   getTextNodesInRange,
 } from "./get-text-nodes";
 
-function createMarker(range: Range, color: string) {
+function createMarker(range: Range, color: string): HTMLElement {
   const elm = document.createElement("span");
-  elm.className = "web-highlighter-marker";
+  elm.className = MARKER_CLASS_NAME;
   elm.style.backgroundColor = color;
   elm.style.borderRadius = "2px";
   elm.style.padding = "2px 2px";
   elm.style.margin = "0 1px";
 
   range.surroundContents(elm);
+
+  return elm;
 }
 
 function createMarkerOnNode(
   node: Node,
   color: string,
   position?: { start?: number; end?: number },
-) {
+): HTMLElement {
   const range = document.createRange();
   range.selectNodeContents(node);
   if (position?.start) {
@@ -28,7 +31,7 @@ function createMarkerOnNode(
     range.setEnd(node, position.end);
   }
 
-  createMarker(range, color);
+  return createMarker(range, color);
 }
 
 function processTextNodes(
@@ -36,20 +39,25 @@ function processTextNodes(
   color: string,
   startOffset: number,
   endOffset: number,
-) {
+): HTMLElement[] {
+  const elements: HTMLElement[] = [];
   textNodes.reduce((count, textNode) => {
     const tempCount = count + (textNode.textContent?.length ?? 0);
     if (tempCount > startOffset && count < endOffset) {
-      createMarkerOnNode(textNode, color, {
-        start:
-          count < startOffset
-            ? (textNode.textContent?.length ?? 0) - (tempCount - startOffset)
-            : undefined,
-        end: tempCount >= endOffset ? endOffset - count : undefined,
-      });
+      elements.push(
+        createMarkerOnNode(textNode, color, {
+          start:
+            count < startOffset
+              ? (textNode.textContent?.length ?? 0) - (tempCount - startOffset)
+              : undefined,
+          end: tempCount >= endOffset ? endOffset - count : undefined,
+        }),
+      );
     }
     return tempCount;
   }, 0);
+
+  return elements;
 }
 
 function processTextNodesInOneElement(
@@ -57,10 +65,10 @@ function processTextNodesInOneElement(
   color: string,
   startOffset: number,
   endOffset: number,
-) {
+): HTMLElement[] {
   const textNodes = getTextNodesInOneElement(element);
 
-  processTextNodes(textNodes, color, startOffset, endOffset);
+  return processTextNodes(textNodes, color, startOffset, endOffset);
 }
 
 function processTextNodesBetweenTwoElements(
@@ -69,7 +77,7 @@ function processTextNodesBetweenTwoElements(
   color: string,
   startOffset: number,
   endOffset: number,
-) {
+): HTMLElement[] {
   const otherRange = document.createRange();
   otherRange.setStart(start, start?.childNodes.length);
   otherRange.setEnd(end, 0);
@@ -78,9 +86,12 @@ function processTextNodesBetweenTwoElements(
   const otherTextNodes = getTextNodesInRange(otherRange);
   const endNodes = getTextNodesInOneElement(end);
 
-  processTextNodes(startNodes, color, startOffset, Infinity);
-  processTextNodes(otherTextNodes, color, 0, Infinity);
-  processTextNodes(endNodes, color, 0, endOffset);
+  const elements: HTMLElement[] = [];
+  elements.push(...processTextNodes(startNodes, color, startOffset, Infinity));
+  elements.push(...processTextNodes(otherTextNodes, color, 0, Infinity));
+  elements.push(...processTextNodes(endNodes, color, 0, endOffset));
+
+  return elements;
 }
 
 export function createMarkers(
@@ -89,11 +100,16 @@ export function createMarkers(
   color: string,
   startOffset: number,
   endOffset: number,
-) {
+): HTMLElement[] {
   if (startElement === endElement) {
-    processTextNodesInOneElement(startElement, color, startOffset, endOffset);
+    return processTextNodesInOneElement(
+      startElement,
+      color,
+      startOffset,
+      endOffset,
+    );
   } else {
-    processTextNodesBetweenTwoElements(
+    return processTextNodesBetweenTwoElements(
       startElement,
       endElement,
       color,
@@ -101,4 +117,12 @@ export function createMarkers(
       endOffset,
     );
   }
+}
+
+export function changeMarkerColor(
+  marker: HTMLElement,
+  color: string,
+): HTMLElement {
+  marker.style.backgroundColor = color;
+  return marker;
 }

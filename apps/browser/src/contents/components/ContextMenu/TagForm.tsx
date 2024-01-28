@@ -8,22 +8,24 @@ import { Input } from "@whl/ui/components/ui/input";
 
 interface Props {
   tags: TagDTO[];
-  onChangeTags: (tags: TagDTO[]) => void;
+  onTagAdded: (tag: TagDTO) => void;
+  onTagRemoved: (tag: TagDTO) => void;
 }
-const TagForm = ({ tags, onChangeTags }: Props) => {
+const TagForm = ({ tags, onTagAdded, onTagRemoved }: Props) => {
   const [value, setValue] = useState("");
+
   const handleSetTag = () => {
     if (tags.some((tag) => tag.name === value)) {
       // 同じタグが含まれていたら追加しない
       return;
     }
-    onChangeTags([...tags, { name: value }]);
+    onTagAdded({ name: value });
 
     setValue("");
   };
 
   const handleRemoveTag = (tag: TagDTO) => {
-    onChangeTags(tags.filter((t) => t.name === tag.name));
+    onTagRemoved(tag);
   };
 
   useEffect(() => {
