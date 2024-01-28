@@ -35,22 +35,6 @@ export const usePopover = () => {
     close();
   }, [scroll, close]);
 
-  useEffect(() => {
-    const onSelectionChange = () => {
-      const selection = window.getSelection();
-      const selectedText = selection?.toString().trim();
-
-      if (selectedText?.length === 0) {
-        close();
-      }
-    };
-    // useEvent で selectionchange イベントを listen できないので直接登録する
-    document.addEventListener("selectionchange", onSelectionChange);
-    return () => {
-      document.removeEventListener("selectionchange", onSelectionChange);
-    };
-  }, []);
-
   const onMouseUp = (event: React.MouseEvent) => {
     const selection = window.getSelection();
     if (selection === null) {
@@ -77,6 +61,8 @@ export const usePopover = () => {
         labelId: undefined,
       });
       setPos({ x: event.pageX, y: event.pageY });
+    } else {
+      close();
     }
   };
   useEvent("mouseup", onMouseUp);
