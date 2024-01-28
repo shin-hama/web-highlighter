@@ -69,7 +69,7 @@ const Actions = ({ highlight, onClose }: Props) => {
   );
 
   return (
-    <div className="whl-rounded whl-bg-primary whl-px-2 whl-py-1">
+    <div className="whl-rounded whl-bg-primary whl-px-2 whl-py-1 whl-text-primary-foreground">
       <div className="whl-flex whl-flex-row whl-gap-2">
         {!labelId ? (
           <TooltipProvider>
