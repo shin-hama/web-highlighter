@@ -25,6 +25,8 @@ jobs:
           cache: "pnpm"
       - name: Build the extension
         run: pnpm -F browser build
+        env:
+          PLASMO_PUBLIC_APP_HOST: ${{ vars.PLASMO_PUBLIC_APP_HOST }}
       - name: Package the extension into a zip artifact
         run: pnpm -F browser package
       - name: Browser Platform Publish
