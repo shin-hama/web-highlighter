@@ -87,8 +87,8 @@ const HighlightCard = (props: HighlightWithLabelAndPageAndTag) => {
           <QuoteSource {...highlight.page} />
         </Card>
       </DialogTrigger>
-      <DialogContent>
-        <Editor />
+      <DialogContent className="whl-p-0">
+        <Editor {...highlight} />
       </DialogContent>
     </Dialog>
   );
