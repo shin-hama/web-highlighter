@@ -1,5 +1,11 @@
+import HighlightContent from "./HighlightContent";
+
 const Editor = () => {
-  return <div>Hello Dialog</div>;
+  return (
+    <div>
+      <HighlightContent content="highlighted content" />
+    </div>
+  );
 };
 
 export default Editor;
