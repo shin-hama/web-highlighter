@@ -1,8 +1,5 @@
 "use client";
 
-import { useCallback, useMemo } from "react";
-import useSWR from "swr";
-
 import type { HighlightWithLabelAndPageAndTag } from "@whl/common-types";
 import {
   Card,
@@ -19,39 +16,16 @@ import {
 import { Actions } from "./Actions";
 import Editor from "./Editor";
 import HighlightContent from "./HighlightContent";
-import { useTagOnHighlight } from "./hooks/useTag";
+import { useHighlight } from "./hooks/useHighlight";
 import QuoteSource from "./ReferencedFooter";
 import TagBadge from "./TagBadge";
 
 const HighlightCard = (props: HighlightWithLabelAndPageAndTag) => {
-  const { data: revalidatedHighlight, mutate } =
-    useSWR<HighlightWithLabelAndPageAndTag>(`/api/highlights/${props.id}`, {
-      revalidateOnMount: false,
-      revalidateOnFocus: false,
-      revalidateOnReconnect: false,
-      shouldRetryOnError: false,
-      refreshWhenOffline: false,
-      refreshWhenHidden: false,
-      refreshInterval: 0,
-    });
-  const highlight = useMemo(
-    () => revalidatedHighlight ?? props,
-    [revalidatedHighlight, props],
-  );
-  const { removeTag } = useTagOnHighlight(highlight.id);
+  const { highlight, handleRemoveTag } = useHighlight(props.id, props);
 
-  const handleRemoveTag = useCallback(
-    async (tagId: string) => {
-      void mutate({
-        ...highlight,
-        HighlightOnTag: highlight.HighlightOnTag.filter(
-          ({ tag }) => tag.id !== tagId,
-        ),
-      });
-      await removeTag(tagId);
-    },
-    [removeTag, mutate, highlight.id],
-  );
+  if (!highlight) {
+    return <></>;
+  }
 
   return (
     <Dialog>

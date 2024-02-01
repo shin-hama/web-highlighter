@@ -1,4 +1,3 @@
-import { Badge } from "@ui/components/ui/badge";
 import { Button } from "@ui/components/ui/button";
 import { PlusIcon } from "lucide-react";
 
@@ -8,10 +7,19 @@ import { Textarea } from "@whl/ui/components/ui/textarea";
 
 import { Actions } from "./Actions";
 import HighlightContent from "./HighlightContent";
+import { useHighlight } from "./hooks/useHighlight";
 import QuoteSource from "./ReferencedFooter";
 import TagBadge from "./TagBadge";
 
-const Editor = (highlight: HighlightWithLabelAndPageAndTag) => {
+const Editor = (props: HighlightWithLabelAndPageAndTag) => {
+  const { highlight, isLoading, handleRemoveTag } = useHighlight(
+    props.id,
+    props,
+  );
+
+  if (isLoading || !highlight) {
+    return <></>;
+  }
   const { content, HighlightOnTag, page } = highlight;
   return (
     <div
@@ -29,7 +37,7 @@ const Editor = (highlight: HighlightWithLabelAndPageAndTag) => {
         </div>
         <div className="whl-flex whl-flex-row whl-items-center whl-gap-1 whl-px-4 whl-py-2">
           {HighlightOnTag.map(({ tag }) => (
-            <TagBadge key={tag.id} tag={tag} onRemoved={console.log} />
+            <TagBadge key={tag.id} tag={tag} onRemoved={handleRemoveTag} />
           ))}
           <Button
             size="icon"
