@@ -1,14 +1,23 @@
-import { Button } from "@ui/components/ui/button";
+"use client";
+
+import { useCallback, useEffect, useState } from "react";
+import type { PropsWithChildren } from "react";
+import { PlusIcon } from "lucide-react";
+
+import type { HighlightWithLabelAndPageAndTag } from "@whl/common-types";
+import { Button } from "@whl/ui/components/ui/button";
+import { Card } from "@whl/ui/components/ui/card";
+import {
+  Dialog,
+  DialogContent,
+  DialogTrigger,
+} from "@whl/ui/components/ui/dialog";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@ui/components/ui/popover";
-import { ScrollArea } from "@ui/components/ui/scroll-area";
-import { PlusIcon } from "lucide-react";
-
-import type { HighlightWithLabelAndPageAndTag } from "@whl/common-types";
-import { Card } from "@whl/ui/components/ui/card";
+} from "@whl/ui/components/ui/popover";
+import { ScrollArea } from "@whl/ui/components/ui/scroll-area";
 import { Textarea } from "@whl/ui/components/ui/textarea";
 
 import { Actions } from "./Actions";
@@ -18,67 +27,106 @@ import { useHighlight } from "./hooks/useHighlight";
 import QuoteSource from "./ReferencedFooter";
 import TagBadge from "./TagBadge";
 
-const Editor = (props: HighlightWithLabelAndPageAndTag) => {
-  const { highlight, isLoading, handleRemoveTag } = useHighlight(
-    props.id,
-    props,
+interface Props {
+  highlight: HighlightWithLabelAndPageAndTag;
+}
+const EditorDialog = ({
+  highlight: initialHighlight,
+  children,
+}: PropsWithChildren<Props>) => {
+  const { highlight, isLoading, update, removeTag } = useHighlight(
+    initialHighlight.id,
+    initialHighlight,
   );
 
-  if (isLoading || !highlight) {
-    return <></>;
+  const [note, setNote] = useState<string>(highlight?.note ?? "");
+
+  useEffect(() => {
+    if (highlight?.note) {
+      setNote(highlight.note);
+    }
+  }, [highlight?.note]);
+
+  const handleClose = useCallback(() => {
+    void update({
+      highlight: {
+        note: note,
+      },
+    });
+  }, [update]);
+  if (!highlight || isLoading) {
+    return <>{children}</>;
   }
+
   const { content, HighlightOnTag, page } = highlight;
+
   return (
-    <div
-      className="whl-flex whl-max-h-[80vh] whl-flex-col whl-overflow-hidden"
-      style={{
-        backgroundColor: highlight.label.color,
+    <Dialog
+      onOpenChange={(open) => {
+        if (!open) {
+          handleClose();
+        }
       }}
     >
-      <div className="whl-p-4">
-        <HighlightContent content={content} />
-      </div>
-      <ScrollArea className="whl-flex-1">
-        <div className="whl-px-4 whl-py-2">
-          <Textarea placeholder="Enter a note..." className="whl-h-[30vh]" />
-        </div>
-        <div className="whl-flex whl-flex-row whl-items-center whl-gap-1 whl-px-4 whl-py-2">
-          {HighlightOnTag.map(({ tag }) => (
-            <TagBadge key={tag.id} tag={tag} onRemoved={handleRemoveTag} />
-          ))}
-          <Popover>
-            <PopoverTrigger asChild>
-              <Button
-                size="icon"
-                className="whl-aspect-square whl-h-5 whl-w-5 whl-rounded-full"
-              >
-                <PlusIcon size={12} />
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent
-              avoidCollisions={false}
-              side="bottom"
-              align="start"
-              className="whl-w-auto whl-px-0 whl-py-1"
-            >
-              <AddTagsForm
-                addedTags={HighlightOnTag.map((relation) => relation.tag)}
-                highlightId={highlight.id}
+      <DialogTrigger asChild>{children}</DialogTrigger>
+      <DialogContent className="whl-p-0">
+        <div
+          className="whl-flex whl-max-h-[80vh] whl-flex-col whl-overflow-hidden"
+          style={{
+            backgroundColor: highlight.label.color,
+          }}
+        >
+          <div className="whl-p-4">
+            <HighlightContent content={content} />
+          </div>
+          <ScrollArea className="whl-flex-1">
+            <div className="whl-px-4 whl-py-2">
+              <Textarea
+                value={note}
+                onChange={(e) => setNote(e.target.value)}
+                placeholder="Enter a note..."
+                className="whl-h-[30vh]"
               />
-            </PopoverContent>
-          </Popover>
+            </div>
+            <div className="whl-flex whl-flex-row whl-items-center whl-gap-1 whl-px-4 whl-py-2">
+              {HighlightOnTag.map(({ tag }) => (
+                <TagBadge key={tag.id} tag={tag} onRemoved={removeTag} />
+              ))}
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    size="icon"
+                    className="whl-aspect-square whl-h-5 whl-w-5 whl-rounded-full"
+                  >
+                    <PlusIcon size={12} />
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent
+                  avoidCollisions={false}
+                  side="bottom"
+                  align="start"
+                  className="whl-w-auto whl-px-0 whl-py-1"
+                >
+                  <AddTagsForm
+                    addedTags={HighlightOnTag.map((relation) => relation.tag)}
+                    highlightId={highlight.id}
+                  />
+                </PopoverContent>
+              </Popover>
+            </div>
+            <div className="whl-px-4 whl-py-2">
+              <Card>
+                <QuoteSource {...page} />
+              </Card>
+            </div>
+          </ScrollArea>
+          <div className="whl-px-2 whl-py-2">
+            <Actions {...highlight} />
+          </div>
         </div>
-        <div className="whl-px-4 whl-py-2">
-          <Card>
-            <QuoteSource {...page} />
-          </Card>
-        </div>
-      </ScrollArea>
-      <div className="whl-px-2 whl-py-2">
-        <Actions {...highlight} />
-      </div>
-    </div>
+      </DialogContent>
+    </Dialog>
   );
 };
 
-export default Editor;
+export default EditorDialog;
