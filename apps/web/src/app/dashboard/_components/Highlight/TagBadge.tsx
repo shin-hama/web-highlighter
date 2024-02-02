@@ -16,7 +16,10 @@ const TagBadge = ({ tag, onRemoved }: Props) => (
       variant="ghost"
       size="icon"
       className="whl-hidden whl-h-3 whl-w-3 group-hover/tag:whl-block"
-      onClick={() => onRemoved(tag.id)}
+      onClick={(e) => {
+        e.stopPropagation();
+        onRemoved(tag.id);
+      }}
     >
       <XIcon size={12} />
     </Button>

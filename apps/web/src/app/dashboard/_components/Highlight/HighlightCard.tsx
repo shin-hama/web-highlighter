@@ -1,4 +1,6 @@
-import { Skeleton } from "@ui/components/ui/skeleton";
+"use client";
+
+import { useMemo } from "react";
 
 import type { HighlightWithLabelAndPageAndTag } from "@whl/common-types";
 import {
@@ -7,12 +9,13 @@ import {
   CardFooter,
   CardHeader,
 } from "@whl/ui/components/ui/card";
+import { Skeleton } from "@whl/ui/components/ui/skeleton";
 
 import { Actions } from "./Actions";
 import EditorDialog from "./Editor";
 import HighlightContent from "./HighlightContent";
 import { useHighlight } from "./hooks/useHighlight";
-import QuoteSource from "./ReferencedFooter";
+import QuoteSource from "./QuoteSource";
 import TagBadge from "./TagBadge";
 
 const HighlightCard = (props: HighlightWithLabelAndPageAndTag) => {
@@ -21,6 +24,16 @@ const HighlightCard = (props: HighlightWithLabelAndPageAndTag) => {
     isLoading,
     removeTag: handleRemoveTag,
   } = useHighlight(props.id, props);
+
+  const showNote = useMemo<boolean>(() => !!highlight?.note, [highlight]);
+  const showTags = useMemo<boolean>(
+    () => !!highlight && highlight.HighlightOnTag.length > 0,
+    [highlight],
+  );
+
+  const showContent = useMemo(() => {
+    return showNote && showTags;
+  }, [showNote, showTags]);
 
   if (!highlight && isLoading) {
     return (
@@ -48,13 +61,20 @@ const HighlightCard = (props: HighlightWithLabelAndPageAndTag) => {
         <CardHeader>
           <HighlightContent content={highlight.content} />
         </CardHeader>
-        {highlight.HighlightOnTag.length > 0 && (
-          <CardContent>
-            <div className="whl-flex whl-flex-row whl-flex-wrap whl-items-center whl-gap-1">
-              {highlight.HighlightOnTag.map(({ tag }) => (
-                <TagBadge key={tag.id} tag={tag} onRemoved={handleRemoveTag} />
-              ))}
-            </div>
+        {showContent && (
+          <CardContent className="whl-space-y-2">
+            {showNote && <p>{highlight.note}</p>}
+            {showTags && (
+              <div className="whl-flex whl-flex-row whl-flex-wrap whl-items-center whl-gap-1">
+                {highlight.HighlightOnTag.map(({ tag }) => (
+                  <TagBadge
+                    key={tag.id}
+                    tag={tag}
+                    onRemoved={handleRemoveTag}
+                  />
+                ))}
+              </div>
+            )}
           </CardContent>
         )}
         <CardFooter>

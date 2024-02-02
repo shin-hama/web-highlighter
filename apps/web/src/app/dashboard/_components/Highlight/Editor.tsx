@@ -24,7 +24,7 @@ import { Actions } from "./Actions";
 import AddTagsForm from "./AddTagsForm";
 import HighlightContent from "./HighlightContent";
 import { useHighlight } from "./hooks/useHighlight";
-import QuoteSource from "./ReferencedFooter";
+import QuoteSource from "./QuoteSource";
 import TagBadge from "./TagBadge";
 
 interface Props {
