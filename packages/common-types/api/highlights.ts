@@ -27,7 +27,7 @@ export const HighlightDTOSchema = z.object({
   content: z.string(),
   labelId: z.string(),
   url: z.string(),
-  note: z.string().optional(),
+  note: z.string().default(""),
   position: PositionDTOSchema,
 }) satisfies z.ZodType<Pick<Highlight, "content" | "labelId" | "url">>;
 export type HighlightDTO = z.infer<typeof HighlightDTOSchema>;

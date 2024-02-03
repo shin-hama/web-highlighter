@@ -48,19 +48,40 @@ export const useHighlight = (
   const { removeTag: removeTagHook } = useTagOnHighlight(id);
 
   const update = useCallback(
-    async (highlightDTO: UpdateHighlightRequest) => {
+    ({ highlight: highlightDTO }: UpdateHighlightRequest) => {
       if (!highlight) {
         return;
       }
-      await triggerUpdate(highlightDTO, {
-        optimisticData: {
+      // この更新時はローカルのデータだけを更新する
+      // commit を呼び出すときに DB へ更新を反映する
+      void mutate(
+        {
           ...highlight,
-          ...highlightDTO.highlight,
+          ...highlightDTO,
         },
-      });
+        {
+          revalidate: false,
+        },
+      );
     },
     [highlight, triggerUpdate],
   );
+
+  const commit = useCallback(async () => {
+    if (!highlight) {
+      return;
+    }
+    await triggerUpdate(
+      {
+        highlight,
+      },
+      {
+        optimisticData: {
+          ...highlight,
+        },
+      },
+    );
+  }, [highlight, triggerUpdate]);
 
   const removeTag = useCallback(
     async (tagId: string) => {
@@ -81,11 +102,12 @@ export const useHighlight = (
   return useMemo(
     () => ({
       highlight,
+      commit,
       update: update,
       removeTag: removeTag,
       isLoading,
       error,
     }),
-    [highlight, update, removeTag, isLoading, error],
+    [highlight, commit, update, removeTag, isLoading, error],
   );
 };

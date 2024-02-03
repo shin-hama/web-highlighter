@@ -70,7 +70,7 @@ model Highlight {
     pageId         String
     labelId        String
     content        String           @db.Text
-    note           String?          @db.Text
+    note           String           @db.Text
     url            String           @default("") @db.VarChar(2048)
     createdAt      DateTime         @default(now())
     updatedAt      DateTime         @updatedAt

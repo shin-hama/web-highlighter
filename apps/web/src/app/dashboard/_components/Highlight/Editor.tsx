@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback } from "react";
 import type { PropsWithChildren } from "react";
 import { PlusIcon } from "lucide-react";
 
@@ -34,26 +34,15 @@ const EditorDialog = ({
   highlight: initialHighlight,
   children,
 }: PropsWithChildren<Props>) => {
-  const { highlight, isLoading, update, removeTag } = useHighlight(
+  const { highlight, isLoading, update, commit, removeTag } = useHighlight(
     initialHighlight.id,
     initialHighlight,
   );
 
-  const [note, setNote] = useState<string>(highlight?.note ?? "");
-
-  useEffect(() => {
-    if (highlight?.note) {
-      setNote(highlight.note);
-    }
-  }, [highlight?.note]);
-
   const handleClose = useCallback(() => {
-    void update({
-      highlight: {
-        note: note,
-      },
-    });
-  }, [update]);
+    void commit();
+  }, [commit]);
+
   if (!highlight || isLoading) {
     return <>{children}</>;
   }
@@ -82,10 +71,16 @@ const EditorDialog = ({
           <ScrollArea className="whl-flex-1">
             <div className="whl-px-4 whl-py-2">
               <Textarea
-                value={note}
-                onChange={(e) => setNote(e.target.value)}
+                value={highlight.note ?? undefined}
+                onChange={(e) =>
+                  update({
+                    highlight: {
+                      note: e.target.value,
+                    },
+                  })
+                }
                 placeholder="Enter a note..."
-                className="whl-h-[30vh]"
+                className=""
               />
             </div>
             <div className="whl-flex whl-flex-row whl-items-center whl-gap-1 whl-px-4 whl-py-2">
