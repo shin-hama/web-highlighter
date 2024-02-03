@@ -58,7 +58,10 @@ export const Actions = ({
 
   return (
     <TooltipProvider delayDuration={300}>
-      <div className="whl-flex whl-border-spacing-2 whl-flex-row">
+      <div
+        className="whl-flex whl-border-spacing-2 whl-flex-row"
+        onClick={(e) => e.stopPropagation()}
+      >
         {url && (
           <>
             <Tooltip

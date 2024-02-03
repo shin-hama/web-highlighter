@@ -106,7 +106,7 @@ export async function PUT(
   });
 
   const tagsToDisconnect = currentTags
-    .filter((t) => !newTags?.some((tag) => tag.name === t.tag.name))
+    .filter((t) => !!newTags && !newTags.some((tag) => tag.name === t.tag.name))
     .map((t) => ({ id: t.id }));
   const tagsToConnect = (newTags ?? []).filter(
     (t) => !currentTags.some((tag) => tag.tag.name === t.name),
