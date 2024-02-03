@@ -30,7 +30,6 @@ const HighlightCard = (props: HighlightWithLabelAndPageAndTag) => {
     () => !!highlight && highlight.HighlightOnTag.length > 0,
     [highlight],
   );
-  console.log(showTags, highlight);
 
   const showContent = useMemo(() => {
     return showNote || showTags;

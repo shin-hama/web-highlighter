@@ -27,6 +27,8 @@ import { useHighlight } from "./hooks/useHighlight";
 import QuoteSource from "./QuoteSource";
 import TagBadge from "./TagBadge";
 
+const MAX_NOTE_LENGTH = 10000;
+
 interface Props {
   highlight: HighlightWithLabelAndPageAndTag;
 }
@@ -72,6 +74,8 @@ const EditorDialog = ({
             <div className="whl-px-4 whl-py-2">
               <Textarea
                 value={highlight.note ?? undefined}
+                maxLength={MAX_NOTE_LENGTH}
+                onError={console.error}
                 onChange={(e) =>
                   update({
                     highlight: {
@@ -82,6 +86,11 @@ const EditorDialog = ({
                 placeholder="Enter a note..."
                 className=""
               />
+              <div className="whl-mt-1 whl-w-full whl-text-end">
+                <p className="whl-text-xs whl-text-gray-500">
+                  {highlight.note?.length ?? 0}/{MAX_NOTE_LENGTH}
+                </p>
+              </div>
             </div>
             <div className="whl-flex whl-flex-row whl-items-center whl-gap-1 whl-px-4 whl-py-2">
               {HighlightOnTag.map(({ tag }) => (
