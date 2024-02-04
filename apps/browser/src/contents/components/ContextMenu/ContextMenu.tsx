@@ -33,9 +33,10 @@ const ContextMenu = () => {
         />
       </PopoverAnchor>
       <PopoverContent
+        removePortal
         // eslint-disable-next-line jsx-a11y/no-autofocus
         autoFocus={false}
-        className="whl-w-auto whl-max-w-xs whl-p-0"
+        className="whl-w-auto whl-max-w-xs whl-bg-primary whl-p-0"
         onMouseUp={(e) => {
           e.preventDefault();
           e.stopPropagation();

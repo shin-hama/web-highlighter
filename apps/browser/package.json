@@ -1,7 +1,7 @@
 {
   "name": "@whl/browser",
   "displayName": "Web Highlighter",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Highlighting web contents",
   "author": "coppla <htysivista@gmail.com>",
   "scripts": {
