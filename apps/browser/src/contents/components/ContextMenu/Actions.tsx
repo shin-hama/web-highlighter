@@ -101,6 +101,7 @@ const Actions = ({ highlight, onClose }: Props) => {
                 </Button>
               </PopoverTrigger>
               <PopoverContent
+                removePortal
                 align="start"
                 className="whl-w-auto whl-bg-primary whl-p-0"
               >
@@ -116,6 +117,7 @@ const Actions = ({ highlight, onClose }: Props) => {
                 </Button>
               </PopoverTrigger>
               <PopoverContent
+                removePortal
                 align="start"
                 className="whl-w-auto whl-bg-primary whl-p-0"
               >
@@ -140,6 +142,7 @@ const Actions = ({ highlight, onClose }: Props) => {
             </Button>
           </PopoverTrigger>
           <PopoverContent
+            removePortal
             align="start"
             className="whl-w-auto whl-bg-primary whl-p-0"
           >
