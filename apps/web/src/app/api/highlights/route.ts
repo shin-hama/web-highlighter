@@ -1,31 +1,16 @@
 import crypto from "crypto";
 import { NextResponse } from "next/server";
-import { z } from "zod";
 
 import { getServerAuthSession } from "@whl/auth";
-import type { HighlightWithLabelAndPageAndTag } from "@whl/common-types";
-import { CreateHighlightRequestSchema } from "@whl/common-types";
+import type {
+  GetHighlightsResponse,
+  HighlightWithLabelAndPageAndTag,
+} from "@whl/common-types";
+import {
+  CreateHighlightRequestSchema,
+  GetHighlightsRequestSchema,
+} from "@whl/common-types";
 import { prisma } from "@whl/db";
-
-const GetHighlightsRequestSchema = z.object({
-  pageId: z.string().optional(),
-  tags: z
-    .preprocess((v) => {
-      if (typeof v === "string") {
-        return v.split(",");
-      }
-      return v;
-    }, z.array(z.string()))
-    .optional(),
-  labels: z
-    .preprocess((v) => {
-      if (typeof v === "string") {
-        return v.split(",");
-      }
-      return v;
-    }, z.array(z.string()))
-    .optional(),
-});
 
 export async function GET(req: Request) {
   const session = await getServerAuthSession();
@@ -40,11 +25,12 @@ export async function GET(req: Request) {
   }
 
   const { searchParams } = new URL(req.url);
-  const { pageId, tags, labels } = GetHighlightsRequestSchema.parse(
-    Object.fromEntries(searchParams),
-  );
+  const { cursor, limit, pageId, tags, labels } =
+    GetHighlightsRequestSchema.parse(Object.fromEntries(searchParams));
 
-  const result: HighlightWithLabelAndPageAndTag[] =
+  const takeCount = limit + 1;
+
+  const highlights: HighlightWithLabelAndPageAndTag[] =
     await prisma.highlight.findMany({
       where: {
         userId: session.user.id,
@@ -60,9 +46,15 @@ export async function GET(req: Request) {
           },
         },
       },
+      take: takeCount,
       orderBy: {
         createdAt: "desc",
       },
+      cursor: cursor
+        ? {
+            id: cursor,
+          }
+        : undefined,
       include: {
         label: true,
         page: true,
@@ -74,7 +66,11 @@ export async function GET(req: Request) {
       },
     });
 
-  return NextResponse.json(result);
+  return NextResponse.json<GetHighlightsResponse>({
+    highlights: highlights.slice(0, limit),
+    nextCursor:
+      highlights.length === takeCount ? highlights[takeCount - 1]!.id : null,
+  });
 }
 
 export async function POST(req: Request) {

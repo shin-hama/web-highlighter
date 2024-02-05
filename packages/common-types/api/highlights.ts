@@ -2,6 +2,8 @@ import z from "zod";
 
 import type { Highlight, Position } from "@whl/db";
 
+import type { HighlightWithLabelAndPageAndTag } from "../schema";
+
 export const PositionDTOSchema = z.object({
   startTagName: z.string().min(1),
   startIndex: z.number().min(0),
@@ -79,3 +81,33 @@ export const SpecifiedHighlightOnTagRouteParamSchema = z.object({
 export type SpecifiedHighlightOnTagRouteParam = z.infer<
   typeof SpecifiedHighlightOnTagRouteParamSchema
 >;
+
+export const GetHighlightsRequestSchema = z.object({
+  cursor: z.string().optional(),
+  limit: z
+    .string()
+    .default("20")
+    .transform((value) => Number(value)),
+  pageId: z.string().optional(),
+  tags: z
+    .preprocess((v) => {
+      if (typeof v === "string") {
+        return v.split(",");
+      }
+      return v;
+    }, z.array(z.string()))
+    .optional(),
+  labels: z
+    .preprocess((v) => {
+      if (typeof v === "string") {
+        return v.split(",");
+      }
+      return v;
+    }, z.array(z.string()))
+    .optional(),
+});
+
+export interface GetHighlightsResponse {
+  highlights: HighlightWithLabelAndPageAndTag[];
+  nextCursor: string | null;
+}
