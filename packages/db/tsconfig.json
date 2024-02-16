@@ -1,6 +1,10 @@
 {
   "extends": "@whl/tsconfig/base.json",
-  "compilerOptions": {},
+  "compilerOptions": {
+    "module": "commonjs",
+    "outDir": "./dist",
+    "noEmit": false
+  },
   "include": ["**/*.ts", "../../apps/web/src/lib/db/index.ts"],
   "exclude": ["node_modules"]
 }
