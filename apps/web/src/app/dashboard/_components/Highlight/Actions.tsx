@@ -38,7 +38,8 @@ export const Actions = ({
   const { mutate } = useSWRConfig();
   const handleRemove = async () => {
     await fetch(`/api/highlights/${id}`, {
-      method: "DELETE",
+      method: "PUT",
+      body: JSON.stringify({ deleted: true }),
     });
 
     void mutate(

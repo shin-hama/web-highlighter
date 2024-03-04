@@ -35,6 +35,7 @@ export async function GET(req: Request) {
       where: {
         userId: session.user.id,
         pageId,
+        deleted: false,
         labelId: labels && {
           in: labels,
         },

@@ -74,6 +74,7 @@ model Highlight {
     url            String           @default("") @db.VarChar(2048)
     createdAt      DateTime         @default(now())
     updatedAt      DateTime         @updatedAt
+    deleted        Boolean          @default(false)
     user           User             @relation(fields: [userId], references: [id], onDelete: Cascade)
     page           Page             @relation(fields: [pageId], references: [id], onDelete: Cascade)
     label          Label            @relation(fields: [labelId], references: [id], onDelete: Cascade)
