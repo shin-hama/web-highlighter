@@ -11,24 +11,29 @@
     "postinstall": "pnpm with-env prisma generate",
     "typecheck": "tsc --noEmit",
     "generate": "pnpm with-env prisma generate",
+    "migrate": "pnpm with-env prisma migrate dev",
     "push": "pnpm with-env prisma db push --skip-generate",
     "studio": "pnpm with-env prisma studio",
     "with-env": "dotenv -e ../../.env --"
   },
   "dependencies": {
-    "@prisma/client": "^5.7.1",
-    "dotenv": "^16.3.1"
+    "@neondatabase/serverless": "^0.9.0",
+    "@prisma/adapter-neon": "^5.11.0",
+    "@prisma/client": "^5.11.0",
+    "dotenv": "^16.3.1",
+    "ws": "^8.16.0"
   },
   "devDependencies": {
     "@types/eslint": "^8.44.2",
     "@types/node": "^20.5.7",
+    "@types/ws": "^8.5.10",
     "@whl/eslint-config": "workspace:*",
     "@whl/prettier-config": "workspace:*",
     "@whl/tsconfig": "workspace:*",
     "dotenv-cli": "^7.3.0",
     "eslint": "^8.48.0",
     "prettier": "^3.0.3",
-    "prisma": "^5.7.1",
+    "prisma": "^5.11.0",
     "typescript": "^5.2.2"
   },
   "ct3aMetadata": {
